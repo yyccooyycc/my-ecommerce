@@ -1,11 +1,11 @@
 import React from "react";
-import ProductGrid from "./components/ProductGrid.js";
+import LatestArrival from "./pages/LatestArrivals";
 import "./index.css"; 
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <ProductGrid />
+      <LatestArrival />
     </div>
   );
 }
