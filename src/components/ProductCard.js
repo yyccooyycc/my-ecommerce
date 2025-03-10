@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 
 function ProductCard({ product }) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleColorSelect = (color) => {
-    setSelectedColor(color.name);
+    setSelectedColor(color);
   };
 
   const getCurrentPrice = () => {
@@ -19,7 +19,7 @@ function ProductCard({ product }) {
   };
 
   const isOutOfStock = (color) => {
-    return !product.variants.find((variant) => variant.color === color && variant.inStock);
+    return !product.inventory?.find((inv) => inv.color === color && inv.inStock);
   };
 
   return (
