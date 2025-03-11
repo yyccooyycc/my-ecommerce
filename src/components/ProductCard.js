@@ -11,15 +11,18 @@ function ProductCard({ product }) {
     setSelectedColor(color);
   };
 
+  const filteredImages = product.images.filter(img => img.color === selectedColor);
+  const selectedInventory = product.inventory.find(
+    (inv) => inv.color === selectedColor
+  );
   const getCurrentPrice = () => {
-    const selectedVariant = product.variants.find(
-      (variant) => variant.color === selectedColor
-    );
-    return selectedVariant?.price || product.price;
+    return selectedInventory.discount_percentage
+      ? selectedInventory.sale_price
+      : selectedInventory.list_price;
   };
 
   const isOutOfStock = (color) => {
-    return !product.inventory?.find((inv) => inv.color === color && inv.inStock);
+    return !product.inventory?.find((inv) => inv.color === color && (inv.stock-inv.sold)> 0);
   };
 
   return (
@@ -30,9 +33,10 @@ function ProductCard({ product }) {
     >
       <div className="relative">
         <img
-          src={product.images[selectedColor]}
+          key={filteredImages[0].image_url}
+          src={filteredImages[0].image_url}
           alt={product.name}
-          className={`${theme.productCard.image}`}
+          className={`${theme.productCard.image} `}
         />
         {isOutOfStock(selectedColor) && (
           <div className="absolute top-0 left-0 w-full h-full bg-gray-400 opacity-50 flex justify-center items-center text-white font-bold">
@@ -41,33 +45,33 @@ function ProductCard({ product }) {
         )}
       </div>
       <div className={`${theme.productCard.details}`}>
-        <div className={`${theme.productCard.color}`}>{selectedColor}</div>
-        <div className={`${theme.productCard.name}`}>{product.name}</div>
+        <div className={`${theme.productCard.color} px-4`}>{selectedColor}</div>
+        <div className={`${theme.productCard.name} px-4`}>{product.name}</div>
 
         <div className="flex items-center">
-          {product.discount ? (
+          {selectedInventory.discount_percentage ? (
             <>
-              <span className={`${theme.productCard.price} line-through`}>
-                ${product.listPrice}
+              <span className={`${theme.productCard.price} line-through px-2`}>
+                ${selectedInventory.list_price}
               </span>
-              <span className={`${theme.productCard.price} text-red-500 ml-2`}>
+              <span className={`${theme.productCard.price} text-red-500 ml-2 px-2`}>
                 ${getCurrentPrice()}
               </span>
             </>
           ) : (
-            <span className={`${theme.productCard.price}`}>${product.listPrice}</span>
+            <span className={`${theme.productCard.price} px-2`}>${selectedInventory.list_price}</span>
           )}
         </div>
 
         <div className={`${theme.productCard.colorOptions}`}>
-          {product.colors.map((color) => (
+          {product.colors.map((color, index) => (
             <button
-              key={color.name}
+              key={color || index}
               onClick={() => handleColorSelect(color)}
-              className={`w-6 h-6 rounded-full ${color.bgColor} ${isOutOfStock(color.name) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
-                color.name === selectedColor ? 'border-2 border-black' : ''
+              className={`w-6 h-6 rounded-full bg-${color}-500 ${isOutOfStock(color) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
+                color === selectedColor ? 'border-2 border-black' : ''
               }`}
-              disabled={isOutOfStock(color.name)}
+              
             />
           ))}
         </div>
