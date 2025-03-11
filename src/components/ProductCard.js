@@ -32,12 +32,17 @@ function ProductCard({ product }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative">
-        <img
+        {filteredImages.length > 0 ? (
+          <img
           key={filteredImages[0].image_url}
           src={filteredImages[0].image_url}
           alt={product.name}
           className={`${theme.productCard.image} `}
-        />
+        />):(
+        <div className="h-40 bg-gray-200 flex items-center justify-center text-gray-500">
+          No Image Available
+        </div>
+        )}
         {isOutOfStock(selectedColor) && (
           <div className="absolute top-0 left-0 w-full h-full bg-gray-400 opacity-50 flex justify-center items-center text-white font-bold">
             Out of Stock
@@ -67,8 +72,9 @@ function ProductCard({ product }) {
           {product.colors.map((color, index) => (
             <button
               key={color || index}
+              style={{ backgroundColor: color }}
               onClick={() => handleColorSelect(color)}
-              className={`w-6 h-6 rounded-full bg-${color}-500 ${isOutOfStock(color) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
+              className={`w-6 h-6 rounded-full bg-${color.toLowerCase()}-500 ${isOutOfStock(color) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
                 color === selectedColor ? 'border-2 border-black' : ''
               }`}
               
