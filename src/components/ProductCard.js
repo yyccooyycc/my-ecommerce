@@ -13,7 +13,7 @@ function ProductCard({ product }) {
 
   const filteredImages = product.images.filter(img => img.color === selectedColor);
   const selectedInventory = product.inventory.find(
-    (inv) => inv.color === selectedColor
+    (inv) => inv.color === selectedColor || {}
   );
   const getCurrentPrice = () => {
     return selectedInventory.discount_percentage
@@ -22,7 +22,7 @@ function ProductCard({ product }) {
   };
 
   const isOutOfStock = (color) => {
-    return !product.inventory?.find((inv) => inv.color === color && (inv.stock-inv.sold)> 0);
+    return !product.inventory?.find((inv) => inv.color === color && (inv.stock-inv.sold) > 0);
   };
 
   return (
@@ -34,8 +34,8 @@ function ProductCard({ product }) {
       <div className="relative">
         {filteredImages.length > 0 ? (
           <img
-          key={filteredImages[0].image_url}
-          src={filteredImages[0].image_url}
+          key={filteredImages[0]?.image_url}
+          src={filteredImages[0]?.image_url}
           alt={product.name}
           className={`${theme.productCard.image} `}
         />):(
