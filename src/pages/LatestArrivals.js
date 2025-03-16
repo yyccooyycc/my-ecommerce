@@ -44,8 +44,8 @@ const LatestArrivals = () => {
     <div className={theme.productGrid.container}>
       <div className={theme.productGrid.wrapper}>
         <div className={theme.productGrid.inner}>
-          <div className="max-w-[1280px] w-full mx-auto">
-            <div className="flex justify-between w-full px-4 sm:px-6 md:px-8">
+          <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8">
+            <div className="flex justify-between items-center w-full mb-6">
               
               <span className={theme.productGrid.title}>Latest Arrivals</span>
               <button className={theme.productGrid.viewAllButton}>
