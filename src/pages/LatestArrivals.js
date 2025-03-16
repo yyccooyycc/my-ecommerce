@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import ProductGrid from "../components/ProductGrid";
 import theme from "../assets/styles/theme";
+import { useNavigate } from "react-router-dom";
 
 
 const LatestArrivals = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,7 +50,10 @@ const LatestArrivals = () => {
             <div className="flex justify-between items-center w-full mb-6">
               
               <span className={theme.productGrid.title}>Latest Arrivals</span>
-              <button className={theme.productGrid.viewAllButton}>
+              <button 
+                className={theme.productGrid.viewAllButton}
+                onClick={() => navigate("/products")} 
+              >
                 <span className={theme.productGrid.viewAllText}>View all</span>
               </button>
             </div>

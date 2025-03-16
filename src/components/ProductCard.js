@@ -1,9 +1,12 @@
 import React from "react";
 import theme from '../assets/styles/theme';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom"; 
 
 
 function ProductCard({ product }) {
+  const navigate = useNavigate();
+
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -49,7 +52,10 @@ function ProductCard({ product }) {
           </div>
         )}
       </div>
-      <div className={`${theme.productCard.details}`}>
+      <div 
+          className={`${theme.productCard.details} cursor-pointer`}
+          onClick={() => navigate(`/product/${product.product_id}`)}
+      >
         <div className={`${theme.productCard.color} px-4`}>{selectedColor}</div>
         <div className={`${theme.productCard.name} px-4`}>{product.name}</div>
 
