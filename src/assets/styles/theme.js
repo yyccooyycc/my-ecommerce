@@ -52,7 +52,7 @@ const theme = {
         'xs': '480px',
         'sm': '640px',
         'md': '768px',
-        'lg': '1024px',
+        'lg': '1025px', //for ipad pro which is 1024*1366px will be squeezed into 4 cols if it's 1024
       },
     },
   };  
