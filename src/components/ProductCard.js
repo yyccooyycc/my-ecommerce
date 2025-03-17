@@ -31,34 +31,37 @@ function ProductCard({ product }) {
 
   return (
     <div
-      className={`${theme.productCard.card} ${isHovered ? 'shadow-lg' : ''}`}
+      className={`${theme.productCard.card} ${
+        isHovered ? theme.productCard.hoverShadow : ""
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative">
         {filteredImages.length > 0 ? (
           <img
-          key={filteredImages[0]?.image_url}
-          src={filteredImages[0]?.image_url}
-          alt={product.name}
-          className={`${theme.productCard.image} `}
-        />):(
-        <div className="h-40 bg-gray-200 flex items-center justify-center text-gray-500">
-          No Image Available
-        </div>
+            key={filteredImages[0]?.image_url}
+            src={filteredImages[0]?.image_url}
+            alt={product.name}
+            className={`${theme.productCard.image} `}
+          />
+        ) : (
+          <div className={`${theme.productCard.noImage}`}>
+            No Image Available
+          </div>
         )}
         {isOutOfStock(selectedColor) && (
-          <div className="absolute top-0 left-0 w-full h-full bg-gray-400 opacity-50 flex justify-center items-center text-white font-bold">
+          <div className={`${theme.productCard.outOfStockOverlay}`}>
             Out of Stock
           </div>
         )}
       </div>
-      <div 
-          className={`${theme.productCard.details} cursor-pointer`}
-          onClick={() => navigate(`/product/${product.product_id}`)}
+      <div
+        className={`${theme.productCard.details}`}
+        onClick={() => navigate(`/product/${product.product_id}`)}
       >
-        <div className={`${theme.productCard.color} px-4`}>{selectedColor}</div>
-        <div className={`${theme.productCard.name} px-4`}>{product.name}</div>
+        <div className={`${theme.productCard.color}`}>{selectedColor}</div>
+        <div className={`${theme.productCard.name}`}>{product.name}</div>
 
         <div className="flex items-center">
           {selectedInventory.discount_percentage ? (
@@ -66,12 +69,16 @@ function ProductCard({ product }) {
               <span className={`${theme.productCard.price} line-through px-2`}>
                 ${selectedInventory.list_price}
               </span>
-              <span className={`${theme.productCard.price} text-red-500 ml-2 px-2`}>
+              <span
+                className={`${theme.productCard.price} ${theme.productCard.priceDiscount}`}
+              >
                 ${getCurrentPrice()}
               </span>
             </>
           ) : (
-            <span className={`${theme.productCard.price} px-2`}>${selectedInventory.list_price}</span>
+            <span className={`${theme.productCard.price} px-2`}>
+              ${selectedInventory.list_price}
+            </span>
           )}
         </div>
 
@@ -80,11 +87,17 @@ function ProductCard({ product }) {
             <button
               key={color || index}
               style={{ backgroundColor: color }}
-              onClick={(event) => handleColorSelect(event,color)}
-              className={`w-6 h-6 rounded-full bg-${color.toLowerCase()}-500 ${isOutOfStock(color) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
-                color === selectedColor ? 'border-2 border-black' : ''
+              onClick={(event) => handleColorSelect(event, color)}
+              className={`${theme.productCard.colorButton} ${
+                isOutOfStock(color)
+                  ? theme.productCard.colorButtonOutOfStock
+                  : ""
+              } ${
+                color === selectedColor
+                  ? theme.productCard.colorButtonSelected
+                  : ""
+              }
               }`}
-              
             />
           ))}
         </div>

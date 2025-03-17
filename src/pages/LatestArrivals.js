@@ -36,33 +36,26 @@ const LatestArrivals = () => {
 
   if (products.length === 0) {
     return (
-      <div className="flex justify-center items-center text-xl text-gray-500">
+      <div className={theme.latestArrivals.noProducts}>
         No products available based on your filters.
       </div>
     );
   }
 
   return (
-    <div className={theme.productGrid.container}>
-      <div className={theme.productGrid.wrapper}>
-        <div className={theme.productGrid.inner}>
-          <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8">
-            <div className="flex justify-between items-center w-full mb-6">
-              
-              <span className={theme.productGrid.title}>Latest Arrivals</span>
-              <button 
-                className={theme.productGrid.viewAllButton}
-                onClick={() => navigate("/products")} 
-              >
-                <span className={theme.productGrid.viewAllText}>View all</span>
-              </button>
-            </div>
-          </div>
+    <div className={theme.latestArrivals.container}>
+      <div className={theme.latestArrivals.header}>              
+        <span className={theme.latestArrivals.title}>Latest Arrivals</span>
+        <button 
+          className={theme.latestArrivals.viewAllButton}
+          onClick={() => navigate("/products")} 
+        >
+        <span className={theme.latestArrivals.viewAllText}>View all</span>
+        </button>
+      </div>
 
-
-          <ProductGrid products={products} />
-
-        </div>
+      <div className={theme.latestArrivals.gridWrapper}>
+        <ProductGrid products={products} />
       </div>
      </div>
   );
