@@ -10,7 +10,8 @@ function ProductCard({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleColorSelect = (color) => {
+  const handleColorSelect = (event, color) => {
+    event.stopPropagation(); //otherwise, it will trigger the parent onClick event and navigate to the product details page
     setSelectedColor(color);
   };
 
@@ -79,7 +80,7 @@ function ProductCard({ product }) {
             <button
               key={color || index}
               style={{ backgroundColor: color }}
-              onClick={() => handleColorSelect(color)}
+              onClick={(event) => handleColorSelect(event,color)}
               className={`w-6 h-6 rounded-full bg-${color.toLowerCase()}-500 ${isOutOfStock(color) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${
                 color === selectedColor ? 'border-2 border-black' : ''
               }`}
