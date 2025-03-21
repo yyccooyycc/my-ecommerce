@@ -7,7 +7,7 @@ import "./index.css";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/my-ecommerce">
       <div className="min-h-screen bg-gray-100 flex justify-start items-start p-4">
         <Routes>
           <Route path="/" element={<LatestArrival />} />
