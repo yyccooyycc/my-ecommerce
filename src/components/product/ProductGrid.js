@@ -1,6 +1,6 @@
 import React from "react";
 import ProductCard from "./ProductCard";
-import theme from "../assets/styles/theme";
+import theme from "../../assets/styles/theme";
 
 const ProductGrid = ({ products }) => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import theme from '../assets/styles/theme';
+import theme from "../../assets/styles/theme";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom"; 
 

@@ -1,35 +1,11 @@
-import React, { useState, useEffect } from "react";
-import ProductGrid from "../components/ProductGrid";
+import ProductGrid from "../components/product/ProductGrid";
 import theme from "../assets/styles/theme";
 import { useNavigate } from "react-router-dom";
-
+import useFetchProducts from "../components/hooks/useFetchProducts";
 
 const LatestArrivals = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=latest"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-        setProducts(data.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const { products, loading, error } = useFetchProducts({ collection: "latest" });
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>Error: {error}</p>;
