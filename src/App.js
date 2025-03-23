@@ -10,7 +10,7 @@ function App() {
     <Router basename="/my-ecommerce">
       <div className="min-h-screen bg-gray-100 flex justify-start items-start p-4">
         <Routes>
-          <Route path="/" element={<ProductListing />} />
+          <Route path="/" element={<LatestArrival />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/products" element={<ProductListing />} />
         </Routes>
