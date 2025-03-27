@@ -7,7 +7,11 @@ const useFetchProducts = ({ collection }) => {
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
+    const cachedData = localStorage.getItem(`products-${collection}`);
+    if (cachedData) {
+      setProducts(JSON.parse(cachedData));
+      setLoading(false); 
+    } 
 
     fetch(`https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=${collection}`)
       .then((res) => {
@@ -19,6 +23,7 @@ const useFetchProducts = ({ collection }) => {
       .then((response) => {
         if (isMounted) {
           setProducts(response.data || []);
+          localStorage.setItem(`products-${collection}`, JSON.stringify(response.data || []));
           setLoading(false);
         }
       })
@@ -38,4 +43,3 @@ const useFetchProducts = ({ collection }) => {
 };
 
 export default useFetchProducts;
-
