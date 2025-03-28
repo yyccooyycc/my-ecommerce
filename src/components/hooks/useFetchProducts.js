@@ -11,6 +11,7 @@ const useFetchProducts = ({ collection }) => {
     if (cachedData) {
       setProducts(JSON.parse(cachedData));
       setLoading(false); 
+      return;
     } 
 
     fetch(`https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=${collection}`)

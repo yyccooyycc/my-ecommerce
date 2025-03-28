@@ -50,7 +50,7 @@ const ProductListing = () => {
         ) : error ? (
           <p>Error: {error}</p>
         ) : (
-          <ProductGrid products={productList}  className={`grid ${gridCols}`}  filters={filters} categoryId={id} />
+          <ProductGrid products={productList}  gridCols={4} isLoading={true} className={`grid ${gridCols}`}  filters={filters} categoryId={id} />
         )}
       </div>
     </div>
