@@ -9,9 +9,10 @@ const theme = {
       "flex justify-center items-center gap-1.5 bg-white px-4 py-2.5 rounded border border-neutral-200",
     viewAllText: "font-medium text-base text-neutral-900",
     gridWrapper: "w-full",
-  },
-  productGrid: {
     grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-20",
+  },
+  productListing: {
+    grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 lg:gap-16",
   },
   productCard: {
       card: "w-full sm:w-[280px] flex flex-col transition-shadow duration-200",

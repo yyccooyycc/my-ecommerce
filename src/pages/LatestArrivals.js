@@ -31,7 +31,7 @@ const LatestArrivals = () => {
       </div>
 
       <div className={theme.latestArrivals.gridWrapper}>
-        <ProductGrid products={products} />
+        <ProductGrid products={products} className={theme.latestArrivals.grid} isLoading={loading}/>
       </div>
      </div>
   );
