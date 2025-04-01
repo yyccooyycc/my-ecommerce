@@ -1,6 +1,6 @@
 import React from "react";
 import theme from "../../assets/styles/theme";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"; 
 
 
@@ -9,6 +9,7 @@ function ProductCard({ product }) {
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleColorSelect = (event, color) => {
     event.stopPropagation(); //otherwise, it will trigger the parent onClick event and navigate to the product details page
@@ -29,6 +30,15 @@ function ProductCard({ product }) {
     return !product.inventory?.find((inv) => inv.color === color && (inv.stock-inv.sold) > 0);
   };
 
+  useEffect(() => {
+    product.images.forEach(img => {
+      const preloadedImg = new Image();
+      preloadedImg.src = img.image_url;
+      preloadedImg.loading = "eager";
+      preloadedImg.onload = () => setIsLoading(false);
+    });
+  }, [product.images]); 
+
   return (
     <div
       className={`${theme.productCard.card} ${
@@ -38,12 +48,15 @@ function ProductCard({ product }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative">
+      {isLoading && <div className={`${theme.productCard.skeleton}`} />}
         {filteredImages.length > 0 ? (
           <img
             key={filteredImages[0]?.image_url}
             src={filteredImages[0]?.image_url}
             alt={product.name}
-            className={`${theme.productCard.image} `}
+            className={`${theme.productCard.image} ${isLoading ? "opacity-0" : "opacity-100"}`}
+            loading="lazy"
+            onLoad={() => setIsLoading(false)}
           />
         ) : (
           <div className={`${theme.productCard.noImage}`}>
