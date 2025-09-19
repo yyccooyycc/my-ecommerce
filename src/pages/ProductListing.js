@@ -72,6 +72,19 @@ const ProductListing = () => {
     return result;
   }, [products, filters]);
 
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    if (value === "price-asc" || value === "price-desc") {
+      setFilters((prev) => ({
+        ...prev,
+        sort: "price",
+        direction: value === "price-asc" ? "asc" : "desc",
+      }));
+    } else {
+      setFilters((prev) => ({ ...prev, sort: value }));
+    }
+  };
+
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -79,13 +92,31 @@ const ProductListing = () => {
       {/* Sidebar */}
       <FilterSidebar filters={filters} setFilters={setFilters} />
 
-      {/* Product Grid */}
-      <div className="flex-1 p-4">
-        <ProductGrid
-          products={filteredProducts}
-          className={theme.productListing.grid}
-          isLoading={loading}
-        />
+      {/* Product section */}
+      <div className={theme.productListing.container}>
+        <div
+          className={`${theme.shared.header} ${theme.productListing.header}`}
+        >
+          <span className={theme.productListing.title}>All Products</span>
+          <select
+            value={filters.sort}
+            onChange={handleSortChange}
+            className={theme.productListing.sortSelect}
+          >
+            <option value="created">Newest</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Rating</option>
+          </select>
+        </div>
+        {/* Product Grid */}
+        <div className="flex-1 p-4">
+          <ProductGrid
+            products={filteredProducts}
+            className={theme.productListing.grid}
+            isLoading={loading}
+          />
+        </div>
       </div>
     </div>
   );
