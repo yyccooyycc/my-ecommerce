@@ -11,6 +11,8 @@ const theme = {
     gridWrapper: "",
     grid: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
     noProducts: "text-center text-gray-500",
+    viewAllButton:
+    "inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300",
   },
 
   productListing: {
@@ -18,7 +20,7 @@ const theme = {
     header: "mb-4",
     title: "text-lg font-semibold",
     grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 lg:gap-16",
-    sortSelect: "border rounded px-3 py-2 text-sm bg-white",
+    sortSelect: "border rounded px-3 py-2 text-sm bg-gray-100",
   },
   productCard: {
     card: "w-full sm:w-[280px] flex flex-col transition-shadow duration-200",
