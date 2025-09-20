@@ -46,6 +46,7 @@ const FilterSidebar = ({ filters, setFilters }) => {
                   checked={filters.sizes.includes(size)}
                   onChange={() => handleCheckboxChange("sizes", size)}
                   className="mr-2"
+                  aria-label={`Filter by size ${size}`}
                 />
                 {size}
               </label>
@@ -69,7 +70,11 @@ const FilterSidebar = ({ filters, setFilters }) => {
                 key={color}
                 className={`w-6 h-6 rounded-full border-2 ${filters.colors.includes(color) ? "border-black" : "border-transparent"}`}
                 style={{ backgroundColor: color }}
+                role="checkbox" 
+                aria-checked={filters.colors.includes(color)} 
                 onClick={() => handleCheckboxChange("colors", color)}
+                aria-label={`Filter by color ${color}`}
+
               ></button>
             ))}
           </div>
@@ -93,9 +98,10 @@ const FilterSidebar = ({ filters, setFilters }) => {
                   checked={filters.ratings.includes(rating)}
                   onChange={() => handleCheckboxChange("ratings", rating)}
                   className="mr-2"
+                  aria-label={`Filter by ratings ${rating}`}
                 />
                 <span className="flex text-yellow-500">
-                  {Array(rating).fill(<FaStar />)}
+                  {Array(rating).fill(<FaStar aria-hidden="true" />)} 
                 </span>
               </label>
             ))}
@@ -108,6 +114,7 @@ const FilterSidebar = ({ filters, setFilters }) => {
         <button
           onClick={clearFilters}
           className="mt-4 text-sm text-red-500 underline"
+          aria-label={`Clear all filters, ${Object.values(filters).flat().length} applied`} 
         >
           Clear All ({Object.values(filters).flat().length})
         </button>

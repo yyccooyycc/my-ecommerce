@@ -27,6 +27,7 @@ const LatestArrivals = () => {
         <button
           className={theme.latestArrivals.viewAllButton}
           onClick={() => navigate("/products")}
+          aria-label="View all products in Latest Arrivals"
         >
           View all
         </button>

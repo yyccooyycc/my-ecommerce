@@ -150,6 +150,7 @@ const filteredProducts = useMemo(() => {
             value={filters.sort}
             onChange={handleSortChange}
             className={theme.productListing.sortSelect}
+            aria-label="Sort products"
           >
             <option value="" disabled>Sort by</option>
             <option value="popular">Most popular</option>
