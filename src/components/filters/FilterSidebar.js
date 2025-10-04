@@ -6,12 +6,15 @@ const colors = ["red", "blue", "green", "black", "white"];
 const ratings = [5, 4, 3, 2, 1];
 
 const FilterSidebar = ({ filters, setFilters }) => {
-  const [openSection, setOpenSection] = useState(null);
+  const [openSections, setOpenSections] = useState([]);
 
-  const toggleSection = (section) => {
-    setOpenSection(openSection === section ? null : section);
-  };
-
+const toggleSection = (section) => {
+  setOpenSections((prev) =>
+    prev.includes(section)
+      ? prev.filter((s) => s !== section) 
+      : [...prev, section]                
+  );
+};
   const handleCheckboxChange = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -35,9 +38,9 @@ const FilterSidebar = ({ filters, setFilters }) => {
           className="flex justify-between w-full text-left font-medium py-2"
           onClick={() => toggleSection("sizes")}
         >
-          Sizes <FaChevronDown className={`transition ${openSection === "sizes" ? "rotate-180" : ""}`} />
+          Sizes <FaChevronDown className={`transition ${(openSections.includes("sizes")) ? "rotate-180" : ""}`} />
         </button>
-        {openSection === "sizes" && (
+        {(openSections.includes("sizes")) && (
           <div className="pl-4">
             {sizes.map((size) => (
               <label key={size} className="flex items-center mb-2">
@@ -61,9 +64,9 @@ const FilterSidebar = ({ filters, setFilters }) => {
           className="flex justify-between w-full text-left font-medium py-2"
           onClick={() => toggleSection("colors")}
         >
-          Colors <FaChevronDown className={`transition ${openSection === "colors" ? "rotate-180" : ""}`} />
+          Colors <FaChevronDown className={`transition ${(openSections.includes("colors")) ? "rotate-180" : ""}`} />
         </button>
-        {openSection === "colors" && (
+        {(openSections.includes("colors")) && (
           <div className="flex space-x-2 pl-4">
             {colors.map((color) => (
               <button
@@ -87,9 +90,9 @@ const FilterSidebar = ({ filters, setFilters }) => {
           className="flex justify-between w-full text-left font-medium py-2"
           onClick={() => toggleSection("ratings")}
         >
-          Ratings <FaChevronDown className={`transition ${openSection === "ratings" ? "rotate-180" : ""}`} />
+          Ratings <FaChevronDown className={`transition ${(openSections.includes("ratings"))? "rotate-180" : ""}`} />
         </button>
-        {openSection === "ratings" && (
+        {(openSections.includes("ratings"))&& (
           <div className="pl-4">
             {ratings.map((rating) => (
               <label key={rating} className="flex items-center mb-2">
