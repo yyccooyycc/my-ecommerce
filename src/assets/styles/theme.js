@@ -16,8 +16,8 @@ const theme = {
   },
 
   productListing: {
-    container: "flex-1 p-4",
-    header: "mb-4",
+    container: "flex-1 p-4 w-full",
+    header: "mb-4 w-full",
     title: "text-lg font-semibold",
     grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 lg:gap-16",
     sortSelect: "border rounded px-3 py-2 text-sm bg-gray-100",
@@ -81,6 +81,16 @@ const theme = {
       lg: "1025px", //for ipad pro which is 1024*1366px will be squeezed into 4 cols if it's 1024
     },
   },
+filterSidebar: {
+ container: "w-64 p-4 border-r bg-gray-100 h-screen sticky top-0",
+  header: "text-lg font-semibold mb-4",
+  sectionButton: "flex justify-between w-full text-left font-medium py-2",
+  sectionContent: "pl-4",
+  colorButtonBase: "w-6 h-6 rounded-full border-2",
+  colorButtonSelected: "border-black",
+  colorButtonUnselected: "border-transparent",
+  clearButton: "mt-4 text-sm text-red-500 underline",
+},
 };
 
 export default theme;
