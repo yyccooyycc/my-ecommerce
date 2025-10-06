@@ -1,0 +1,34 @@
+export const sizes = [
+  { code: 'XS', label: 'Extra Small' },
+  { code: 'S', label: 'Small' },
+  { code: 'M', label: 'Medium' },
+  { code: 'L', label: 'Large' },
+  { code: 'XL', label: 'Extra Large' },
+];
+
+export const colors = [
+  'white',
+  'black',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'blue',
+  'brown',
+  'beige',
+  'pink',
+];
+
+export const ratings = [5, 4, 3, 2, 1];
+
+export const categories = ['Unisex', 'Women', 'Men'];
+
+export const collection = ['Latest arrivals', 'Urban Oasis', 'Cozy Comfort', 'Fresh Fusion'];
+
+export const FILTER_KEYS = {
+  COLLECTIONS: 'collections',
+  CATEGORY: 'category',
+  SIZES: 'sizes',
+  COLORS: 'colors',
+  RATINGS: 'ratings',
+};

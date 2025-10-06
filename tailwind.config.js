@@ -16,7 +16,7 @@ export const theme = {
     spacing: _spacing,
     fontSize: _fontSize,
     borderRadius: _borderRadius,
-    screens: _extend.screens,
+    screens: _extend?.screens,
   },
 };
 export const plugins = [];

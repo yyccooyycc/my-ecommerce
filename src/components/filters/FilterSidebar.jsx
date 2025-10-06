@@ -1,110 +1,87 @@
-import { useState } from "react";
-import { FaChevronDown, FaStar } from "react-icons/fa";
-
-const sizes = ["XS", "S", "M", "L", "XL"];
-const colors = ["red", "blue", "green", "black", "white"];
-const ratings = [5, 4, 3, 2, 1];
+import { useState } from 'react';
+import theme from '../../assets/styles/theme';
+import { sizes, colors, ratings, categories, collection } from '../filters/filterOptions';
+import { FaStar } from 'react-icons/fa';
+import { FILTER_KEYS } from '../filters/filterOptions';
 
 const FilterSidebar = ({ filters, setFilters }) => {
-  const [openSections, setOpenSections] = useState([]);
+  const [openSection, setOpenSection] = useState({
+    collection: false,
+    sizes: false,
+    category: false,
+    colors: false,
+    ratings: false,
+  });
 
-const toggleSection = (section) => {
-  setOpenSections((prev) =>
-    prev.includes(section)
-      ? prev.filter((s) => s !== section) 
-      : [...prev, section]                
-  );
-};
+  const toggleSection = (key) => setOpenSection((prev) => ({ ...prev, [key]: !prev[key] }));
+
   const handleCheckboxChange = (filterType, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterType]: prevFilters[filterType].includes(value)
-        ? prevFilters[filterType].filter((item) => item !== value)
-        : [...prevFilters[filterType], value],
+    setFilters((prev) => ({
+      ...prev,
+      [filterType]: prev[filterType].includes(value)
+        ? prev[filterType].filter((v) => v !== value)
+        : [...prev[filterType], value],
     }));
   };
 
-  const clearFilters = () => {
-    setFilters({ sizes: [], colors: [], ratings: [] });
+  const handleClearFilters = () => {
+    setFilters({
+      category: ['latest'],
+      sizes: [],
+      colors: [],
+      ratings: [],
+      sort: '',
+      direction: 'desc',
+    });
   };
 
   return (
-    <div className="w-64 p-4 border-r bg-gray-100 min-h-screen">
-      <h2 className="text-lg font-semibold mb-4">Filters</h2>
-
-      {/* Size Filter */}
-      <div className="mb-4">
+    <aside className={theme.filterSidebar.container}>
+      {/* Collections */}
+      <div className="border-b border-gray-200 pb-4 mb-4">
         <button
-          className="flex justify-between w-full text-left font-medium py-2"
-          onClick={() => toggleSection("sizes")}
+          onClick={() => toggleSection('collection')}
+          className={theme.filterSidebar.sectionButton}
         >
-          Sizes <FaChevronDown className={`transition ${(openSections.includes("sizes")) ? "rotate-180" : ""}`} />
+          <span>Collections</span>
+          <span>{openSection.collection ? '−' : '+'}</span>
         </button>
-        {(openSections.includes("sizes")) && (
-          <div className="pl-4">
-            {sizes.map((size) => (
-              <label key={size} className="flex items-center mb-2">
+        {openSection.collection && (
+          <div className={theme.filterSidebar.sectionContent}>
+            {collection.map((col) => (
+              <label key={col} className="flex items-center space-x-2 py-1">
                 <input
                   type="checkbox"
-                  checked={filters.sizes.includes(size)}
-                  onChange={() => handleCheckboxChange("sizes", size)}
-                  className="mr-2"
-                  aria-label={`Filter by size ${size}`}
+                  checked={filters[FILTER_KEYS.COLLECTIONS]?.includes(col) ?? false}
+                  onChange={() => handleCheckboxChange('collection', col)}
                 />
-                {size}
+                <span>{col}</span>
               </label>
             ))}
           </div>
         )}
       </div>
 
-      {/* Color Swatches */}
-      <div className="mb-4">
+      {/* Sizes */}
+      <div className="border-b border-gray-200 pb-4 mb-4">
         <button
-          className="flex justify-between w-full text-left font-medium py-2"
-          onClick={() => toggleSection("colors")}
+          onClick={() => toggleSection('sizes')}
+          className={theme.filterSidebar.sectionButton}
         >
-          Colors <FaChevronDown className={`transition ${(openSections.includes("colors")) ? "rotate-180" : ""}`} />
+          <span>Sizes</span>
+          <span>{openSection.sizes ? '−' : '+'}</span>
         </button>
-        {(openSections.includes("colors")) && (
-          <div className="flex space-x-2 pl-4">
-            {colors.map((color) => (
-              <button
-                key={color}
-                className={`w-6 h-6 rounded-full border-2 ${filters.colors.includes(color) ? "border-black" : "border-transparent"}`}
-                style={{ backgroundColor: color }}
-                role="checkbox" 
-                aria-checked={filters.colors.includes(color)} 
-                onClick={() => handleCheckboxChange("colors", color)}
-                aria-label={`Filter by color ${color}`}
-
-              ></button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Rating Filter */}
-      <div className="mb-4">
-        <button
-          className="flex justify-between w-full text-left font-medium py-2"
-          onClick={() => toggleSection("ratings")}
-        >
-          Ratings <FaChevronDown className={`transition ${(openSections.includes("ratings"))? "rotate-180" : ""}`} />
-        </button>
-        {(openSections.includes("ratings"))&& (
-          <div className="pl-4">
-            {ratings.map((rating) => (
-              <label key={rating} className="flex items-center mb-2">
+        {openSection.sizes && (
+          <div className={theme.filterSidebar.sectionContent}>
+            {sizes.map(({ code, label }) => (
+              <label key={code} className="flex items-center space-x-2 py-1">
                 <input
                   type="checkbox"
-                  checked={filters.ratings.includes(rating)}
-                  onChange={() => handleCheckboxChange("ratings", rating)}
-                  className="mr-2"
-                  aria-label={`Filter by ratings ${rating}`}
+                  checked={filters[FILTER_KEYS.SIZES].includes(code) ?? false}
+                  onChange={() => handleCheckboxChange('sizes', code)}
                 />
-                <span className="flex text-yellow-500">
-                  {Array(rating).fill(<FaStar aria-hidden="true" />)} 
+                <span>
+                  {code} – {label}
                 </span>
               </label>
             ))}
@@ -112,17 +89,97 @@ const toggleSection = (section) => {
         )}
       </div>
 
-      {/* Clear All Button */}
-      {Object.values(filters).some((arr) => arr.length > 0) && (
+      {/* Category */}
+      <div className="border-b border-gray-200 pb-4 mb-4">
         <button
-          onClick={clearFilters}
-          className="mt-4 text-sm text-red-500 underline"
-          aria-label={`Clear all filters, ${Object.values(filters).flat().length} applied`} 
+          onClick={() => toggleSection('category')}
+          className={theme.filterSidebar.sectionButton}
         >
-          Clear All ({Object.values(filters).flat().length})
+          <span>Category</span>
+          <span>{openSection.category ? '−' : '+'}</span>
         </button>
-      )}
-    </div>
+        {openSection.category && (
+          <div className={theme.filterSidebar.sectionContent}>
+            {categories.map((cat) => (
+              <label key={cat} className="flex items-center space-x-2 py-1">
+                <input
+                  type="checkbox"
+                  checked={filters[FILTER_KEYS.CATEGORY].includes(cat) ?? false}
+                  onChange={() => handleCheckboxChange('category', cat)}
+                />
+                <span>{cat}</span>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Colors */}
+      <div className="border-b border-gray-200 pb-4 mb-4">
+        <button
+          onClick={() => toggleSection('colors')}
+          className={theme.filterSidebar.sectionButton}
+        >
+          <span>Colors</span>
+          <span>{openSection.colors ? '−' : '+'}</span>
+        </button>
+        {openSection.colors && (
+          <div className="flex flex-wrap gap-3 mt-2">
+            {colors.map((color) => (
+              <button
+                key={color}
+                onClick={() => handleCheckboxChange('colors', color)}
+                className={`w-6 h-6 rounded-full border ${
+                  filters[FILTER_KEYS.COLORS].includes(color)
+                    ? 'border-black scale-110'
+                    : 'border-gray-300'
+                }`}
+                style={{ backgroundColor: color }}
+                title={color}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Ratings */}
+      <div className="border-b border-gray-200 pb-4 mb-4">
+        <button
+          onClick={() => toggleSection('ratings')}
+          className={theme.filterSidebar.sectionButton}
+        >
+          <span>Ratings</span>
+          <span>{openSection.ratings ? '−' : '+'}</span>
+        </button>
+
+        {openSection.ratings && (
+          <div className={theme.filterSidebar.sectionContent}>
+            {ratings.map((r) => (
+              <label key={r} className="flex items-center gap-2 py-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.ratings.includes(r)}
+                  onChange={() => handleCheckboxChange('ratings', r)}
+                />
+                <span className="flex items-center">
+                  {Array.from({ length: r }).map((_, i) => (
+                    <FaStar key={i} className="text-yellow-500" />
+                  ))}
+                  {Array.from({ length: 5 - r }).map((_, i) => (
+                    <FaStar key={`o-${i}`} className="text-gray-300" />
+                  ))}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Clear Filters */}
+      <button onClick={handleClearFilters} className={theme.filterSidebar.clearButton}>
+        Clear Filters
+      </button>
+    </aside>
   );
 };
 
