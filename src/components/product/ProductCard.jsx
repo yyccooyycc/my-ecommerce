@@ -53,7 +53,7 @@ function ProductCard({ product }) {
           <img
             key={filteredImages[0]?.image_url}
             src={filteredImages[0]?.image_url}
-            alt={product.name}
+            alt={`${product.name} - ${selectedColor}`}             
             className={`${theme.productCard.image} ${isLoading ? "opacity-0" : "opacity-100"}`}
             loading="lazy"
             onLoad={() => setIsLoading(false)}
@@ -64,7 +64,9 @@ function ProductCard({ product }) {
           </div>
         )}
         {isOutOfStock(selectedColor) && (
-          <div className={`${theme.productCard.outOfStockOverlay}`}>
+          <div className={`${theme.productCard.outOfStockOverlay}`}
+          aria-label="Out of stock"
+          >
             Out of Stock
           </div>
         )}
@@ -72,24 +74,31 @@ function ProductCard({ product }) {
       <div
         className={`${theme.productCard.details}`}
         onClick={() => navigate(`/product/${product.product_id}`)}
+        tabIndex={0}
+        aria-label={`View details for ${product.name}`}
       >
         <div className={`${theme.productCard.color}`}>{selectedColor}</div>
-        <div className={`${theme.productCard.name}`}>{product.name}</div>
+        <h3 className={`${theme.productCard.name}`}>{product.name}</h3>
 
         <div className="flex items-center">
           {selectedInventory.discount_percentage ? (
             <>
-              <span className={`${theme.productCard.price} line-through px-2`}>
+              <span className={`${theme.productCard.price} line-through px-2`}                
+              aria-label={`Original price ${selectedInventory.list_price} dollars`}
+              >
                 ${selectedInventory.list_price}
               </span>
               <span
                 className={`${theme.productCard.price} ${theme.productCard.priceDiscount}`}
+                aria-label={`Discounted price ${getCurrentPrice()} dollars`}
               >
                 ${getCurrentPrice()}
               </span>
             </>
           ) : (
-            <span className={`${theme.productCard.price} px-2`}>
+            <span className={`${theme.productCard.price} px-2`}
+            aria-label={`Price ${selectedInventory.list_price} dollars`}
+            >
               ${selectedInventory.list_price}
             </span>
           )}
@@ -101,6 +110,8 @@ function ProductCard({ product }) {
               key={color || index}
               style={{ backgroundColor: color }}
               onClick={(event) => handleColorSelect(event, color)}
+              role="checkbox"
+              aria-checked={color === selectedColor}
               className={`${theme.productCard.colorButton} ${
                 isOutOfStock(color)
                   ? theme.productCard.colorButtonOutOfStock
