@@ -17,7 +17,7 @@ const theme = {
     container: "flex-1 p-4",
     header: "mb-4",
     title: "text-lg font-semibold",
-    grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 lg:gap-16",
+    grid: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12 lg:gap-16",
     sortSelect: "border rounded px-3 py-2 text-sm bg-white",
   },
   productCard: {
