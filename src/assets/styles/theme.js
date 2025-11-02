@@ -123,7 +123,12 @@ const theme = {
    * Product Grid
    * ------------------------------------------------------------- */
   productGrid: {
-    container: 'grid gap-4 md:gap-8 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
+    container: `
+    grid 
+    gap-4 md:gap-8 
+    grid-cols-2 sm:grid-cols-3 lg:grid-cols-4
+    w-full transition-all duration-300 ease-in-out
+  `,
     card: 'bg-white rounded-lg overflow-hidden shadow-sm border border-neutral-200 hover:shadow-md transition-all duration-200',
     imageWrapper: 'w-full aspect-square overflow-hidden bg-neutral-100',
     image: 'w-full h-full object-cover',
@@ -137,22 +142,16 @@ const theme = {
    * Filter Sidebar (RWD)
    * ------------------------------------------------------------- */
   filterSidebar: {
-    container: 'w-64 p-4 border-r border-neutral-200 bg-transparent h-screen sticky top-0',
-    open: 'fixed left-0 top-0 w-64 h-full bg-white shadow-lg z-50 transition-transform duration-300 ease-in-out translate-x-0 md:translate-x-0',
-    close:
-      'fixed left-0 top-0 w-64 h-full bg-white shadow-lg z-50 transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0',
+    container: 'w-64 p-4 border-r border-neutral-200 h-screen sticky top-0 bg-transparent',
+    open: 'transition-transform duration-300 ease-in-out translate-x-0',
+    close: 'transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0',
     header: 'text-lg font-semibold mb-4 flex justify-between items-center text-neutral-900',
     sectionButton: 'flex justify-between w-full text-left font-medium py-2',
     sectionContent: 'pl-4',
-    colorButtonBase: 'w-6 h-6 rounded-full border-2',
-    colorButtonSelected: 'border-black',
-    colorButtonUnselected: 'border-transparent',
     clearButton: 'mt-4 text-sm text-red-500 underline hover:text-red-600 transition-colors',
+    closeButton: 'p-1 rounded-md hover:bg-gray-100',
     filterButton:
       'fixed top-4 left-4 z-50 flex items-center gap-2 bg-white border border-gray-300 rounded-md px-3 py-2 shadow-sm text-gray-800 font-medium hover:bg-gray-50 md:hidden',
-    closeButton: 'absolute top-4 right-4 bg-gray-100 rounded-full p-2 hover:bg-gray-200',
-    overlay:
-      'fixed inset-0 bg-black bg-opacity-40 backdrop-blur-[2px] z-40 transition-opacity duration-300 md:hidden',
   },
 };
 

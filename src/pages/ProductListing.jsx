@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import theme from '../assets/styles/theme';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 import FilterSidebar from '../components/filters/FilterSidebar';
@@ -19,7 +19,20 @@ const ProductListing = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  if (error) return <p>Error: {error}</p>;
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+
+    const handleChange = (e) => {
+      if (!e.matches) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    if (!mq.matches) setIsSidebarOpen(false);
+
+    mq.addEventListener('change', handleChange);
+    return () => mq.removeEventListener('change', handleChange);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
@@ -100,12 +113,14 @@ const ProductListing = () => {
     }
   };
 
+  const errorView = error ? <p>Error: {error}</p> : null;
+
   return (
     <div className="flex relative">
       {/* Filter Button */}
       <button
         className={`${theme.filterSidebar.filterButton} md:hidden`}
-        onClick={() => setIsSidebarOpen(true)}
+        onClick={() => setIsSidebarOpen((v) => !v)}
       >
         <FaFilter size={16} />
         <span>Filter</span>
@@ -147,11 +162,11 @@ const ProductListing = () => {
             <option value="price-desc">Price: High to low</option>
           </select>
         </div>
-
+        {errorView}
         {/* Product Grid */}
         <ProductGrid
           products={filteredProducts}
-          className={theme.productListing.grid}
+          className={`${theme.productGrid.container} ${isSidebarOpen ? 'lg:ml-64' : 'ml-0'}`}
           isLoading={loading}
         />
       </div>
