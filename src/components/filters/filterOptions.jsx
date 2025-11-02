@@ -26,7 +26,7 @@ export const categories = ['Unisex', 'Women', 'Men'];
 export const collection = ['Latest arrivals', 'Urban Oasis', 'Cozy Comfort', 'Fresh Fusion'];
 
 export const FILTER_KEYS = {
-  COLLECTIONS: 'collections',
+  COLLECTIONS: 'collection',
   CATEGORY: 'category',
   SIZES: 'sizes',
   COLORS: 'colors',
