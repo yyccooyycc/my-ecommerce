@@ -1,13 +1,18 @@
 'use client';
 import { useState } from 'react';
 import theme from '../../assets/styles/theme';
-import { sizes, colors, ratings, categories, collection } from '../filters/filterOptions';
+import { sizes, colors, ratings, categories, FILTER_KEYS } from '../filters/filterOptions';
 import { FaStar } from 'react-icons/fa';
-import { FILTER_KEYS } from '../filters/filterOptions';
 
-const FilterSidebar = ({ filters, setFilters, isSidebarOpen, setIsSidebarOpen }) => {
+const FilterSidebar = ({
+  filters,
+  setFilters,
+  isSidebarOpen,
+  setIsSidebarOpen,
+  collections = [],
+}) => {
   const [openSection, setOpenSection] = useState({
-    collection: false,
+    collection: true,
     sizes: false,
     category: false,
     colors: false,
@@ -17,22 +22,42 @@ const FilterSidebar = ({ filters, setFilters, isSidebarOpen, setIsSidebarOpen })
   const toggleSection = (key) => setOpenSection((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const handleCheckboxChange = (filterType, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterType]: prev[filterType].includes(value)
-        ? prev[filterType].filter((v) => v !== value)
-        : [...prev[filterType], value],
-    }));
+    setFilters((prev) => {
+      let updatedValues = [...prev[filterType]];
+
+      if (updatedValues.includes(value)) {
+        updatedValues = updatedValues.filter((v) => v !== value);
+      } else {
+        updatedValues.push(value);
+      }
+
+      if (filterType === FILTER_KEYS.COLLECTIONS) {
+        if (value === 'latest') {
+          updatedValues = ['latest'];
+        } else {
+          updatedValues = updatedValues.filter((v) => v !== 'latest');
+        }
+        if (updatedValues.length === 0) {
+          updatedValues = ['latest'];
+        }
+      }
+
+      return {
+        ...prev,
+        [filterType]: updatedValues,
+      };
+    });
   };
 
   const handleClearFilters = () => {
     setFilters({
-      category: ['latest'],
+      category: [],
       sizes: [],
       colors: [],
       ratings: [],
       sort: '',
       direction: 'desc',
+      collections: [],
     });
   };
 
@@ -48,8 +73,7 @@ const FilterSidebar = ({ filters, setFilters, isSidebarOpen, setIsSidebarOpen })
           <button
             className={theme.filterSidebar.closeButton}
             onClick={() => setIsSidebarOpen(false)}
-          >
-          </button>
+          ></button>
         </div>
 
         {/* Collections */}
@@ -63,14 +87,17 @@ const FilterSidebar = ({ filters, setFilters, isSidebarOpen, setIsSidebarOpen })
           </button>
           {openSection.collection && (
             <div className={theme.filterSidebar.sectionContent}>
-              {collection.map((col) => (
-                <label key={col} className="flex items-center space-x-2 py-1">
+              {collections?.map(({ name, collection_id }, index) => (
+                <label
+                  key={`${collection_id}-${index}`}
+                  className="flex items-center space-x-2 py-1 cursor-pointer"
+                >
                   <input
                     type="checkbox"
-                    checked={filters[FILTER_KEYS.COLLECTIONS]?.includes(col) ?? false}
-                    onChange={() => handleCheckboxChange('collection', col)}
+                    checked={filters[FILTER_KEYS.COLLECTIONS]?.includes(collection_id) ?? false}
+                    onChange={() => handleCheckboxChange(FILTER_KEYS.COLLECTIONS, collection_id)}
                   />
-                  <span>{col}</span>
+                  <span>{name}</span>
                 </label>
               ))}
             </div>

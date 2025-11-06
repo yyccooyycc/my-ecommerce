@@ -1,12 +1,15 @@
 import { useState, useMemo, useEffect } from 'react';
 import theme from '../assets/styles/theme';
+import useFetchCollections from '../components/hooks/useFetchCollections';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 import FilterSidebar from '../components/filters/FilterSidebar';
 import ProductGrid from '../components/product/ProductGrid';
 import { FaFilter } from 'react-icons/fa';
 
 const ProductListing = () => {
-  const { products, loading, error } = useFetchProducts({ collection: 'latest' });
+const [collection, setCollection] = useState('latest');
+const { collections } = useFetchCollections();
+const { products, loading, error } = useFetchProducts({ collection });
   const [filters, setFilters] = useState({
     collection: [],
     category: [],
@@ -33,6 +36,14 @@ const ProductListing = () => {
     mq.addEventListener('change', handleChange);
     return () => mq.removeEventListener('change', handleChange);
   }, []);
+
+  useEffect(() => {
+  if (filters.collection.length > 0) {
+    setCollection(filters.collection[filters.collection.length - 1]);
+  } else {
+    setCollection('latest');
+  }
+}, [filters.collection]);
 
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
@@ -132,6 +143,7 @@ const ProductListing = () => {
         setFilters={setFilters}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        collections={collections}
       />
 
       {/* Product Section */}
