@@ -7,9 +7,6 @@ import ProductGrid from '../components/product/ProductGrid';
 import { FaFilter } from 'react-icons/fa';
 
 const ProductListing = () => {
-const [collection, setCollection] = useState('latest');
-const { collections } = useFetchCollections();
-const { products, loading, error } = useFetchProducts({ collection });
   const [filters, setFilters] = useState({
     collection: [],
     category: [],
@@ -19,6 +16,8 @@ const { products, loading, error } = useFetchProducts({ collection });
     sort: '',
     direction: 'desc',
   });
+  const { collections } = useFetchCollections();
+  const { products, loading, error } = useFetchProducts();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -36,70 +35,71 @@ const { products, loading, error } = useFetchProducts({ collection });
     mq.addEventListener('change', handleChange);
     return () => mq.removeEventListener('change', handleChange);
   }, []);
-
-  useEffect(() => {
-  if (filters.collection.length > 0) {
-    setCollection(filters.collection[filters.collection.length - 1]);
-  } else {
-    setCollection('latest');
-  }
-}, [filters.collection]);
-
   const filteredProducts = useMemo(() => {
-    let result = products.filter((product) => {
-      const productSizes =
-        product.sizes?.length > 0
-          ? product.sizes
-          : product.inventory?.map((inv) => inv.size).filter(Boolean) || [];
-      const productColors =
-        product.colors?.length > 0
-          ? product?.colors
-          : product.inventory?.map((inv) => inv.color).filter(Boolean) || [];
+    if (!products || products.length === 0) return [];
 
-      const sizeMatch =
-        filters.sizes?.length === 0 || productSizes.some((s) => filters.sizes.includes(s));
+    const selectedCollections = (filters.collection || []).filter((id) => id !== 'latest');
 
-      const colorMatch =
-        filters.colors?.length === 0 || productColors.some((c) => filters.colors.includes(c));
+    return products
+      .filter((p) => {
+        const pid = p.collection?.collection_id ?? null;
 
-      const ratingMatch =
-        filters.ratings?.length === 0 ||
-        filters.ratings?.some((r) => product.rating >= r && product.rating < r + 1);
+        //collections union
+        const matchCollection =
+          selectedCollections.length === 0 || selectedCollections.includes(pid);
 
-      return sizeMatch && colorMatch && ratingMatch;
-    });
+        //sizes union
+        const allSizes = [
+          ...(p.sizes?.map((s) => String(s)) ?? []),
+          ...(p.inventory?.map((inv) => String(inv.size)).filter(Boolean) ?? []),
+        ];
+        const matchSizes =
+          filters.sizes.length === 0 || allSizes.some((s) => filters.sizes.includes(s));
 
-    result = [...result].sort((a, b) => {
-      let aValue, bValue;
-      switch (filters.sort) {
-        case 'popular':
-          aValue = a.sold ?? 0;
-          bValue = b.sold ?? 0;
-          break;
-        case 'rating':
-          aValue = a.rating ?? 0;
-          bValue = b.rating ?? 0;
-          break;
-        case 'price':
-          aValue =
-            filters.direction === 'asc'
-              ? (a.priceRange?.lowest ?? 0)
-              : (a.priceRange?.highest ?? 0);
-          bValue =
-            filters.direction === 'asc'
-              ? (b.priceRange?.lowest ?? 0)
-              : (b.priceRange?.highest ?? 0);
-          break;
-        case 'created':
-        default:
-          aValue = new Date(a.created_at).getTime();
-          bValue = new Date(b.created_at).getTime();
-          break;
-      }
-      return filters.direction === 'asc' ? aValue - bValue : bValue - aValue;
-    });
+        //colors union
+        const allColors = p.colors ?? [];
+        const matchColors =
+          filters.colors.length === 0 || allColors.some((c) => filters.colors.includes(c));
 
-    return result;
+        //ratings union
+        const matchRatings =
+          filters.ratings.length === 0 ||
+          filters.ratings.some((r) => p.rating >= r && p.rating < r + 1);
+
+        //category union
+        const matchCategory =
+          filters.category.length === 0 || filters.category.includes(p.category?.category_id);
+
+        //intersection
+        return matchCollection && matchSizes && matchColors && matchRatings && matchCategory;
+      })
+      .sort((a, b) => {
+        const sortKey =
+          filters.sort || (filters.collection.includes('latest') ? 'created' : 'created');
+        const dir = filters.direction || 'desc';
+
+        let aValue, bValue;
+        switch (sortKey) {
+          case 'popular':
+            aValue = a.sold ?? 0;
+            bValue = b.sold ?? 0;
+            break;
+          case 'rating':
+            aValue = a.rating ?? 0;
+            bValue = b.rating ?? 0;
+            break;
+          case 'price':
+            aValue = dir === 'asc' ? (a.priceRange?.lowest ?? 0) : (a.priceRange?.highest ?? 0);
+            bValue = dir === 'asc' ? (b.priceRange?.lowest ?? 0) : (b.priceRange?.highest ?? 0);
+            break;
+          case 'created':
+          default:
+            aValue = new Date(a.created_at).getTime();
+            bValue = new Date(b.created_at).getTime();
+            break;
+        }
+        return dir === 'asc' ? aValue - bValue : bValue - aValue;
+      });
   }, [products, filters]);
 
   const handleSortChange = (e) => {

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { DEFAULT_COLLECTIONS } from "../filters/filterOptions";
+import { useState, useEffect } from 'react';
+import { DEFAULT_COLLECTIONS } from '../filters/filterOptions';
 
 const useFetchCollections = () => {
   const [collections, setCollections] = useState([]);
@@ -9,14 +9,14 @@ const useFetchCollections = () => {
   useEffect(() => {
     let isMounted = true;
 
-    fetch("https://www.greatfrontend.com/api/projects/challenges/e-commerce/products")
+    fetch('https://www.greatfrontend.com/api/projects/challenges/e-commerce/products')
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch collections");
+        if (!res.ok) throw new Error('Failed to fetch collections');
         return res.json();
       })
       .then((data) => {
         if (isMounted && data?.data) {
-          const apiCollections   = Array.from(
+          const apiCollections = Array.from(
             new Map(
               data.data
                 .filter((p) => p.collection)
@@ -24,11 +24,10 @@ const useFetchCollections = () => {
             )
           ).map(([collection_id, name]) => ({ collection_id, name }));
 
+          const merged = [...DEFAULT_COLLECTIONS, ...apiCollections];
+          const deduped = Array.from(new Map(merged.map((c) => [c.collection_id, c])).values());
 
-        const merged = [...DEFAULT_COLLECTIONS, ...apiCollections];
-        const deduped = Array.from( new Map(merged.map(c => [c.collection_id, c])).values());
-
-        setCollections(deduped); 
+          setCollections(deduped);
         }
       })
       .catch((err) => {
