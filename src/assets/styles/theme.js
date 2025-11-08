@@ -8,21 +8,6 @@ const theme = {
   },
 
   /* -------------------------------------------------------------
-   * Latest Arrivals
-   * ------------------------------------------------------------- */
-  latestArrivals: {
-    container: 'px-6 py-10 max-w-[1280px] mx-auto',
-    header: 'flex justify-between items-center mb-6 w-full',
-    title: 'text-xl font-semibold',
-    viewAllText: 'font-medium',
-    gridWrapper: '',
-    grid: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 xl:gap-10',
-    noProducts: 'text-center text-gray-500',
-    viewAllButton:
-      'inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300',
-  },
-
-  /* -------------------------------------------------------------
    * Product Listing
    * ------------------------------------------------------------- */
   productListing: {
