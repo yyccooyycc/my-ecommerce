@@ -17,9 +17,8 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "prettier": "^3.0.0"
-
   },
-    "prettier": {
+  "prettier": {
     "singleQuote": true,
     "semi": true,
     "trailingComma": "es5",
@@ -32,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build --add",
+    "deploy:product-listing": "gh-pages -d build --dest product-listing --add",
     "lint": "eslint . --fix"
   },
   "browserslist": {
