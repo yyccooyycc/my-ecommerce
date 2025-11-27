@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import ProductGrid from "../components/ProductGrid";
-import theme from "../assets/styles/theme";
-import { useNavigate } from "react-router-dom";
-
+import React, { useState, useEffect } from 'react';
+import ProductGrid from '../components/ProductGrid';
+import theme from '../assets/styles/theme';
+import { useNavigate } from 'react-router-dom';
 
 const LatestArrivals = () => {
   const [products, setProducts] = useState([]);
@@ -14,10 +13,10 @@ const LatestArrivals = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=latest"
+          'https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=latest'
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch products");
+          throw new Error('Failed to fetch products');
         }
         const data = await response.json();
         setProducts(data.data);
@@ -44,22 +43,21 @@ const LatestArrivals = () => {
 
   return (
     <div className={theme.latestArrivals.container}>
-      <div className={theme.latestArrivals.header}>              
+      <div className={theme.latestArrivals.header}>
         <span className={theme.latestArrivals.title}>Latest Arrivals</span>
-        <button 
+        <button
           className={theme.latestArrivals.viewAllButton}
-          onClick={() => navigate("/products")} 
+          onClick={() => navigate('/product-listing')}
         >
-        <span className={theme.latestArrivals.viewAllText}>View all</span>
+          <span className={theme.latestArrivals.viewAllText}>View all</span>
         </button>
       </div>
 
       <div className={theme.latestArrivals.gridWrapper}>
         <ProductGrid products={products} />
       </div>
-     </div>
+    </div>
   );
 };
 
 export default LatestArrivals;
-
