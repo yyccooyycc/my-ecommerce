@@ -27,7 +27,8 @@ const theme = {
    * ------------------------------------------------------------- */
   productCard: {
     card: 'flex flex-col w-full rounded-lg overflow-hidden shadow-sm border border-neutral-200 hover:shadow-md transition-all duration-200 bg-white',
-    image: 'w-full h-[300px] object-cover rounded-t-lg bg-gray-100 transition-opacity duration-300',
+    image:
+      'w-full h-[240px] sm:h-[260px] md:h-[280px] object-cover rounded-t-lg bg-gray-100 transition-opacity duration-300',
     skeleton: 'absolute top-0 left-0 w-full h-[300px] bg-gray-200 animate-pulse rounded-lg',
     details: 'flex flex-col gap-3 p-4',
     color: 'font-normal text-xs text-neutral-600',
