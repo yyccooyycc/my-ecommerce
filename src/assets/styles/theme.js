@@ -108,12 +108,8 @@ const theme = {
    * Product Grid
    * ------------------------------------------------------------- */
   productGrid: {
-    container: `
-    grid 
-    gap-4 md:gap-8 
-    grid-cols-2 sm:grid-cols-3 lg:grid-cols-4
-    w-full transition-all duration-300 ease-in-out
-  `,
+    container:
+      'grid gap-4 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full transition-all duration-300 ease-in-out',
     card: 'bg-white rounded-lg overflow-hidden shadow-sm border border-neutral-200 hover:shadow-md transition-all duration-200',
     imageWrapper: 'w-full aspect-square overflow-hidden bg-neutral-100',
     image: 'w-full h-full object-cover',
