@@ -11,7 +11,7 @@ const theme = {
    * Product Listing
    * ------------------------------------------------------------- */
   productListing: {
-    container: 'flex-1 px-4 md:px-8 lg:px-8 xl:px-8 w-full max-w-[1280px] mx-auto box-border',
+    container: 'flex-1 px-4 md:px-8 lg:px-8 xl:px-8 w-full max-w-[1200px] mx-auto box-border',
     header: 'flex justify-between items-center mb-6 w-full',
     title: 'text-lg font-semibold text-neutral-900',
     grid: 'grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full',
@@ -28,7 +28,7 @@ const theme = {
   productCard: {
     card: 'flex flex-col w-full rounded-lg overflow-hidden shadow-sm border border-neutral-200 hover:shadow-md transition-all duration-200 bg-white',
     image:
-      'w-full h-[240px] sm:h-[260px] md:h-[280px] object-cover rounded-t-lg bg-gray-100 transition-opacity duration-300',
+      'w-full aspect-[4/5] object-cover rounded-t-lg bg-gray-100 transition-opacity duration-300',
     skeleton: 'absolute top-0 left-0 w-full h-[300px] bg-gray-200 animate-pulse rounded-lg',
     details: 'flex flex-col gap-3 p-4',
     color: 'font-normal text-xs text-neutral-600',
