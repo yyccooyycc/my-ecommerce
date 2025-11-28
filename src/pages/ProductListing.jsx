@@ -26,7 +26,7 @@ const ProductListing = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)');
+    const mq = window.matchMedia('(min-width: 1025px)');
 
     const handleChange = (e) => {
       if (!e.matches) setIsSidebarOpen(false);
@@ -197,7 +197,7 @@ const ProductListing = () => {
   return (
     <div className="flex relative">
       <button
-        className={`${theme.filterSidebar.filterButton} md:hidden ${isSidebarOpen ? 'hidden' : ''}`}
+        className={`${theme.filterSidebar.filterButton} ${isSidebarOpen ? 'hidden' : ''}`}
         onClick={() => setIsSidebarOpen(true)}
       >
         <FiFilter className={theme.filterSidebar.filterIcon} />

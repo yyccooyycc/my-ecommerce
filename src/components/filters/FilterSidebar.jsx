@@ -80,7 +80,7 @@ const FilterSidebar = ({
 
   return (
     <aside
-      className={`${theme.filterSidebar.container} ${isSidebarOpen ? 'block' : 'hidden'} md:block z-40`}
+      className={`${theme.filterSidebar.container} ${isSidebarOpen ? 'block' : 'hidden'} lg:block z-40`}
     >
       {/* Header */}
       <div className={theme.filterSidebar.header}>
