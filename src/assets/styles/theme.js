@@ -15,7 +15,11 @@ const theme = {
     header: 'flex justify-between items-center mb-6 w-full',
     title: 'text-lg font-semibold text-neutral-900',
     grid: 'grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full',
-    sortSelect: 'border rounded px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 cursor-pointer',
+    sortSelect:
+      'border border-gray-300 rounded px-3 py-2 text-sm bg-white hover:bg-gray-50 ' +
+      'cursor-pointer w-28 md:w-32 font-semibold text-gray-900',
+    sortSelectPlaceholder: 'text-gray-400',
+    sortSelectValue: 'text-gray-900',
   },
 
   /* -------------------------------------------------------------
@@ -132,8 +136,12 @@ const theme = {
     clearButton: 'mt-4 text-sm text-red-500 underline hover:text-red-600 transition-colors',
     closeButton: 'p-1 rounded-md hover:bg-gray-100',
     filterButton:
-      'fixed top-4 left-4 z-50 flex items-center gap-2 bg-white border border-gray-300 rounded-md px-3 py-2 shadow-sm text-gray-800 font-medium hover:bg-gray-50 md:hidden',
+      'fixed top-4 left-4 z-50 flex items-center gap-2 ' +
+      'bg-white border border-gray-300 rounded-md px-3 py-2 ' +
+      'shadow-sm text-gray-900 text-sm font-medium hover:bg-gray-50 md:hidden',
   },
+  filterIcon: 'w-4 h-4 text-gray-900',
+  filterText: 'text-gray-900 text-sm font-medium',
 };
 
 export default theme;

@@ -4,7 +4,7 @@ import useFetchCollections from '../components/hooks/useFetchCollections';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 import FilterSidebar from '../components/filters/FilterSidebar';
 import ProductGrid from '../components/product/ProductGrid';
-import { FaFilter } from 'react-icons/fa';
+import { FiFilter } from 'react-icons/fi';
 
 const perPage = 9;
 
@@ -200,8 +200,8 @@ const ProductListing = () => {
         className={`${theme.filterSidebar.filterButton} md:hidden ${isSidebarOpen ? 'hidden' : ''}`}
         onClick={() => setIsSidebarOpen(true)}
       >
-        <FaFilter size={16} />
-        <span>Filter</span>
+        <FiFilter className={theme.filterSidebar.filterIcon} />
+        <span className={theme.filterSidebar.filterText}>Filter</span>
       </button>
 
       {/* Sidebar */}
