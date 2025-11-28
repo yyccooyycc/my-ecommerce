@@ -1,9 +1,10 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 
-const ProductDetails = lazy(() => import('./pages/ProductDetails'));
+const HomePage = lazy(() => import('./pages/HomePage'));
 const ProductListing = lazy(() => import('./pages/ProductListing'));
+const ProductDetails = lazy(() => import('./pages/ProductDetails'));
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <div className="min-h-screen bg-gray-100 flex justify-start items-start p-4">
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
+            <Route path="/" element={<HomePage />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/product-listing" element={<ProductListing />} />
           </Routes>
