@@ -1,55 +1,5 @@
 const theme = {
   /* -------------------------------------------------------------
-   * Design tokens
-   * ------------------------------------------------------------- */
-  colors: {
-    primary: '#1E40AF',
-    secondary: '#9333EA',
-    neutral: {
-      100: '#F5F5F5',
-      200: '#E5E5E5',
-      500: '#888888',
-      900: '#333333',
-    },
-    success: '#28A745',
-    error: '#DC3545',
-  },
-
-  /* -------------------------------------------------------------
-   * Spacing / Font / Radius
-   * ------------------------------------------------------------- */
-  spacing: {
-    sm: '8px',
-    md: '16px',
-    lg: '32px',
-    xl: '64px',
-  },
-  fontSize: {
-    base: '16px',
-    lg: '20px',
-    xl: '24px',
-  },
-  borderRadius: {
-    none: '0px',
-    sm: '4px',
-    md: '8px',
-    lg: '16px',
-  },
-
-  /* -------------------------------------------------------------
-   * Screens / Breakpoints
-   * ------------------------------------------------------------- */
-  extend: {
-    screens: {
-      xs: '480px',
-      sm: '640px',
-      md: '768px',
-      lg: '1025px',
-      xl: '1440px',
-    },
-  },
-
-  /* -------------------------------------------------------------
    * Shared helpers
    * ------------------------------------------------------------- */
   shared: {
@@ -74,53 +24,53 @@ const theme = {
    * ------------------------------------------------------------- */
   homePage: {
     root:
-      'min-h-screen bg-slate-50 text-slate-900 ' +
+      'min-h-screen bg-profile-page-bg text-profile-text-main ' +
       'flex items-center justify-center px-4 py-8 sm:px-6 md:px-8',
 
     section: 'w-full max-w-sm sm:max-w-md',
 
     card:
       'mx-auto flex flex-col items-center text-center ' +
-      'rounded-2xl bg-white shadow-lg ' +
+      'rounded-card bg-profile-card-bg shadow-lg ' +
       'px-8 py-8 sm:px-10 sm:py-9 gap-4 sm:gap-5',
 
     avatarWrapper:
-      'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' + 'border-2 border-indigo-600',
+      'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' + 'border-2 border-profile-primary',
 
     avatar: 'h-full w-full object-cover',
 
-    name: 'text-lg sm:text-xl font-semibold text-slate-900',
+    name: 'text-lg sm:text-xl font-semibold text-profile-text-main',
 
-    role: 'text-xs sm:text-sm text-slate-500',
+    role: 'text-xs sm:text-sm text-profile-text-muted',
 
-    bio: 'mt-1 text-xs sm:text-sm leading-relaxed ' + 'text-slate-500 max-w-xs',
+    bio: 'mt-1 text-xs sm:text-sm leading-relaxed ' + 'text-profile-text-muted max-w-xs',
 
     ctaButton:
-      'mt-3 w-full rounded-full ' +
-      'bg-indigo-600 text-white ' +
+      'mt-3 w-full rounded-pill ' +
+      'bg-profile-primary text-white ' +
       'text-sm sm:text-base font-medium ' +
       'py-2.5 sm:py-3 shadow-sm ' +
       'transition-colors ' +
-      'hover:bg-indigo-700 ' +
+      'hover:bg-profile-primary-hover ' +
       'focus-visible:outline-none ' +
       'focus-visible:ring-2 ' +
-      'focus-visible:ring-indigo-600 ' +
+      'focus-visible:ring-profile-primary ' +
       'focus-visible:ring-offset-2 ' +
-      'focus-visible:ring-offset-white',
+      'focus-visible:ring-offset-profile-card-bg',
 
     socialNav: 'mt-3 flex items-center justify-center ' + 'gap-4 sm:gap-5',
 
     socialLink:
       'flex h-9 w-9 items-center justify-center ' +
       'rounded-full ' +
-      'bg-indigo-50 text-indigo-600 text-lg ' +
+      'bg-profile-icon-bg text-profile-icon text-lg ' +
       'transition-colors ' +
-      'hover:bg-indigo-600 hover:text-white ' +
+      'hover:bg-profile-primary hover:text-white ' +
       'focus-visible:outline-none ' +
       'focus-visible:ring-2 ' +
-      'focus-visible:ring-indigo-600 ' +
+      'focus-visible:ring-profile-primary ' +
       'focus-visible:ring-offset-2 ' +
-      'focus-visible:ring-offset-white',
+      'focus-visible:ring-offset-profile-card-bg',
   },
 
   /* -------------------------------------------------------------

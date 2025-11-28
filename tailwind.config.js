@@ -1,22 +1,41 @@
 /** @type {import('tailwindcss').Config} */
-import {
-  colors as _colors,
-  fontFamily as _fontFamily,
-  spacing as _spacing,
-  fontSize as _fontSize,
-  borderRadius as _borderRadius,
-  extend as _extend,
-} from './src/assets/styles/theme';
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#1E40AF',
+        secondary: '#9333EA',
+        neutral: {
+          100: '#F5F5F5',
+          200: '#E5E5E5',
+          500: '#888888',
+          900: '#333333',
+        },
+        success: '#28A745',
+        error: '#DC3545',
+        'profile-page-bg': '#f3f5fa',
+        'profile-card-bg': '#ffffff',
+        'profile-primary': '#4f46e5',
+        'profile-primary-hover': '#4338ca',
+        'profile-text-main': '#111827',
+        'profile-text-muted': '#6b7280',
+        'profile-icon-bg': '#eef2ff',
+        'profile-icon': '#4f46e5',
+      },
 
-export const content = ['./src/**/*.{js,jsx,ts,tsx}'];
-export const theme = {
-  extend: {
-    colors: _colors,
-    fontFamily: _fontFamily,
-    spacing: _spacing,
-    fontSize: _fontSize,
-    borderRadius: _borderRadius,
-    screens: _extend?.screens,
+      borderRadius: {
+        card: '1.25rem',
+        pill: '9999px',
+      },
+      screens: {
+        xs: '480px',
+        sm: '640px',
+        md: '768px',
+        lg: '1025px',
+        xl: '1440px',
+      },
+    },
   },
+  plugins: [],
 };
-export const plugins = [];
