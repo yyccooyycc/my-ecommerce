@@ -13,39 +13,42 @@ function HomePage() {
 
   return (
     <main className={t.root}>
-      <section className={t.section}>
-        <div className={t.card}>
-          {/* Avatar */}
-          <div className={t.avatarWrapper}>
-            <img src={avatar} alt="Profile of Sarah Dole" className={t.avatar} />
-          </div>
-
-          {/* Name + role */}
-          <div>
-            <h1 className={t.name}>Sarah Dole</h1>
-            <p className={t.role}>Front End Engineer @ Microsoft</p>
-          </div>
-
-          {/* Bio */}
-          <p className={t.bio}>
-            I turn coffee into bugs which are fixed by someone else. Certified Stack Overflow and
-            ChatGPT developer.
-          </p>
-
-          {/* CTA Button */}
-          <button type="button" className={t.ctaButton}>
-            Contact me
-          </button>
-
-          {/* Social icons */}
-          <nav aria-label="Social media" className={t.socialNav}>
-            {socialLinks.map((item) => (
-              <a key={item.label} href="#" aria-label={item.label} className={t.socialLink}>
-                <i className={item.icon} />
-              </a>
-            ))}
-          </nav>
+      <section className={theme.homePage.card}>
+        {/* Avatar */}
+        <div className={t.avatarWrapper}>
+          <img src={avatar} alt="Profile of Sarah Dole" className={t.avatar} />
         </div>
+
+        {/* Name + role */}
+        <div>
+          <h1 className={t.name}>Sarah Dole</h1>
+          <p className={t.role}>Front End Engineer @ Microsoft</p>
+        </div>
+
+        {/* Bio */}
+        <p className={t.bio}>
+          I turn coffee into bugs which are fixed by someone else. Certified Stack Overflow and
+          ChatGPT developer.
+        </p>
+
+        {/* CTA Button */}
+        <button type="button" className={t.ctaButton}>
+          Contact me
+        </button>
+
+        {/* Social icons */}
+        <nav aria-label="Social media" className={t.socialNav}>
+          {socialLinks.map((item) => (
+            <a
+              key={item.label}
+              href="https://www.greatfrontend.com/projects/challenges/profile-card"
+              aria-label={item.label}
+              className={t.socialLink}
+            >
+              <i className={item.icon} />
+            </a>
+          ))}
+        </nav>
       </section>
     </main>
   );

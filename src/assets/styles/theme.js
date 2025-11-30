@@ -23,30 +23,29 @@ const theme = {
    * Home page (Profile Card)
    * ------------------------------------------------------------- */
   homePage: {
-    root:
-      'min-h-screen bg-profile-page-bg text-profile-text-main ' +
-      'flex items-center justify-center px-4 py-8 sm:px-6 md:px-8',
-
-    section: 'w-full max-w-sm sm:max-w-md',
+    root: 'min-h-screen w-full bg-profile-page-bg text-profile-text-main px-4 md:px-8',
 
     card:
-      'mx-auto flex flex-col items-center text-center ' +
-      'rounded-card bg-profile-card-bg shadow-lg ' +
-      'px-8 py-8 sm:px-10 sm:py-9 gap-4 sm:gap-5',
+      'mt-[200px] w-[340px] mx-auto ' +
+      'bg-profile-card-bg rounded-xl shadow-lg ' +
+      'p-6 flex flex-col gap-6',
 
     avatarWrapper:
-      'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' + 'border-2 border-profile-primary',
+      'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' +
+      'border-2 border-profile-primary  mx-auto',
 
     avatar: 'h-full w-full object-cover',
 
-    name: 'text-lg sm:text-xl font-semibold text-profile-text-main',
+    name: 'text-lg sm:text-xl font-semibold text-profile-text-main text-center',
 
-    role: 'text-xs sm:text-sm text-profile-text-muted',
+    role: 'text-xs sm:text-sm text-profile-text-muted text-center',
 
-    bio: 'mt-1 text-xs sm:text-sm leading-relaxed ' + 'text-profile-text-muted max-w-xs',
+    bio:
+      'text-xs sm:text-sm leading-relaxed text-profile-text-muted ' +
+      'max-w-[280px] mx-auto text-center',
 
     ctaButton:
-      'mt-3 w-full rounded-pill ' +
+      'w-full rounded-pill ' +
       'bg-profile-primary text-white ' +
       'text-sm sm:text-base font-medium ' +
       'py-2.5 sm:py-3 shadow-sm ' +
@@ -58,7 +57,7 @@ const theme = {
       'focus-visible:ring-offset-2 ' +
       'focus-visible:ring-offset-profile-card-bg',
 
-    socialNav: 'mt-3 flex items-center justify-center ' + 'gap-4 sm:gap-5',
+    socialNav: 'flex items-center justify-center gap-4 sm:gap-5',
 
     socialLink:
       'flex h-9 w-9 items-center justify-center ' +
