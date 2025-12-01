@@ -34,11 +34,13 @@ const theme = {
 
     avatar: 'h-full w-full object-cover',
 
-    name: 'text-xl md:text-2xl font-medium text-profile-text-main text-center',
+    name:
+      'text-xl md:text-[20px] leading-[28px] ' + 'font-medium text-profile-text-main text-center',
 
-    role: 'text-xs sm:text-sm text-profile-text-muted text-center',
-
-    bio: 'text-xs sm:text-sm text-profile-text-muted ' + 'max-w-[280px] mx-auto text-center',
+    role: 'text-sm sm:text-sm text-profile-text-muted text-center',
+    bio:
+      'text-sm md:text-base font-normal text-profile-text-muted ' +
+      'text-center max-w-[280px] mx-auto',
 
     ctaButton:
       'mt-3 w-full rounded-[5px] ' +
