@@ -34,7 +34,7 @@ const theme = {
 
     avatar: 'h-full w-full object-cover',
 
-    name: 'text-xl sm:text-xl font-semibold text-profile-text-main text-center',
+    name: 'text-xl md:text-2xl font-medium text-profile-text-main text-center',
 
     role: 'text-xs sm:text-sm text-profile-text-muted text-center',
 
@@ -43,7 +43,7 @@ const theme = {
     ctaButton:
       'mt-3 w-full rounded-[5px] ' +
       'bg-profile-primary text-white ' +
-      'text-sm sm:text-base font-medium ' +
+      'text-sm sm:text-base font-normal ' +
       'py-2.5 sm:py-3 shadow-sm ' +
       'transition-colors ' +
       'hover:bg-profile-primary-hover ' +
