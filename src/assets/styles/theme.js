@@ -40,12 +40,10 @@ const theme = {
 
     role: 'text-xs sm:text-sm text-profile-text-muted text-center',
 
-    bio:
-      'text-xs sm:text-sm leading-relaxed text-profile-text-muted ' +
-      'max-w-[280px] mx-auto text-center',
+    bio: 'text-xs sm:text-sm text-profile-text-muted ' + 'max-w-[280px] mx-auto text-center',
 
     ctaButton:
-      'w-full rounded-pill ' +
+      'mt-3 w-full ' +
       'bg-profile-primary text-white ' +
       'text-sm sm:text-base font-medium ' +
       'py-2.5 sm:py-3 shadow-sm ' +
