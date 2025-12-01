@@ -40,8 +40,14 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build --add",
-    "deploy:product-listing": "gh-pages -d build --dest product-listing --add",
+    "deploy:home-page-profile": "gh-pages -d build --dest home-page-profile --add",
     "lint": "eslint . --fix"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
