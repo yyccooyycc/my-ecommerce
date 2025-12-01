@@ -27,23 +27,21 @@ const theme = {
 
     card:
       'mt-[200px] w-[340px] mx-auto ' +
-      'bg-profile-card-bg rounded-xl shadow-lg ' +
-      'p-6 flex flex-col gap-6',
+      'bg-profile-card-bg rounded-md shadow-lg ' +
+      'px-8 pt-8 pb-10 flex flex-col gap-6',
 
-    avatarWrapper:
-      'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' +
-      'border-2 border-profile-primary  mx-auto',
+    avatarWrapper: 'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' + 'border-2  mx-auto',
 
     avatar: 'h-full w-full object-cover',
 
-    name: 'text-lg sm:text-xl font-semibold text-profile-text-main text-center',
+    name: 'text-xl sm:text-xl font-semibold text-profile-text-main text-center',
 
     role: 'text-xs sm:text-sm text-profile-text-muted text-center',
 
     bio: 'text-xs sm:text-sm text-profile-text-muted ' + 'max-w-[280px] mx-auto text-center',
 
     ctaButton:
-      'mt-3 w-full ' +
+      'mt-3 w-full rounded-[5px] ' +
       'bg-profile-primary text-white ' +
       'text-sm sm:text-base font-medium ' +
       'py-2.5 sm:py-3 shadow-sm ' +
