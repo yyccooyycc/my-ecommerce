@@ -1,35 +1,14 @@
 'use client';
 import { useState } from 'react';
 import theme from '../../assets/styles/theme';
-import { ratings, FILTER_KEYS } from '../filters/filterOptions';
+import {
+  ratings,
+  FILTER_KEYS,
+  fallbackCategories,
+  fallbackSizes,
+  fallbackColors,
+} from '../filters/filterOptions';
 import { FaStar } from 'react-icons/fa';
-
-const fallbackCategories = [
-  { id: 'unisex', label: 'Unisex' },
-  { id: 'women', label: 'Women' },
-  { id: 'men', label: 'Men' },
-];
-
-const fallbackSizes = [
-  { code: 'xs', label: 'XS' },
-  { code: 's', label: 'S' },
-  { code: 'm', label: 'M' },
-  { code: 'l', label: 'L' },
-  { code: 'xl', label: 'XL' },
-];
-
-const fallbackColors = [
-  'white',
-  'black',
-  'red',
-  'orange',
-  'yellow',
-  'green',
-  'blue',
-  'brown',
-  'beige',
-  'pink',
-];
 
 const FilterSidebar = ({
   filters,

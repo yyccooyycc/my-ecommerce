@@ -155,6 +155,93 @@ const theme = {
   },
   filterIcon: 'w-4 h-4 text-gray-900',
   filterText: 'text-gray-900 text-sm font-medium',
+
+  /* -------------------------------------------------------------
+   * Product Detail
+   * ------------------------------------------------------------- */
+
+  productDetails: {
+    page:
+      'min-h-screen bg-neutral-100 flex items-start justify-center px-4 py-6 ' +
+      'md:px-6 md:py-10 lg:px-10',
+    card:
+      'w-full max-w-5xl bg-white rounded-2xl border border-neutral-200 shadow-sm ' +
+      'px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 grid gap-6 lg:grid-cols-2',
+    galleryMain:
+      'w-full aspect-[4/3] md:aspect-[4/3] bg-neutral-100 rounded-xl overflow-hidden ' +
+      'flex items-center justify-center',
+    galleryThumbs: 'mt-4 flex gap-3 overflow-x-auto',
+    galleryThumbButton:
+      'relative h-20 w-20 flex-shrink-0 rounded-lg overflow-hidden border ' +
+      'border-transparent hover:border-neutral-300',
+    galleryThumbButtonActive: 'border-primary-600',
+    //right side details
+    titleBlock: 'flex flex-col gap-2',
+    category: 'text-xs md:text-sm uppercase tracking-wide text-neutral-500',
+    productName: 'text-xl md:text-2xl lg:text-3xl font-semibold text-neutral-900',
+    description: 'text-sm text-neutral-600',
+    ratingRow: 'mt-2 flex items-center gap-2 text-sm md:text-base',
+    ratingNumber: 'text-neutral-700',
+    ratingLink:
+      'ml-3 text-xs md:text-sm font-medium text-primary-600 underline-offset-2 hover:underline',
+    priceRow: 'flex items-baseline gap-3',
+    priceCurrent: 'text-2xl md:text-3xl font-semibold text-neutral-900',
+    priceOld: 'text-sm md:text-base text-neutral-400 line-through',
+    priceBadge:
+      'inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-600',
+    sectionLabelRow: 'flex items-center justify-between',
+    sectionLabel: 'text-sm font-medium text-neutral-900',
+    sectionHint: 'text-xs text-neutral-500',
+    colorSwatchesRow: 'flex flex-wrap gap-2',
+    colorSwatchBase:
+      'h-9 w-9 rounded-full border-2 flex items-center justify-center cursor-pointer ' +
+      'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600',
+    colorSwatchSelected: 'border-primary-600',
+    colorSwatchUnselected: 'border-transparent hover:border-neutral-300',
+    colorInnerCircle: 'h-7 w-7 rounded-full',
+    sizeButtonsRow: 'flex flex-wrap gap-2',
+    sizeButtonBase: 'min-w-[3rem] px-3 py-2 rounded-lg border text-xs md:text-sm font-medium',
+    sizeButtonSelected: 'border-neutral-900 bg-neutral-900 text-white',
+    sizeButtonNormal: 'border-neutral-200 bg-white text-neutral-900 hover:border-neutral-400',
+    sizeButtonDisabled:
+      'border-neutral-200 text-neutral-400 bg-neutral-50 cursor-not-allowed line-through',
+    qtyRow: 'flex items-center gap-4',
+    qtyBox: 'inline-flex items-center rounded-full border border-neutral-200 bg-white px-1 py-1',
+    qtyButton:
+      'h-8 w-8 rounded-full text-lg leading-none flex items-center justify-center ' +
+      'disabled:opacity-40 disabled:cursor-not-allowed hover:bg-neutral-100',
+    qtyValue: 'w-8 text-center text-sm font-medium text-neutral-900',
+    stockText: 'text-xs text-neutral-500',
+    addToCartButton:
+      'mt-2 inline-flex items-center justify-center rounded-full ' +
+      'bg-primary-600 px-6 py-3 text-sm md:text-base font-medium text-white shadow-sm ' +
+      'hover:bg-primary-700 disabled:bg-neutral-200 disabled:text-neutral-500 disabled:cursor-not-allowed',
+    outOfStockText: 'text-xs text-red-600 mt-1',
+    accordionWrapper: 'mt-4 border-t border-neutral-200 pt-4',
+    accordionItem: 'border border-neutral-200 rounded-xl overflow-hidden',
+    accordionButton:
+      'w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-left ' +
+      'text-neutral-900 hover:bg-neutral-50',
+    accordionBody: 'px-4 pb-3 text-sm text-neutral-600',
+  },
 };
 
+const COLOR_CLASS_MAP = {
+  green: 'bg-emerald-500',
+  mint: 'bg-emerald-300',
+  teal: 'bg-teal-500',
+  blue: 'bg-blue-500',
+  navy: 'bg-slate-800',
+  black: 'bg-neutral-900',
+  white: 'bg-white border border-neutral-300',
+  brown: 'bg-amber-700',
+  tan: 'bg-amber-500',
+  yellow: 'bg-yellow-400',
+  orange: 'bg-orange-500',
+  red: 'bg-rose-500',
+  purple: 'bg-violet-500',
+  pink: 'bg-pink-400',
+};
+
+export { COLOR_CLASS_MAP };
 export default theme;
