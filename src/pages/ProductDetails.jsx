@@ -272,9 +272,6 @@ export default function ProductDetailsPage() {
         <section className="flex flex-col gap-6">
           {/* Title + rating */}
           <header className={theme.productDetails.titleBlock}>
-            <p className={theme.productDetails.category}>
-              {product.category && product.category.name}
-            </p>
             <h1 className={theme.productDetails.productName}>{product.name}</h1>
 
             <p className={theme.productDetails.description}>{product.description}</p>
@@ -291,7 +288,7 @@ export default function ProductDetailsPage() {
                 })}
               </div>
               <span className={theme.productDetails.ratingNumber}>
-                {product.rating.toFixed(2)} <span className="text-neutral-400">/ 5</span>
+                {product.rating.toFixed(1)} <span className="text-neutral-400">/ 5</span>
               </span>
 
               <button
@@ -304,7 +301,7 @@ export default function ProductDetailsPage() {
             </div>
           </header>
 
-          {/* 價格 */}
+          {/* Price */}
           <section aria-label="Price" className={theme.productDetails.priceRow}>
             <span className={theme.productDetails.priceCurrent}>${salePrice}</span>
             {salePrice !== listPrice && (
