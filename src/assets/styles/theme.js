@@ -213,8 +213,8 @@ const theme = {
     qtyValue: 'w-8 text-center text-sm font-medium text-neutral-900',
     stockText: 'text-xs text-neutral-500',
     addToCartButton:
-      'mt-2 inline-flex items-center justify-center rounded-full ' +
-      'bg-primary-600 px-6 py-3 text-sm md:text-base font-medium text-white shadow-sm ' +
+      'mt-2 inline-flex items-center justify-center rounded-[5px] ' +
+      'bg-profile-primary px-6 py-3 text-sm md:text-base font-medium text-white shadow-sm ' +
       'hover:bg-primary-700 disabled:bg-neutral-200 disabled:text-neutral-500 disabled:cursor-not-allowed',
     outOfStockText: 'text-xs text-red-600 mt-1',
     accordionWrapper: 'mt-4 border-t border-neutral-200 pt-4',
