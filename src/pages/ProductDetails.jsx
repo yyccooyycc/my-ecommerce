@@ -1,11 +1,20 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import theme, { COLOR_CLASS_MAP } from '../assets/styles/theme';
 import { useState, useEffect, useMemo } from 'react';
-import {
-  fallbackCategories,
-  fallbackSizes,
-  fallbackColors,
-} from '../components/filters/filterOptions';
+import { fallbackSizes } from '../components/filters/filterOptions';
+
+function getSizeLabel(size) {
+  if (!size) return '';
+
+  const key = String(size).toLowerCase();
+  const match = fallbackSizes.find((item) => item.code === key);
+  if (match?.code === key) {
+    return match.label;
+  }
+
+  const s = String(size);
+  return /^[a-zA-Z]+$/.test(s) ? s.toUpperCase() : s;
+}
 
 function useProduct(productId) {
   const [product, setProduct] = useState(null);
@@ -273,11 +282,22 @@ export default function ProductDetailsPage() {
           {/* Title + rating */}
           <header className={theme.productDetails.titleBlock}>
             <h1 className={theme.productDetails.productName}>{product.name}</h1>
-
-            <p className={theme.productDetails.description}>{product.description}</p>
+            {/* Price */}
+            <section aria-label="Price" className={theme.productDetails.priceRow}>
+              <span className={theme.productDetails.priceCurrent}>${salePrice}</span>
+              {salePrice !== listPrice && (
+                <span className={theme.productDetails.priceOld}>${listPrice}</span>
+              )}
+              {discountLabel && (
+                <span className={theme.productDetails.priceBadge}>{discountLabel} OFF</span>
+              )}
+            </section>
 
             <div className={theme.productDetails.ratingRow}>
               <div className="flex items-center gap-0.5">
+                <span className={theme.productDetails.ratingNumber}>
+                  {product.rating.toFixed(1)} <span className="text-neutral-400"> </span>
+                </span>
                 {Array.from({ length: 5 }).map((_, i) => {
                   const filled = i + 1 <= Math.round(product.rating);
                   return (
@@ -287,9 +307,6 @@ export default function ProductDetailsPage() {
                   );
                 })}
               </div>
-              <span className={theme.productDetails.ratingNumber}>
-                {product.rating.toFixed(1)} <span className="text-neutral-400">/ 5</span>
-              </span>
 
               <button
                 type="button"
@@ -299,26 +316,13 @@ export default function ProductDetailsPage() {
                 {hasReviews ? `See all ${product.reviews} reviews` : 'No reviews yet. Be the first'}
               </button>
             </div>
+            <p className={theme.productDetails.description}>{product.description}</p>
           </header>
-
-          {/* Price */}
-          <section aria-label="Price" className={theme.productDetails.priceRow}>
-            <span className={theme.productDetails.priceCurrent}>${salePrice}</span>
-            {salePrice !== listPrice && (
-              <span className={theme.productDetails.priceOld}>${listPrice}</span>
-            )}
-            {discountLabel && (
-              <span className={theme.productDetails.priceBadge}>{discountLabel} OFF</span>
-            )}
-          </section>
 
           {/* Colors */}
           <section aria-label="Color options" className="flex flex-col gap-3">
             <div className={theme.productDetails.sectionLabelRow}>
               <h2 className={theme.productDetails.sectionLabel}>Available Colors</h2>
-              {selectedColor && (
-                <span className={theme.productDetails.sectionHint}>{selectedColor}</span>
-              )}
             </div>
 
             <div className={theme.productDetails.colorSwatchesRow}>
@@ -354,9 +358,6 @@ export default function ProductDetailsPage() {
             <section aria-label="Size options" className="flex flex-col gap-3">
               <div className={theme.productDetails.sectionLabelRow}>
                 <h2 className={theme.productDetails.sectionLabel}>Available Sizes</h2>
-                {selectedSize && (
-                  <span className={theme.productDetails.sectionHint}>{selectedSize}</span>
-                )}
               </div>
 
               <div className={theme.productDetails.sizeButtonsRow}>
@@ -376,7 +377,7 @@ export default function ProductDetailsPage() {
                       className={`${theme.productDetails.sizeButtonBase} ${stateClass}`}
                       aria-disabled={isOut}
                     >
-                      {size}
+                      {getSizeLabel(size)}
                     </button>
                   );
                 })}
@@ -421,7 +422,7 @@ export default function ProductDetailsPage() {
                   ? 'Out of stock'
                   : maxStock <= 5
                     ? `Only ${maxStock} left in stock`
-                    : `${maxStock} in stock`}
+                    : ``}
               </p>
             </div>
 

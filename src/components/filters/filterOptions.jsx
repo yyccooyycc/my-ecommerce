@@ -25,8 +25,11 @@ export const fallbackCategories = [
 export const fallbackSizes = [
   { code: 'xs', label: 'XS' },
   { code: 's', label: 'S' },
+  { code: 'sm', label: 'S' },
   { code: 'm', label: 'M' },
+  { code: 'md', label: 'M' },
   { code: 'l', label: 'L' },
+  { code: 'lg', label: 'L' },
   { code: 'xl', label: 'XL' },
 ];
 
