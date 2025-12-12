@@ -183,7 +183,7 @@ const theme = {
     ratingRow: 'mt-2 flex items-center gap-2 text-sm md:text-base',
     ratingNumber: 'text-neutral-700',
     ratingLink:
-      'ml-3 text-xs md:text-sm font-medium text-primary-600 underline-offset-2 hover:underline',
+      'ml-3 text-xs md:text-sm font-medium text-primary underline-offset-2 hover:underline',
     priceRow: 'flex items-baseline gap-3',
     priceCurrent: 'text-2xl md:text-3xl font-semibold text-neutral-900',
     priceOld: 'text-sm md:text-base text-neutral-400 line-through',
