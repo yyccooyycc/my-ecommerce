@@ -219,7 +219,7 @@ const theme = {
       'bg-profile-primary px-6 py-3 text-sm md:text-base font-medium text-white shadow-sm ' +
       'hover:bg-primary-700 disabled:bg-neutral-200 disabled:text-neutral-500 disabled:cursor-not-allowed',
     outOfStockText: 'text-xs text-red-600 mt-1',
-    accordionWrapper: 'mt-4 border-t border-neutral-200 pt-4',
+    accordionWrapper: 'mt-6 pt-1',
     accordionItem: 'border border-neutral-200 rounded-xl overflow-hidden',
     accordionButton:
       'w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-left ' +
