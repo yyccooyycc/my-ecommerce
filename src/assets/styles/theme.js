@@ -187,8 +187,10 @@ const theme = {
     priceRow: 'flex items-baseline gap-3',
     priceCurrent: 'text-2xl md:text-3xl font-semibold text-neutral-900',
     priceOld: 'text-sm md:text-base text-neutral-400 line-through',
+    priceSection: 'flex flex-col gap-1 items-start',
     priceBadge:
-      'inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-600',
+      'inline-flex items-center rounded-sm bg-amber-100 px-2 py-0.5 ' +
+      'text-[11px] font-semibold uppercase tracking-wide text-amber-700',
     sectionLabelRow: 'flex items-center justify-between',
     sectionLabel: 'text-sm font-medium text-neutral-900',
     sectionHint: 'text-xs text-neutral-500',

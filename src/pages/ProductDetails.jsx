@@ -283,11 +283,13 @@ export default function ProductDetailsPage() {
           <header className={theme.productDetails.titleBlock}>
             <h1 className={theme.productDetails.productName}>{product.name}</h1>
             {/* Price */}
-            <section aria-label="Price" className={theme.productDetails.priceRow}>
-              <span className={theme.productDetails.priceCurrent}>${salePrice}</span>
-              {salePrice !== listPrice && (
-                <span className={theme.productDetails.priceOld}>${listPrice}</span>
-              )}
+            <section aria-label="Price" className={theme.productDetails.priceSection}>
+              <div className={theme.productDetails.priceRow}>
+                <span className={theme.productDetails.priceCurrent}>${salePrice}</span>
+                {salePrice !== listPrice && (
+                  <span className={theme.productDetails.priceOld}>${listPrice}</span>
+                )}
+              </div>
               {discountLabel && (
                 <span className={theme.productDetails.priceBadge}>{discountLabel} OFF</span>
               )}
