@@ -226,6 +226,9 @@ const theme = {
       'w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-left ' +
       'text-neutral-900 hover:bg-neutral-50',
     accordionBody: 'px-4 pb-3 text-sm text-neutral-600',
+    accordionIconWrapper:
+      'flex items-center justify-center h-6 w-6 rounded-full border border-neutral-300 bg-white',
+    accordionIcon: 'text-xs leading-none text-neutral-700',
   },
 };
 

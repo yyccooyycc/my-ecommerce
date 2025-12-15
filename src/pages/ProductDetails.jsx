@@ -457,7 +457,16 @@ export default function ProductDetailsPage() {
                       onClick={() => setOpenSectionTitle(isOpen ? null : section.title)}
                     >
                       <span>{section.title}</span>
-                      <span className="ml-2 text-neutral-400">{isOpen ? '−' : '+'}</span>
+                      <span
+                        className={
+                          theme.productDetails.accordionIconWrapper +
+                          (isOpen ? ' border-profile-primary' : '')
+                        }
+                      >
+                        <span className={theme.productDetails.accordionIcon}>
+                          {isOpen ? '−' : '+'}
+                        </span>
+                      </span>
                     </button>
                     {isOpen && (
                       <div className={theme.productDetails.accordionBody}>
