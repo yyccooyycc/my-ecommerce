@@ -204,7 +204,7 @@ const theme = {
     colorInnerCircle: 'h-7 w-7 rounded-full',
     sizeButtonsRow: 'flex flex-wrap gap-2',
     sizeButtonBase: 'min-w-[3rem] px-3 py-2 rounded-lg border text-xs md:text-sm font-medium',
-    sizeButtonSelected: 'border-neutral-900 bg-neutral-900 text-white',
+    sizeButtonSelected: 'border-profile-primary bg-white',
     sizeButtonNormal: 'border-neutral-200 bg-white text-neutral-900 hover:border-neutral-400',
     sizeButtonDisabled:
       'border-neutral-200 text-neutral-400 bg-neutral-50 cursor-not-allowed line-through',
@@ -221,7 +221,7 @@ const theme = {
       'hover:bg-primary-700 disabled:bg-neutral-200 disabled:text-neutral-500 disabled:cursor-not-allowed',
     outOfStockText: 'text-xs text-red-600 mt-1',
     accordionWrapper: 'mt-6 pt-1',
-    accordionItem: 'border border-neutral-200 rounded-xl overflow-hidden',
+    accordionItem: '',
     accordionButton:
       'w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-left ' +
       'text-neutral-900 hover:bg-neutral-50',
