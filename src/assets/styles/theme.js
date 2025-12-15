@@ -168,13 +168,14 @@ const theme = {
       'w-full max-w-5xl bg-white rounded-2xl border border-neutral-200 shadow-sm ' +
       'px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 grid gap-6 lg:grid-cols-2',
     galleryMain:
-      'w-full aspect-[4/3] md:aspect-[4/3] bg-neutral-100 rounded-xl overflow-hidden ' +
+      'w-full aspect-[4/5] md:aspect-[4/5] bg-neutral-100 rounded-xl overflow-hidden ' +
       'flex items-center justify-center',
     galleryThumbs: 'mt-4 flex gap-3 overflow-x-auto',
     galleryThumbButton:
-      'relative h-20 w-20 flex-shrink-0 rounded-lg overflow-hidden border ' +
-      'border-transparent hover:border-neutral-300',
-    galleryThumbButtonActive: 'border-primary-600',
+      'relative h-24 w-24 flex-shrink-0 rounded-lg overflow-hidden border ' +
+      'border-transparent hover:border-profile-primary',
+    galleryThumbButtonActive: 'border-profile-primary',
+
     //right side details
     titleBlock: 'flex flex-col gap-2',
     category: 'text-xs md:text-sm uppercase tracking-wide text-neutral-500',
