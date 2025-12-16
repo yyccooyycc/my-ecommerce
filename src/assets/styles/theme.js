@@ -162,11 +162,14 @@ const theme = {
 
   productDetails: {
     page:
-      'min-h-screen bg-neutral-100 flex items-start justify-center px-4 py-6 ' +
+      'min-h-screen bg-neutral-100 flex items-start justify-center ' +
+      'px-2 py-4 ' +
       'md:px-6 md:py-10 lg:px-10',
     card:
-      'w-full max-w-5xl bg-white rounded-2xl border border-neutral-200 shadow-sm ' +
-      'px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 grid gap-6 lg:grid-cols-2',
+      'w-full max-w-[360px] md:max-w-3xl lg:max-w-5xl ' +
+      'bg-white rounded-2xl border border-neutral-200 shadow-sm ' +
+      'px-4 py-5 md:px-6 md:py-6 lg:px-8 lg:py-8 ' +
+      'grid grid-cols-1 gap-6 lg:grid-cols-2',
     galleryMain:
       'w-full aspect-[4/5] md:aspect-[4/5] bg-neutral-100 rounded-xl overflow-hidden ' +
       'flex items-center justify-center',
