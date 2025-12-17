@@ -110,6 +110,107 @@ const theme = {
   },
 
   /* -------------------------------------------------------------
+   * Home page (Profile Card)
+   * ------------------------------------------------------------- */
+  homePage: {
+    root: 'min-h-screen w-full bg-profile-page-bg text-profile-text-main px-4 md:px-8',
+
+    card:
+      'mt-[200px] w-[340px] mx-auto ' +
+      'bg-profile-card-bg rounded-md shadow-lg ' +
+      'px-8 pt-8 pb-10 flex flex-col gap-6',
+
+    avatarWrapper: 'h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden ' + 'border-2  mx-auto',
+
+    avatar: 'h-full w-full object-cover',
+
+    name:
+      'text-xl md:text-[20px] leading-[28px] ' + 'font-medium text-profile-text-main text-center',
+
+    role: 'text-sm sm:text-sm text-profile-text-muted text-center',
+    bio:
+      'text-sm md:text-base font-normal text-profile-text-muted ' +
+      'text-center max-w-[280px] mx-auto',
+
+    ctaButton:
+      'mt-3 w-full rounded-[5px] ' +
+      'bg-profile-primary text-white ' +
+      'text-sm sm:text-base font-normal ' +
+      'py-2.5 sm:py-3 shadow-sm ' +
+      'transition-colors ' +
+      'hover:bg-profile-primary-hover ' +
+      'focus-visible:outline-none ' +
+      'focus-visible:ring-2 ' +
+      'focus-visible:ring-profile-primary ' +
+      'focus-visible:ring-offset-2 ' +
+      'focus-visible:ring-offset-profile-card-bg',
+
+    socialNav: 'flex items-center justify-center gap-4 sm:gap-5',
+
+    socialLink:
+      'flex h-9 w-9 items-center justify-center ' +
+      'rounded-full ' +
+      'bg-profile-icon-bg text-profile-icon text-lg ' +
+      'transition-colors ' +
+      'hover:bg-profile-primary hover:text-white ' +
+      'focus-visible:outline-none ' +
+      'focus-visible:ring-2 ' +
+      'focus-visible:ring-profile-primary ' +
+      'focus-visible:ring-offset-2 ' +
+      'focus-visible:ring-offset-profile-card-bg',
+  },
+
+  /* -------------------------------------------------------------
+   * Product Listing
+   * ------------------------------------------------------------- */
+  productListing: {
+    page: 'min-h-screen bg-neutral-100',
+    shell: 'mx-auto w-full max-w-[1280px] px-4 md:px-8',
+    layout: 'flex gap-8',
+    container: 'flex-1 min-w-0 w-full px-4 md:px-8 box-border',
+    header: 'flex justify-between items-center mb-6 w-full',
+    title: 'text-lg font-semibold text-neutral-900',
+    grid:
+      'grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 ' +
+      'grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full',
+    sortSelect:
+      'border border-gray-300 rounded px-3 py-2 text-sm bg-white hover:bg-gray-50 ' +
+      'cursor-pointer w-28 md:w-32 font-semibold text-gray-900',
+    sortSelectPlaceholder: 'text-gray-400',
+    sortSelectValue: 'text-gray-900',
+  },
+
+  /* -------------------------------------------------------------
+   * Product Card
+   * ------------------------------------------------------------- */
+  productCard: {
+    card:
+      'flex flex-col w-full rounded-lg overflow-hidden shadow-sm ' +
+      'border border-neutral-200 hover:shadow-md ' +
+      'transition-all duration-200 bg-white',
+    image:
+      'w-full h-[240px] sm:h-[260px] md:h-[280px] object-cover ' +
+      'rounded-t-lg bg-gray-100 transition-opacity duration-300',
+    skeleton: 'absolute top-0 left-0 w-full h-[300px] bg-gray-200 ' + 'animate-pulse rounded-lg',
+    details: 'flex flex-col gap-3 p-4',
+    color: 'font-normal text-xs text-neutral-600',
+    name: 'font-medium text-lg text-neutral-900 truncate',
+    price: 'font-normal text-lg text-neutral-500',
+    discount: 'font-normal text-xs line-through text-neutral-600',
+    colorOptions: 'flex justify-start items-center gap-2 p-1 rounded',
+    hoverShadow: 'shadow-lg',
+    outOfStockOverlay:
+      'absolute top-0 left-0 w-full h-full bg-gray-400 opacity-50 ' +
+      'flex justify-center items-center text-white font-bold',
+    noImage:
+      'w-full h-[300px] bg-gray-200 flex items-center justify-center ' + 'text-gray-500 rounded-lg',
+    priceDiscount: 'text-red-500 ml-2 px-2',
+    colorButton: 'w-6 h-6 rounded-full cursor-pointer',
+    colorButtonOutOfStock: 'opacity-50 cursor-not-allowed',
+    colorButtonSelected: 'border-2 border-black',
+  },
+
+  /* -------------------------------------------------------------
    * Product Grid
    * ------------------------------------------------------------- */
   productGrid: {
@@ -128,7 +229,11 @@ const theme = {
    * Filter Sidebar (RWD)
    * ------------------------------------------------------------- */
   filterSidebar: {
-    container: 'w-64 p-4 border-r border-neutral-200 h-screen sticky top-0 bg-transparent',
+    container:
+      'w-64 p-4 border-r border-neutral-200 h-screen bg-white ' +
+      'fixed top-0 left-0 z-40 ' + // mobile: overlay
+      'lg:sticky lg:top-0 lg:z-auto lg:bg-transparent', //desktop
+    sectionWrap: 'border-b border-gray-200 pb-4 px-6',
     open: 'transition-transform duration-300 ease-in-out translate-x-0',
     close: 'transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0',
     header: 'text-lg font-semibold mb-4 flex justify-between items-center text-neutral-900',

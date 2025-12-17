@@ -8,7 +8,7 @@ const ProductListing = lazy(() => import('./pages/ProductListing'));
 function App() {
   return (
     <Router basename="/my-ecommerce">
-      <div className="min-h-screen bg-gray-100 flex justify-start items-start p-4">
+      <div class="min-h-screen bg-gray-100 p-4">
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/product/:id" element={<ProductDetails />} />

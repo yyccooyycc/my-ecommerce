@@ -195,95 +195,96 @@ const ProductListing = () => {
   const errorView = error ? <p className="text-red-500 mt-4">{error}</p> : null;
 
   return (
-    <div className="flex relative">
-      <button
-        className={`${theme.filterSidebar.filterButton} ${isSidebarOpen ? 'hidden' : ''}`}
-        onClick={() => setIsSidebarOpen(true)}
-      >
-        <FiFilter className={theme.filterSidebar.filterIcon} />
-        <span className={theme.filterSidebar.filterText}>Filter</span>
-      </button>
-
-      {/* Sidebar */}
-      <FilterSidebar
-        filters={filters}
-        setFilters={setFilters}
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        collections={collections}
-        categories={categoryOptions}
-        sizes={sizeOptions}
-        colors={colorOptions}
-      />
-
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 md:hidden z-30 bg-transparent"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
-      {/* Product Section */}
-      <div className={theme.productListing.container}>
-        {/* Header */}
-        <div className={`${theme.shared.header} ${theme.productListing.header}`}>
-          <span></span>
-
-          <select
-            value={
-              filters.sort === 'price'
-                ? filters.direction === 'asc'
-                  ? 'price-asc'
-                  : 'price-desc'
-                : filters.sort
-            }
-            onChange={handleSortChange}
-            className={theme.productListing.sortSelect}
-            aria-label="Sort products"
+    <div className={theme.productListing.page}>
+      <div className={theme.productListing.shell}>
+        <div className={`${theme.productListing.layout} relative`}>
+          <button
+            className={`${theme.filterSidebar.filterButton} ${isSidebarOpen ? 'hidden' : ''}`}
+            onClick={() => setIsSidebarOpen(true)}
           >
-            <option value="" disabled>
-              Sort by
-            </option>
-            <option value="created">Newest</option>
-            <option value="popular">Most popular</option>
-            <option value="rating">Best rating</option>
-            <option value="price-asc">Price: Low to high</option>
-            <option value="price-desc">Price: High to low</option>
-          </select>
-        </div>
+            <FiFilter className={theme.filterSidebar.filterIcon} />
+            <span className={theme.filterSidebar.filterText}>Filter</span>
+          </button>
 
-        {errorView}
+          {/* Sidebar */}
 
-        <ProductGrid
-          products={pagedProducts}
-          className={`${theme.productGrid.container} ${isSidebarOpen ? 'lg:ml-64' : 'ml-0'}`}
-          isLoading={loading}
-        />
+          <FilterSidebar
+            filters={filters}
+            setFilters={setFilters}
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+            collections={collections}
+            categories={categoryOptions}
+            sizes={sizeOptions}
+            colors={colorOptions}
+          />
 
-        {/* Pagination */}
-        {filteredProducts.length > 0 && (
-          <div className="flex justify-center items-center mt-8 gap-4">
-            <button
-              disabled={page === 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="px-4 py-2 border rounded disabled:opacity-50"
-            >
-              Prev
-            </button>
+          {isSidebarOpen && (
+            <div
+              className="fixed inset-0 md:hidden z-30 bg-transparent"
+              onClick={() => setIsSidebarOpen(false)}
+            />
+          )}
 
-            <span>
-              Page {page} of {totalPages}
-            </span>
+          {/* Product Section */}
+          <div className={theme.productListing.container}>
+            {/* Header */}
+            <div className={`${theme.shared.header} ${theme.productListing.header}`}>
+              <span></span>
 
-            <button
-              disabled={page === totalPages}
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="px-4 py-2 border rounded disabled:opacity-50"
-            >
-              Next
-            </button>
+              <select
+                value={
+                  filters.sort === 'price'
+                    ? filters.direction === 'asc'
+                      ? 'price-asc'
+                      : 'price-desc'
+                    : filters.sort
+                }
+                onChange={handleSortChange}
+                className={theme.productListing.sortSelect}
+                aria-label="Sort products"
+              >
+                <option value="" disabled>
+                  Sort by
+                </option>
+                <option value="created">Newest</option>
+                <option value="popular">Most popular</option>
+                <option value="rating">Best rating</option>
+                <option value="price-asc">Price: Low to high</option>
+                <option value="price-desc">Price: High to low</option>
+              </select>
+            </div>
+
+            {errorView}
+
+            <ProductGrid products={pagedProducts} className="w-full" isLoading={loading} />
+
+            {/* Pagination */}
+            {filteredProducts.length > 0 && (
+              <div className="flex justify-center items-center mt-8 gap-4">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  className="px-4 py-2 border rounded disabled:opacity-50"
+                >
+                  Prev
+                </button>
+
+                <span>
+                  Page {page} of {totalPages}
+                </span>
+
+                <button
+                  disabled={page === totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  className="px-4 py-2 border rounded disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
