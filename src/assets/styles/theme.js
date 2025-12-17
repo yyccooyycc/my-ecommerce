@@ -74,7 +74,10 @@ const theme = {
    * Product Listing
    * ------------------------------------------------------------- */
   productListing: {
-    container: 'flex-1 px-4 md:px-8 lg:px-8 xl:px-8 ' + 'w-full max-w-[1280px] mx-auto box-border',
+    page: 'min-h-screen bg-neutral-100',
+    shell: 'mx-auto w-full max-w-[1280px] px-4 md:px-8',
+    layout: 'flex gap-8',
+    container: 'flex-1 min-w-0 w-full px-4 md:px-8 box-border',
     header: 'flex justify-between items-center mb-6 w-full',
     title: 'text-lg font-semibold text-neutral-900',
     grid:
@@ -140,7 +143,11 @@ const theme = {
    * Filter Sidebar (RWD)
    * ------------------------------------------------------------- */
   filterSidebar: {
-    container: 'w-64 p-4 border-r border-neutral-200 h-screen sticky top-0 bg-transparent',
+    container:
+      'w-64 p-4 border-r border-neutral-200 h-screen bg-white ' +
+      'fixed top-0 left-0 z-40 ' + // mobile: overlay
+      'lg:sticky lg:top-0 lg:z-auto lg:bg-transparent', //desktop
+    sectionWrap: 'border-b border-gray-200 pb-4 px-6',
     open: 'transition-transform duration-300 ease-in-out translate-x-0',
     close: 'transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0',
     header: 'text-lg font-semibold mb-4 flex justify-between items-center text-neutral-900',

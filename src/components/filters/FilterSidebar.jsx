@@ -70,7 +70,7 @@ const FilterSidebar = ({
       </div>
 
       {/* Collections */}
-      <div className="border-b border-gray-200 pb-4 mb-4">
+      <div className={theme.filterSidebar.sectionWrap}>
         <button
           onClick={() => toggleSection('collection')}
           className={theme.filterSidebar.sectionButton}
@@ -98,7 +98,7 @@ const FilterSidebar = ({
       </div>
 
       {/* Sizes */}
-      <div className="border-b border-gray-200 pb-4 mb-4">
+      <div className={theme.filterSidebar.sectionWrap}>
         <button
           onClick={() => toggleSection('sizes')}
           className={theme.filterSidebar.sectionButton}
@@ -123,7 +123,7 @@ const FilterSidebar = ({
       </div>
 
       {/* Category */}
-      <div className="border-b border-gray-200 pb-4 mb-4">
+      <div className={theme.filterSidebar.sectionWrap}>
         <button
           onClick={() => toggleSection('category')}
           className={theme.filterSidebar.sectionButton}
@@ -148,7 +148,7 @@ const FilterSidebar = ({
       </div>
 
       {/* Colors */}
-      <div className="border-b border-gray-200 pb-4 mb-4">
+      <div className={theme.filterSidebar.sectionWrap}>
         <button
           onClick={() => toggleSection('colors')}
           className={theme.filterSidebar.sectionButton}
@@ -176,7 +176,7 @@ const FilterSidebar = ({
       </div>
 
       {/* Ratings */}
-      <div className="border-b border-gray-200 pb-4 mb-4">
+      <div className={theme.filterSidebar.sectionWrap}>
         <button
           onClick={() => toggleSection('ratings')}
           className={theme.filterSidebar.sectionButton}
