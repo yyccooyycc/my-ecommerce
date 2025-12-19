@@ -247,7 +247,7 @@ export default function ProductDetailsPage() {
             {displayImages[activeImageIndex] ? (
               <img
                 src={displayImages[activeImageIndex]}
-                alt={`${product.name} image ${activeImageIndex + 1}`}
+                alt={`${product.name} ${activeImageIndex + 1}`}
                 className="h-full w-full object-cover"
               />
             ) : (
