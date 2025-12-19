@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmy_ecommerce=self.webpackChunkmy_ecommerce||[]).push([[568],{568:(s,c,e)=>{e.r(c),e.d(c,{default:()=>g});var r=e(315),d=e(579);const g=()=>{const{id:s}=(0,r.g)();return(0,d.jsxs)("div",{className:"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-20",children:["ProductDetails with ProductID: ",s]})}}}]);
-//# sourceMappingURL=568.1bb934cd.chunk.js.map
