@@ -1,4 +1,29 @@
 const theme = {
+    /* -------------------------------------------------------------
+     * Navbar
+     * ------------------------------------------------------------- */
+    navbar: {
+      container: 'w-full bg-white shadow-sm flex items-center justify-between px-8 py-4',
+      logo: 'h-8 w-auto',
+      nav: 'flex items-center gap-8',
+      link: 'text-base font-medium text-neutral-700 hover:text-profile-primary transition-colors',
+      activeLink: 'text-profile-primary underline underline-offset-4',
+      right: 'flex items-center gap-4',
+    },
+  /* -------------------------------------------------------------
+   * Latest Arrivals
+   * ------------------------------------------------------------- */
+  latestArrivals: {
+    page: 'min-h-screen bg-neutral-100',
+    shell: 'mx-auto w-full max-w-[1280px] px-4 md:px-8',
+    container: 'flex-1 min-w-0 w-full px-4 md:px-8 box-border p-6 mt-10',
+    header: 'flex items-center justify-between mb-6 w-full px-0',
+    title: 'text-lg font-semibold text-neutral-900',
+    gridWrapper: '',
+    viewAllButton: 'ml-4 px-4 py-2 bg-profile-primary text-white rounded hover:bg-profile-primary-hover transition-colors',
+    viewAllText: 'text-base font-medium',
+    noProducts: 'text-center text-neutral-500 py-10',
+  },
   /* -------------------------------------------------------------
    * Shared helpers
    * ------------------------------------------------------------- */
@@ -125,8 +150,7 @@ const theme = {
    * ------------------------------------------------------------- */
   productGrid: {
     container:
-      'grid gap-4 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ' +
-      'w-full transition-all duration-300 ease-in-out',
+      'grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full transition-all duration-300 ease-in-out',
     card:
       'bg-white rounded-lg overflow-hidden shadow-sm ' +
       'border border-neutral-200 hover:shadow-md ' +
