@@ -1,15 +1,15 @@
 const theme = {
-    /* -------------------------------------------------------------
-     * Navbar
-     * ------------------------------------------------------------- */
-    navbar: {
-      container: 'w-full bg-white shadow-sm flex items-center justify-between px-8 py-4',
-      logo: 'h-8 w-auto',
-      nav: 'flex items-center gap-8',
-      link: 'text-base font-medium text-neutral-700 hover:text-profile-primary transition-colors',
-      activeLink: 'text-profile-primary underline underline-offset-4',
-      right: 'flex items-center gap-4',
-    },
+  /* -------------------------------------------------------------
+   * Navbar
+   * ------------------------------------------------------------- */
+  navbar: {
+    container: 'w-full bg-white shadow-sm flex items-center justify-between px-8 py-4',
+    logo: 'h-8 w-auto',
+    nav: 'flex items-center gap-8',
+    link: 'text-base font-medium text-neutral-700 hover:text-profile-primary transition-colors',
+    activeLink: 'text-profile-primary underline underline-offset-4',
+    right: 'flex items-center gap-4',
+  },
   /* -------------------------------------------------------------
    * Latest Arrivals
    * ------------------------------------------------------------- */
@@ -20,7 +20,8 @@ const theme = {
     header: 'flex items-center justify-between mb-6 w-full px-0',
     title: 'text-lg font-semibold text-neutral-900',
     gridWrapper: '',
-    viewAllButton: 'ml-4 px-4 py-2 bg-profile-primary text-white rounded hover:bg-profile-primary-hover transition-colors',
+    viewAllButton:
+      'ml-4 px-4 py-2 bg-profile-primary text-white rounded hover:bg-profile-primary-hover transition-colors',
     viewAllText: 'text-base font-medium',
     noProducts: 'text-center text-neutral-500 py-10',
   },
