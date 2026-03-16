@@ -257,7 +257,11 @@ const ProductListing = () => {
 
             {errorView}
 
-            <ProductGrid products={pagedProducts} className="w-full" isLoading={loading} />
+            <ProductGrid
+              products={pagedProducts}
+              className="w-full grid-cols-2 sm:grid-cols-3 xl:grid-cols-3"
+              isLoading={loading}
+            />
 
             {/* Pagination */}
             {filteredProducts.length > 0 && (
