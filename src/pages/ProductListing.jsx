@@ -258,7 +258,7 @@ const ProductListing = () => {
             {errorView}
 
             <ProductGrid
-              products={products}
+              products={filteredProducts}
               className={theme.productGrid.productListingCols}
               isLoading={loading}
             />
