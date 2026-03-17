@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import theme from '../../../assets/styles/theme';
 import logo from '../../../assets/images/navbar/stylenest.svg';
+import { Link, NavLink } from 'react-router-dom';
 
 const MenuIcon = ({ className = 'h-6 w-6' }) => (
   <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -40,8 +41,6 @@ export default function Navbar({
   onCartClick,
 }) {
   const [open, setOpen] = useState(false);
-
-  // remixicon css 有沒有載入：有→用 <i>，沒有→fallback svg
   const [hasRemix, setHasRemix] = useState(false);
   useEffect(() => {
     const el = document.createElement('i');
@@ -76,23 +75,28 @@ export default function Navbar({
               <MenuIcon />
             </button>
 
-            <a href="/" className={theme.navbar.brandWrap} aria-label="StyleNest home">
+            <Link to="/" className={theme.navbar.brandWrap} aria-label="StyleNest home">
               <img
                 src={logo}
                 alt="StyleNest"
                 className={theme.navbar.brandLogo}
                 draggable="false"
               />
-            </a>
+            </Link>
           </div>
 
           <nav className={`${theme.navbar.desktopNav} ${theme.navbar.centerGroup}`}>
             <ul className={theme.navbar.desktopNavList}>
               {links.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className={theme.navbar.desktopLink}>
+                  <NavLink
+                    to={l.href}
+                    className={({ isActive }) =>
+                      `${theme.navbar.desktopLink} ${isActive ? 'text-neutral-900' : ''}`
+                    }
+                  >
                     {l.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -114,7 +118,7 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Mobile drawer（先用簡單版） */}
+      {/* Mobile drawer */}
       {open && (
         <div className={theme.navbar.drawerOverlay}>
           <div className={theme.navbar.drawerPanelSimple}>
@@ -142,16 +146,16 @@ export default function Navbar({
               <ul className={theme.navbar.drawerLinks}>
                 {links.map((l) => (
                   <li key={l.href}>
-                    <a href={l.href} className="block" onClick={() => setOpen(false)}>
+                    <Link to={l.href} className="block" onClick={() => setOpen(false)}>
                       {l.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          {/* 點背景關閉 */}
+          {/* clickOutsideToClose */}
           <button
             className={theme.navbar.drawerBackdropBtn}
             onClick={() => setOpen(false)}

@@ -11,7 +11,12 @@ const LatestArrivals = lazy(() => import('./pages/LatestArrivals'));
 function App() {
   return (
     <Router basename="/my-ecommerce">
-      <Navbar />
+      <Navbar
+        links={[
+          { label: 'Shop all', href: '/product-listing' },
+          { label: 'Latest arrivals', href: '/latest-arrivals' },
+        ]}
+      />
       <div className="min-h-screen bg-gray-100 p-4">
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
