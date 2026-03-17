@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import theme from '../../../assets/styles/theme';
-import logo from '../../../assets/images/navbar/stylenest.svg';
+import theme from '../../assets/styles/theme';
+import logo from '../../assets/images/navbar/stylenest.svg';
 import { Link, NavLink } from 'react-router-dom';
 
 const MenuIcon = ({ className = 'h-6 w-6' }) => (
