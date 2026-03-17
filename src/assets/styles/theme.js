@@ -3,12 +3,43 @@ const theme = {
    * Navbar
    * ------------------------------------------------------------- */
   navbar: {
-    container: 'w-full bg-white shadow-sm flex items-center justify-between px-8 py-4',
-    logo: 'h-8 w-auto',
-    nav: 'flex items-center gap-8',
-    link: 'text-base font-medium text-neutral-700 hover:text-profile-primary transition-colors',
-    activeLink: 'text-profile-primary underline underline-offset-4',
-    right: 'flex items-center gap-4',
+    header: 'sticky top-0 z-40 bg-white',
+    container: 'mx-auto w-full max-w-[1440px] px-10',
+    row: 'w-full grid h-16 grid-cols-[auto,1fr,auto] items-center',
+
+    leftGroup: 'flex items-center gap-3 justify-self-start',
+    centerGroup: 'justify-self-center',
+    rightGroup: 'justify-self-end',
+
+    // desktop
+    desktopNav: 'hidden md:block',
+    desktopNavList: 'flex items-center gap-10 text-sm text-neutral-700 whitespace-nowrap',
+    desktopLink: 'hover:text-neutral-900',
+
+    // mobile menu button
+    mobileMenuButton:
+      'inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300 md:hidden',
+
+    cartButton:
+      'relative inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300',
+
+    cartBadge:
+      'absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-neutral-900 px-1 text-xs font-medium text-white',
+
+    brandWrap: 'flex items-center gap-2',
+    brandLogo: 'h-6 w-auto',
+
+    // --------- mobile drawer ----------
+    drawerOverlay: 'fixed inset-0 z-50 md:hidden',
+    drawerBackdropBtn: 'absolute inset-0 bg-black/20',
+    drawerPanelSimple: 'absolute left-0 top-0 h-full w-[320px] bg-white',
+
+    iconButton:
+      'inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300',
+
+    drawerTop: 'flex items-center justify-between px-6 pt-6',
+    drawerLinksWrap: 'mt-10 px-6',
+    drawerLinks: 'space-y-8 text-base text-neutral-900',
   },
   /* -------------------------------------------------------------
    * Latest Arrivals
