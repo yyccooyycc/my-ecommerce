@@ -4,11 +4,10 @@ import theme from '../../assets/styles/theme';
 
 const ProductGrid = ({ products, className = '', isLoading }) => {
   return (
-    <div className={`${theme.productGrid.container} ${className}`}>
+    <div className={`${theme.productGrid.base} ${className}`}>
       {isLoading
         ? Array.from({ length: 12 }).map((_, index) => (
             <div key={index} className={theme.productGrid.card}>
-              {/* Skeleton Image */}
               <div className={theme.productGrid.imageWrapper}>
                 <Skeleton
                   variant="rectangular"
@@ -18,7 +17,6 @@ const ProductGrid = ({ products, className = '', isLoading }) => {
                 />
               </div>
 
-              {/* Skeleton Text */}
               <div className={theme.productGrid.details}>
                 <Skeleton width="80%" height={20} />
                 <Skeleton width="60%" height={20} />

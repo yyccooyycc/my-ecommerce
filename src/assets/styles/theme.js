@@ -15,8 +15,8 @@ const theme = {
    * ------------------------------------------------------------- */
   latestArrivals: {
     page: 'min-h-screen bg-neutral-100',
-    shell: 'mx-auto w-full max-w-[1280px] px-4 md:px-8',
-    container: 'flex-1 min-w-0 w-full px-4 md:px-8 box-border p-6 mt-10',
+    shell: 'mx-auto w-full max-w-[1328px] px-4 md:px-8',
+    container: 'mx-auto w-full max-w-[1620px] px-8 xl:px-12 mt-10',
     header: 'flex items-center justify-between mb-6 w-full px-0',
     title: 'text-lg font-semibold text-neutral-900',
     gridWrapper: '',
@@ -101,9 +101,9 @@ const theme = {
    * ------------------------------------------------------------- */
   productListing: {
     page: 'min-h-screen bg-neutral-100',
-    shell: 'mx-auto w-full max-w-[1280px] px-4 md:px-8',
-    layout: 'flex gap-8',
-    container: 'flex-1 min-w-0 w-full px-4 md:px-8 box-border',
+    shell: 'mx-auto w-full max-w-[1520px] px-6 xl:px-8',
+    layout: 'flex gap-10',
+    container: 'flex-1 min-w-0 w-full box-border',
     header: 'flex justify-between items-center mb-6 w-full',
     title: 'text-lg font-semibold text-neutral-900',
     grid:
@@ -150,18 +150,20 @@ const theme = {
    * Product Grid
    * ------------------------------------------------------------- */
   productGrid: {
-    container:
-      'grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full transition-all duration-300 ease-in-out',
+    base:
+      'grid w-full gap-6 sm:gap-8 md:gap-10 lg:gap-12 ' +
+      'grid-cols-1 md:grid-cols-2 transition-all duration-300 ease-in-out',
+
+    latestArrivalsCols: 'xl:grid-cols-4 xl:gap-10',
+    productListingCols: 'xl:grid-cols-3',
+
     card:
       'bg-white rounded-lg overflow-hidden shadow-sm ' +
-      'border border-neutral-200 hover:shadow-md ' +
-      'transition-all duration-200',
-    imageWrapper: 'w-full aspect-square overflow-hidden bg-neutral-100',
-    image: 'w-full h-full object-cover',
-    details: 'p-3 flex flex-col gap-1',
-    colorDot: 'w-3 h-3 rounded-full inline-block border',
-    title: 'text-sm font-medium text-gray-800 truncate',
-    price: 'text-sm text-gray-600',
+      'border border-neutral-200 hover:shadow-md transition-all duration-200',
+
+    imageWrapper: 'w-full aspect-[4/5] overflow-hidden bg-neutral-100 relative',
+    image: 'w-full h-full object-cover transition-opacity duration-300',
+    details: 'p-3 flex flex-col gap-2',
   },
 
   /* -------------------------------------------------------------
@@ -171,7 +173,7 @@ const theme = {
     container:
       'w-64 p-4 border-r border-neutral-200 h-screen bg-white ' +
       'fixed top-0 left-0 z-40 ' + // mobile: overlay
-      'lg:sticky lg:top-0 lg:z-auto lg:bg-transparent', //desktop
+      'lg:sticky lg:top-0 lg:z-auto lg:bg-transparent lg:block', //desktop
     sectionWrap: 'border-b border-gray-200 pb-4 px-6',
     open: 'transition-transform duration-300 ease-in-out translate-x-0',
     close: 'transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0',

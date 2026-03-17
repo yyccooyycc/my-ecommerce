@@ -54,7 +54,7 @@ const LatestArrivals = () => {
       </div>
 
       <div className="mt-4">
-        <ProductGrid products={products} className="grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full" />
+        <ProductGrid products={products} className={theme.productGrid.latestArrivalsCols} />
       </div>
     </div>
   );
