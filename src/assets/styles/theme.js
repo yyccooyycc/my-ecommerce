@@ -3,43 +3,30 @@ const theme = {
    * Navbar
    * ------------------------------------------------------------- */
   navbar: {
-    header: 'sticky top-0 z-40 bg-white',
-    container: 'mx-auto w-full max-w-[1440px] px-10',
-    row: 'w-full grid h-16 grid-cols-[auto,1fr,auto] items-center',
-
-    leftGroup: 'flex items-center gap-3 justify-self-start',
-    centerGroup: 'justify-self-center',
-    rightGroup: 'justify-self-end',
-
-    // desktop
-    desktopNav: 'hidden md:block',
-    desktopNavList: 'flex items-center gap-10 text-sm text-neutral-700 whitespace-nowrap',
-    desktopLink: 'hover:text-neutral-900',
-
-    // mobile menu button
-    mobileMenuButton:
-      'inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300 md:hidden',
-
+    header: 'border-b border-neutral-200 bg-white',
+    container: 'mx-auto w-full max-w-[1440px] px-4 md:px-8 lg:px-10 xl:px-12',
+    row: 'flex h-16 items-center justify-between',
+    leftCluster: 'flex items-center min-w-0',
+    leftGroup: 'flex items-center gap-6',
+    brandWrap: 'flex shrink-0 items-center',
+    brandLogo: 'h-8 w-auto',
+    desktopNav: 'hidden md:block md:ml-14 lg:ml-16 xl:ml-24',
+    desktopNavList: 'flex items-center gap-6',
+    desktopLink: 'text-[15px] font-medium text-neutral-600 transition hover:text-neutral-900',
+    rightGroup: 'flex shrink-0 items-center justify-end',
     cartButton:
-      'relative inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300',
-
+      'relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-neutral-900 transition hover:bg-neutral-100',
+    cartIcon: 'block h-5 w-5 text-[20px] leading-none',
     cartBadge:
-      'absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-neutral-900 px-1 text-xs font-medium text-white',
-
-    brandWrap: 'flex items-center gap-2',
-    brandLogo: 'h-6 w-auto',
-
-    // --------- mobile drawer ----------
-    drawerOverlay: 'fixed inset-0 z-50 md:hidden',
-    drawerBackdropBtn: 'absolute inset-0 bg-black/20',
-    drawerPanelSimple: 'absolute left-0 top-0 h-full w-[320px] bg-white',
-
-    iconButton:
-      'inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300',
-
-    drawerTop: 'flex items-center justify-between px-6 pt-6',
-    drawerLinksWrap: 'mt-10 px-6',
-    drawerLinks: 'space-y-8 text-base text-neutral-900',
+      'absolute -right-1 -top-1 min-w-[18px] rounded-full bg-black px-1 text-center text-[11px] font-semibold leading-[18px] text-white',
+    mobileMenuButton: 'inline-flex h-10 w-10 items-center justify-center md:hidden',
+    drawerOverlay: 'fixed inset-0 z-50 flex',
+    drawerPanelSimple: 'relative z-10 h-full w-[82%] max-w-sm bg-white p-6 shadow-xl',
+    drawerTop: 'flex items-center justify-between',
+    iconButton: 'inline-flex h-10 w-10 items-center justify-center',
+    drawerLinksWrap: 'mt-10',
+    drawerLinks: 'space-y-6 text-lg font-medium text-neutral-900',
+    drawerBackdropBtn: 'absolute inset-0 bg-black/30',
   },
   /* -------------------------------------------------------------
    * Latest Arrivals

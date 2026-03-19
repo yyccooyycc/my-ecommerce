@@ -48,9 +48,9 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
 
   const CartIcon = useMemo(() => {
     return hasRemix ? (
-      <i className="ri-shopping-bag-line text-xl" aria-hidden="true" />
+      <i className={`ri-shopping-bag-line ${theme.navbar.cartIcon}`} aria-hidden="true" />
     ) : (
-      <BagIconFallback />
+      <BagIconFallback className={theme.navbar.cartIcon} />
     );
   }, [hasRemix]);
 
@@ -58,7 +58,7 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
     <header className={theme.navbar.header}>
       <div className={theme.navbar.container}>
         <div className={theme.navbar.row}>
-          <div className={theme.navbar.leftGroup}>
+          <div className={theme.navbar.leftCluster}>
             <button
               type="button"
               className={theme.navbar.mobileMenuButton}
@@ -76,24 +76,24 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
                 draggable="false"
               />
             </Link>
-          </div>
 
-          <nav className={`${theme.navbar.desktopNav} ${theme.navbar.centerGroup}`}>
-            <ul className={theme.navbar.desktopNavList}>
-              {links.map((l) => (
-                <li key={l.href}>
-                  <NavLink
-                    to={l.href}
-                    className={({ isActive }) =>
-                      `${theme.navbar.desktopLink} ${isActive ? 'text-neutral-900' : ''}`
-                    }
-                  >
-                    {l.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
+            <nav className={theme.navbar.desktopNav}>
+              <ul className={theme.navbar.desktopNavList}>
+                {links.map((l) => (
+                  <li key={l.href}>
+                    <NavLink
+                      to={l.href}
+                      className={({ isActive }) =>
+                        `${theme.navbar.desktopLink} ${isActive ? 'text-neutral-900' : ''}`
+                      }
+                    >
+                      {l.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
 
           <div className={theme.navbar.rightGroup}>
             <button
@@ -116,14 +116,14 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
         <div className={theme.navbar.drawerOverlay}>
           <div className={theme.navbar.drawerPanelSimple}>
             <div className={theme.navbar.drawerTop}>
-              <a href="/" className={theme.navbar.brandWrap} onClick={() => setOpen(false)}>
+              <Link to="/" className={theme.navbar.brandWrap} onClick={() => setOpen(false)}>
                 <img
                   src={logo}
                   alt="StyleNest"
                   className={theme.navbar.brandLogo}
                   draggable="false"
                 />
-              </a>
+              </Link>
 
               <button
                 type="button"
