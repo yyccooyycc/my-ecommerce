@@ -32,14 +32,7 @@ const BagIconFallback = ({ className = 'h-5 w-5' }) => (
   </svg>
 );
 
-export default function Navbar({
-  links = [
-    { label: 'Shop all', href: '/shop' },
-    { label: 'Latest arrivals', href: '/latest' },
-  ],
-  cartCount = 0,
-  onCartClick,
-}) {
+export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
   const [open, setOpen] = useState(false);
   const [hasRemix, setHasRemix] = useState(false);
   useEffect(() => {
