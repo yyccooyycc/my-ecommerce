@@ -59,15 +59,6 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
       <div className={theme.navbar.container}>
         <div className={theme.navbar.row}>
           <div className={theme.navbar.leftCluster}>
-            <button
-              type="button"
-              className={theme.navbar.mobileMenuButton}
-              onClick={() => setOpen(true)}
-              aria-label="Open menu"
-            >
-              <MenuIcon />
-            </button>
-
             <Link to="/" className={theme.navbar.brandWrap} aria-label="StyleNest home">
               <img
                 src={logo}
@@ -106,6 +97,14 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
               {cartCount > 0 && (
                 <span className={theme.navbar.cartBadge}>{cartCount > 99 ? '99+' : cartCount}</span>
               )}
+            </button>
+            <button
+              type="button"
+              className={theme.navbar.mobileMenuButton}
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+            >
+              <MenuIcon />
             </button>
           </div>
         </div>
