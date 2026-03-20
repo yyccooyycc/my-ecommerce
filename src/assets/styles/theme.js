@@ -128,8 +128,7 @@ const theme = {
       'grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 ' +
       'grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full',
     sortSelect:
-      'border border-gray-300 rounded px-3 py-2 text-sm bg-white hover:bg-gray-50 ' +
-      'cursor-pointer w-28 md:w-32 font-semibold text-gray-900',
+      'border border-gray-300 rounded px-3 py-2 text-sm bg-white hover:bg-gray-50 cursor-pointer min-w-[160px] font-semibold text-gray-900',
     sortSelectPlaceholder: 'text-gray-400',
     sortSelectValue: 'text-gray-900',
   },
