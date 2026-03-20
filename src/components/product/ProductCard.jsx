@@ -1,22 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import theme from '../../assets/styles/theme';
 import { useNavigate } from 'react-router-dom';
 
-function ProductCard({ product }) {
+const imageCache = new Set();
+const MIN_SKELETON_MS = 150;
+
+function ProductCard({ product, priority = false }) {
   const navigate = useNavigate();
 
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
   const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const loadStartRef = useRef(Date.now());
+
+  useEffect(() => {
+    setSelectedColor(product.colors?.[0] || '');
+  }, [product.product_id]);
+
   const handleColorSelect = (event, color) => {
     event.stopPropagation();
+    if (color === selectedColor) return;
     setSelectedColor(color);
   };
 
-  const filteredImages = product.images.filter((img) => img.color === selectedColor);
+  const filteredImages = useMemo(() => {
+    return product.images?.filter((img) => img.color === selectedColor) || [];
+  }, [product.images, selectedColor]);
 
-  const selectedInventory = product.inventory.find((inv) => inv.color === selectedColor) || {};
+  const displayImage = filteredImages[0]?.image_url || product.images?.[0]?.image_url || '';
+
+  const selectedInventory = product.inventory?.find((inv) => inv.color === selectedColor) || {};
 
   const getCurrentPrice = () => {
     return selectedInventory.discount_percentage
@@ -29,20 +43,38 @@ function ProductCard({ product }) {
   };
 
   useEffect(() => {
-    let loaded = false;
+    if (!displayImage) {
+      setIsLoading(false);
+      return;
+    }
 
-    product.images.forEach((img) => {
-      const preloadedImg = new Image();
-      preloadedImg.src = img.image_url;
-      preloadedImg.loading = 'eager';
-      preloadedImg.onload = () => {
-        if (!loaded) {
-          setIsLoading(false);
-          loaded = true;
-        }
-      };
-    });
-  }, [product.images]);
+    loadStartRef.current = Date.now();
+
+    if (imageCache.has(displayImage)) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    const img = new Image();
+    img.src = displayImage;
+
+    img.onload = () => {
+      imageCache.add(displayImage);
+
+      const elapsed = Date.now() - loadStartRef.current;
+      const remaining = Math.max(0, MIN_SKELETON_MS - elapsed);
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remaining);
+    };
+
+    img.onerror = () => {
+      setIsLoading(false);
+    };
+  }, [displayImage]);
 
   return (
     <div
@@ -51,16 +83,23 @@ function ProductCard({ product }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`${theme.productGrid.imageWrapper} relative`}>
-        {isLoading && <div className={theme.productCard.skeleton} />}
+        {isLoading && <div className={`${theme.productCard.skeleton} absolute inset-0 z-10`} />}
 
-        {filteredImages.length > 0 ? (
+        {displayImage ? (
           <img
-            key={filteredImages[0]?.image_url}
-            src={filteredImages[0]?.image_url}
+            key={`${product.product_id}-${selectedColor}-${displayImage}`}
+            src={displayImage}
             alt={`${product.name} - ${selectedColor}`}
-            className={`${theme.productGrid.image} ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            loading="lazy"
-            onLoad={() => setIsLoading(false)}
+            className={`${theme.productGrid.image} transition-opacity duration-300 ${
+              isLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
+            decoding="async"
+            onLoad={() => {
+              imageCache.add(displayImage);
+            }}
+            onError={() => setIsLoading(false)}
           />
         ) : (
           <div className={theme.productCard.noImage}>No Image Available</div>
@@ -85,24 +124,15 @@ function ProductCard({ product }) {
         <div className="flex items-center">
           {selectedInventory.discount_percentage ? (
             <>
-              <span
-                className={`${theme.productCard.price} line-through px-2`}
-                aria-label={`Original price ${selectedInventory.list_price} dollars`}
-              >
+              <span className={`${theme.productCard.price} line-through px-2`}>
                 ${selectedInventory.list_price}
               </span>
-              <span
-                className={`${theme.productCard.price} ${theme.productCard.priceDiscount}`}
-                aria-label={`Discounted price ${getCurrentPrice()} dollars`}
-              >
+              <span className={`${theme.productCard.price} ${theme.productCard.priceDiscount}`}>
                 ${getCurrentPrice()}
               </span>
             </>
           ) : (
-            <span
-              className={`${theme.productCard.price} px-2`}
-              aria-label={`Price ${selectedInventory.list_price} dollars`}
-            >
+            <span className={`${theme.productCard.price} px-2`}>
               ${selectedInventory.list_price}
             </span>
           )}
@@ -112,6 +142,7 @@ function ProductCard({ product }) {
           {product.colors.map((color, index) => (
             <button
               key={color || index}
+              type="button"
               style={{ backgroundColor: color }}
               onClick={(event) => handleColorSelect(event, color)}
               role="checkbox"
