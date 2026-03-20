@@ -30,16 +30,7 @@ const LatestArrivals = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <p>Loading products...</p>;
   if (error) return <p>Error: {error}</p>;
-
-  if (products.length === 0) {
-    return (
-      <div className={theme.latestArrivals.noProducts}>
-        No products available based on your filters.
-      </div>
-    );
-  }
 
   return (
     <div className={theme.latestArrivals.container}>
@@ -54,7 +45,12 @@ const LatestArrivals = () => {
       </div>
 
       <div className="mt-4">
-        <ProductGrid products={products} className={theme.productGrid.latestArrivalsCols} />
+        <ProductGrid
+          products={loading ? [] : products}
+          isLoading={loading}
+          className={theme.productGrid.latestArrivalsCols}
+          emptyMessage="No products available based on your filters."
+        />
       </div>
     </div>
   );
