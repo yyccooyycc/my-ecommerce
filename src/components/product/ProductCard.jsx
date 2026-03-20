@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import theme from '../../assets/styles/theme';
 import { useNavigate } from 'react-router-dom';
+import { getOptimizedImageUrl } from '../../components/common/utils/imageUtils';
 
 const imageCache = new Set();
 const MIN_SKELETON_MS = 150;
@@ -28,8 +29,9 @@ function ProductCard({ product, priority = false }) {
     return product.images?.filter((img) => img.color === selectedColor) || [];
   }, [product.images, selectedColor]);
 
-  const displayImage = filteredImages[0]?.image_url || product.images?.[0]?.image_url || '';
-
+  const displayImage = filteredImages[0]?.image_url
+    ? getOptimizedImageUrl(filteredImages[0].image_url, 'medium')
+    : '';
   const selectedInventory = product.inventory?.find((inv) => inv.color === selectedColor) || {};
 
   const getCurrentPrice = () => {
