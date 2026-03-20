@@ -176,6 +176,7 @@ const theme = {
 
     latestArrivalsCols: 'xl:grid-cols-4 xl:gap-10',
     productListingCols: 'xl:grid-cols-3',
+    emptyState: 'py-12 text-center text-neutral-500',
 
     card:
       'bg-white rounded-lg overflow-hidden shadow-sm ' +

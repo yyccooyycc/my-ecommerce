@@ -34,7 +34,7 @@ const ProductGrid = ({
   }
 
   if (!products.length) {
-    return <div className={theme.latestArrivals.noProducts}>{emptyMessage}</div>;
+    return <div className={theme.productGrid.emptyState}>{emptyMessage}</div>;
   }
 
   return (
