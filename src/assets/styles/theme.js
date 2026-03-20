@@ -159,9 +159,11 @@ const theme = {
     noImage:
       'w-full h-[300px] bg-gray-200 flex items-center justify-center ' + 'text-gray-500 rounded-lg',
     priceDiscount: 'text-red-500 ml-2 px-2',
-    colorButton: 'w-6 h-6 rounded-full cursor-pointer',
+    colorButton:
+      'w-6 h-6 rounded-full cursor-pointer border border-neutral-300 shadow-sm transition ' +
+      'hover:scale-105 hover:shadow',
     colorButtonOutOfStock: 'opacity-50 cursor-not-allowed',
-    colorButtonSelected: 'border-2 border-black',
+    colorButtonSelected: 'ring-2 ring-neutral-900 ring-offset-2',
   },
 
   /* -------------------------------------------------------------
