@@ -1,5 +1,5 @@
 import theme from '../assets/styles/theme';
-import avatar from '../assets/images/profile/profile.png';
+import avatar from '../assets/images/profile/Oimage.png';
 
 const t = theme.homePage;
 
@@ -16,19 +16,19 @@ function HomePage() {
       <section className={theme.homePage.card}>
         {/* Avatar */}
         <div className={t.avatarWrapper}>
-          <img src={avatar} alt="Profile of Sarah Dole" className={t.avatar} />
+          <img src={avatar} alt="Profile of Olivia Huang" className={t.avatar} />
         </div>
 
         {/* Name + role */}
         <div>
-          <h1 className={t.name}>Sarah Dole</h1>
-          <p className={t.role}>Front End Engineer @ Microsoft</p>
+          <h1 className={t.name}>Olivia Huang</h1>
+          <p className={t.role}>Front End Engineer</p>
         </div>
 
         {/* Bio */}
         <p className={t.bio}>
-          I turn coffee into bugs which are fixed by someone else. Certified Stack Overflow and
-          ChatGPT developer.
+          Powered by coffee, React, and TypeScript — building scalable UIs and surviving legacy
+          Angular along the way.
         </p>
 
         {/* CTA Button */}
@@ -41,7 +41,7 @@ function HomePage() {
           {socialLinks.map((item) => (
             <a
               key={item.label}
-              href="https://www.greatfrontend.com/projects/challenges/profile-card"
+              href="https://www.linkedin.com/in/yulhuang/"
               aria-label={item.label}
               className={t.socialLink}
             >
