@@ -10,20 +10,20 @@ const perPage = 9;
 
 const ProductListing = () => {
   const [filters, setFilters] = useState({
-    collection: [], // collection_id[]
-    category: [], // category_id[]
-    sizes: [], // size code[]
-    colors: [], // color[]
-    ratings: [], // [5,4,3...]
+    collection: [],
+    category: [],
+    sizes: [],
+    colors: [],
+    ratings: [],
     sort: '',
     direction: 'desc',
   });
 
-  const { collections } = useFetchCollections();
-  const { products, loading, error } = useFetchProducts();
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
+
+  const { collections } = useFetchCollections();
+  const { products, loading, error, pagination } = useFetchProducts({ page, perPage });
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1025px)');
@@ -44,13 +44,11 @@ const ProductListing = () => {
     const map = new Map();
     products.forEach((p) => {
       const cat = p.category;
-      if (cat?.category_id) {
-        if (!map.has(cat.category_id)) {
-          map.set(cat.category_id, {
-            id: cat.category_id,
-            label: cat.name,
-          });
-        }
+      if (cat?.category_id && !map.has(cat.category_id)) {
+        map.set(cat.category_id, {
+          id: cat.category_id,
+          label: cat.name,
+        });
       }
     });
     return Array.from(map.values());
@@ -89,11 +87,9 @@ const ProductListing = () => {
       .filter((p) => {
         const pid = p.collection?.collection_id ?? null;
 
-        // collections union
         const matchCollection =
           selectedCollections.length === 0 || selectedCollections.includes(pid);
 
-        // sizes union
         const allSizes = [
           ...(p.sizes?.map((s) => String(s).toLowerCase()) ?? []),
           ...(p.inventory
@@ -104,21 +100,17 @@ const ProductListing = () => {
         const matchSizes =
           filters.sizes.length === 0 || allSizes.some((s) => filters.sizes.includes(s));
 
-        // colors union
         const allColors = p.colors ?? [];
         const matchColors =
           filters.colors.length === 0 || allColors.some((c) => filters.colors.includes(c));
 
-        // ratings union
         const matchRatings =
           filters.ratings.length === 0 ||
           filters.ratings.some((r) => p.rating >= r && p.rating < r + 1);
 
-        // category union
         const matchCategory =
           filters.category.length === 0 || filters.category.includes(p.category?.category_id);
 
-        // intersection
         return matchCollection && matchSizes && matchColors && matchRatings && matchCategory;
       })
       .sort((a, b) => {
@@ -152,14 +144,9 @@ const ProductListing = () => {
       });
   }, [products, filters]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / perPage));
-  const pagedProducts = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return filteredProducts.slice(start, start + perPage);
-  }, [filteredProducts, page]);
-
   const handleSortChange = (e) => {
     const value = e.target.value;
+
     switch (value) {
       case 'price-asc':
         setFilters((prev) => ({ ...prev, sort: 'price', direction: 'asc' }));
@@ -192,7 +179,7 @@ const ProductListing = () => {
     }
   };
 
-  const errorView = error ? <p className="text-red-500 mt-4">{error}</p> : null;
+  const hasMore = pagination?.has_more ?? false;
 
   return (
     <div className={theme.productListing.page}>
@@ -205,8 +192,6 @@ const ProductListing = () => {
             <FiFilter className={theme.filterSidebar.filterIcon} />
             <span className={theme.filterSidebar.filterText}>Filter</span>
           </button>
-
-          {/* Sidebar */}
 
           <FilterSidebar
             filters={filters}
@@ -226,9 +211,7 @@ const ProductListing = () => {
             />
           )}
 
-          {/* Product Section */}
           <div className={theme.productListing.container}>
-            {/* Header */}
             <div className={`${theme.shared.header} ${theme.productListing.header}`}>
               <span></span>
 
@@ -255,32 +238,30 @@ const ProductListing = () => {
               </select>
             </div>
 
-            {errorView}
+            {error && <p className="text-red-500 mt-4">{error}</p>}
 
             <ProductGrid
-              products={pagedProducts}
+              products={filteredProducts}
               className={theme.productGrid.productListingCols}
               isLoading={loading}
+              currentPage={page}
             />
 
-            {/* Pagination */}
-            {filteredProducts.length > 0 && (
+            {(page > 1 || hasMore) && (
               <div className="flex justify-center items-center mt-8 gap-4">
                 <button
-                  disabled={page === 1}
+                  disabled={page === 1 || loading}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   className="px-4 py-2 border rounded disabled:opacity-50"
                 >
                   Prev
                 </button>
 
-                <span>
-                  Page {page} of {totalPages}
-                </span>
+                <span>Page {page}</span>
 
                 <button
-                  disabled={page === totalPages}
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={!hasMore || loading}
+                  onClick={() => setPage((p) => p + 1)}
                   className="px-4 py-2 border rounded disabled:opacity-50"
                 >
                   Next
