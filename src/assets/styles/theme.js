@@ -12,7 +12,7 @@ const theme = {
     brandLogo: 'h-8 w-auto',
     desktopNav: 'hidden md:block md:ml-14 lg:ml-16 xl:ml-24',
     desktopNavList: 'flex items-center gap-6',
-    desktopLink: 'text-[15px] font-medium text-neutral-600 transition hover:text-neutral-900',
+    desktopLink: 'text-[17px] font-medium text-neutral-600 transition hover:text-neutral-900',
     rightGroup: 'flex shrink-0 items-center justify-end',
     cartButton:
       'relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-neutral-900 transition hover:bg-neutral-100',
@@ -36,7 +36,7 @@ const theme = {
     shell: 'mx-auto w-full max-w-[1328px] px-4 md:px-8',
     container: 'mx-auto w-full max-w-[1620px] px-8 xl:px-12 mt-10',
     header: 'flex items-center justify-between mb-6 w-full px-0',
-    title: 'text-lg font-semibold text-neutral-900',
+    title: 'text-3xl font-semibold text-neutral-900',
     gridWrapper: '',
     viewAllButton:
       'ml-4 px-4 py-2 bg-profile-primary text-white rounded hover:bg-profile-primary-hover transition-colors',
