@@ -287,6 +287,36 @@ const theme = {
       'flex items-center justify-center h-6 w-6 rounded-full border border-neutral-300 bg-white',
     accordionIcon: 'text-xs leading-none text-neutral-700',
   },
+
+  /* -------------------------------------------------------------
+   * Feature Collections
+   * ------------------------------------------------------------- */
+
+  featuredCollections: {
+    section: 'w-full bg-white',
+    container: 'mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16',
+    heading:
+      'text-[24px] font-semibold leading-[32px] tracking-[-0.02em] text-neutral-900 sm:text-[30px] sm:leading-[38px]',
+    grid: 'mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-5',
+    primaryCard:
+      'group relative min-h-[360px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-neutral-900 md:min-h-[520px] lg:min-h-[420px]',
+    secondaryColumn: 'grid grid-cols-1 gap-4 md:gap-5',
+    secondaryCard:
+      'group relative min-h-[220px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-neutral-900 md:min-h-[247px] lg:min-h-[200px]',
+    cardButton:
+      'relative flex h-full w-full cursor-pointer items-end overflow-hidden rounded-2xl text-left outline-none',
+    image:
+      'absolute inset-0 h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.04] group-focus-within:scale-[1.04]',
+    overlay:
+      'absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-black/5 transition duration-300 group-hover:from-black/60 group-focus-within:from-black/60',
+    content: 'relative z-10 flex w-full flex-col gap-1 p-4 sm:p-5 lg:p-6',
+    name: 'text-[14px] font-medium leading-[20px] text-white sm:text-[15px] sm:leading-[22px]',
+    description:
+      'text-[18px] font-medium leading-[24px] tracking-[-0.01em] text-white sm:text-[20px] sm:leading-[28px] lg:text-[24px] lg:leading-[32px]',
+    skeleton: 'animate-pulse rounded-2xl bg-neutral-200',
+    skeletonPrimary: 'min-h-[360px] md:min-h-[520px] lg:min-h-[420px]',
+    skeletonSecondary: 'min-h-[220px] md:min-h-[247px] lg:min-h-[200px]',
+  },
 };
 
 const COLOR_CLASS_MAP = {
