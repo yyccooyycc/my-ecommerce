@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import theme from '../assets/styles/theme';
-import useFetchCollections from '../components/hooks/useFetchCollections';
+import useFetchCollections from '../components/hooks/useFetchCollectionOptions';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 import FilterSidebar from '../components/filters/FilterSidebar';
 import ProductGrid from '../components/product/ProductGrid';
