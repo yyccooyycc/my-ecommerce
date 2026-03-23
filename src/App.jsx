@@ -7,6 +7,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const ProductListing = lazy(() => import('./pages/ProductListing'));
 const ProductDetails = lazy(() => import('./pages/ProductDetails'));
 const LatestArrivals = lazy(() => import('./pages/LatestArrivals'));
+const AboutMe = lazy(() => import('./pages/AboutMe'));
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/product-listing" element={<ProductListing />} />
             <Route path="/latest-arrivals" element={<LatestArrivals />} />
+            <Route path="/about-me" element={<AboutMe />} />
+            <Route path="*" element={<div>404</div>} />
           </Routes>
         </Suspense>
       </div>
