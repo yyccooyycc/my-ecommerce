@@ -44,12 +44,6 @@ const FilterSidebar = ({
         updatedValues.push(value);
       }
 
-      if (filterType === FILTER_KEYS.COLLECTIONS) {
-        if (updatedValues.length === 0) {
-          updatedValues = ['latest'];
-        }
-      }
-
       return {
         ...prev,
         [filterType]: updatedValues,

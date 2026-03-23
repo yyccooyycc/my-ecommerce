@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import theme from '../assets/styles/theme';
-import useFetchCollections from '../components/hooks/useFetchCollectionOptions';
+import useFetchCollectionOptions from '../components/hooks/useFetchCollectionOptions';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 import FilterSidebar from '../components/filters/FilterSidebar';
 import ProductGrid from '../components/product/ProductGrid';
@@ -9,6 +10,7 @@ import { FiFilter } from 'react-icons/fi';
 const perPage = 9;
 
 const ProductListing = () => {
+  const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
     collection: [],
     category: [],
@@ -19,11 +21,28 @@ const ProductListing = () => {
     direction: 'desc',
   });
 
+  const collectionFromUrl = searchParams.get('collection');
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
 
-  const { collections } = useFetchCollections();
+  const { collections } = useFetchCollectionOptions();
   const { products, loading, error, pagination } = useFetchProducts({ page, perPage });
+
+  useEffect(() => {
+    if (!collectionFromUrl) return;
+
+    setFilters((prev) => {
+      if (prev.collection.includes(collectionFromUrl)) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        collection: [collectionFromUrl],
+      };
+    });
+  }, [collectionFromUrl]);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1025px)');
@@ -81,7 +100,7 @@ const ProductListing = () => {
   const filteredProducts = useMemo(() => {
     if (!products || products.length === 0) return [];
 
-    const selectedCollections = (filters.collection || []).filter((id) => id !== 'latest');
+    const selectedCollections = filters.collection || [];
 
     return [...products]
       .filter((p) => {

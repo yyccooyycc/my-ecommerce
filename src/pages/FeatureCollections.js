@@ -10,7 +10,7 @@ function FeaturedCollections() {
   const { collections, loading, error } = useFetchFeaturedCollections();
 
   const handleCollectionClick = (collection) => {
-    navigate(`/products?collection=${collection.collection_id}`);
+    navigate(`/product-listing?collection=${collection.collection_id}`);
   };
 
   if (error) {
