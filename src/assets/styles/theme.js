@@ -334,6 +334,67 @@ const theme = {
     imageOnlyImage:
       'absolute inset-0 h-full w-full object-cover transition duration-500 ease-out hover:scale-[1.03]',
   },
+
+  /* -------------------------------------------------------------
+   * Shopping Cart
+   * ------------------------------------------------------------- */
+
+  cartPage: {
+    page: 'bg-white',
+    container: 'mx-auto max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14',
+    title: 'text-[32px] font-semibold tracking-[-0.02em] text-neutral-900',
+    layout: 'mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px]',
+    itemsColumn: 'space-y-0',
+    summaryColumn: 'lg:sticky lg:top-24 lg:self-start',
+    emptyWrap:
+      'flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-neutral-200 bg-neutral-50 px-6 text-center',
+    emptyTitle: 'mt-4 text-xl font-semibold text-neutral-900',
+    emptyText: 'mt-2 max-w-md text-sm leading-6 text-neutral-500',
+    emptyButton:
+      'mt-6 inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:opacity-90',
+  },
+
+  cartItem: {
+    row: 'grid grid-cols-[112px_minmax(0,1fr)_auto] gap-4 border-b border-neutral-200 py-6 sm:grid-cols-[140px_minmax(0,1fr)_auto] sm:gap-6',
+    imageWrap: 'overflow-hidden rounded-xl bg-neutral-100',
+    image: 'h-[112px] w-full object-cover sm:h-[140px]',
+    infoWrap: 'min-w-0',
+    productName: 'text-xl font-medium text-neutral-900',
+    meta: 'mt-2 text-sm text-neutral-500',
+    description: 'mt-3 max-w-[520px] text-sm leading-6 text-neutral-500',
+    actionsRow: 'mt-4 flex flex-wrap items-center gap-3',
+    quantityWrap: 'inline-flex items-center rounded-lg border border-neutral-200 bg-white',
+    quantityButton:
+      'inline-flex h-9 w-9 items-center justify-center text-sm text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-40',
+    quantityValue:
+      'inline-flex min-w-[36px] items-center justify-center text-sm font-medium text-neutral-900',
+    removeButton:
+      'text-sm text-neutral-500 underline-offset-4 transition hover:text-neutral-900 hover:underline',
+    priceWrap: 'flex min-w-[88px] flex-col items-end justify-between',
+    price: 'text-sm font-semibold text-neutral-900 sm:text-base',
+    originalPrice: 'mt-1 text-xs text-neutral-400 line-through',
+  },
+
+  orderSummary: {
+    card: 'rounded-2xl border border-neutral-200 bg-[#faf8f7] p-5 sm:p-6',
+    title: 'text-2xl font-semibold text-neutral-900',
+    row: 'mt-5 flex items-center justify-between text-sm text-neutral-600',
+    value: 'font-medium text-neutral-900',
+    freeValue: 'font-semibold text-neutral-900',
+    couponButton:
+      'mt-4 inline-flex text-sm font-medium text-indigo-600 transition hover:text-indigo-700',
+    divider: 'my-6 h-px bg-neutral-200',
+    totalRow: 'flex items-end justify-between',
+    totalLabel: 'text-[28px] font-semibold tracking-[-0.02em] text-neutral-900',
+    totalValue: 'text-[36px] font-semibold tracking-[-0.03em] text-neutral-900',
+    checkoutButton:
+      'mt-5 inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-indigo-700',
+    helperText: 'mt-3 text-xs leading-5 text-neutral-500',
+  },
+
+  cartButton: {
+    base: 'inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50',
+  },
 };
 
 const COLOR_CLASS_MAP = {

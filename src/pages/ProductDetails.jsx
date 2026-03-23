@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import theme, { COLOR_CLASS_MAP } from '../assets/styles/theme';
 import { useState, useEffect, useMemo } from 'react';
 import { fallbackSizes } from '../components/filters/filterOptions';
+import { addToCart } from '../components/common/utils/cartUtils';
 
 function getSizeLabel(size) {
   if (!size) return '';
@@ -201,18 +202,45 @@ export default function ProductDetailsPage() {
 
   const handleAddToCart = () => {
     if (!product || !selectedInventoryItem || isOutOfStock) return;
+    const cartItem = {
+      cartKey: [
+        product.product_id,
+        selectedInventoryItem.color || 'default',
+        selectedInventoryItem.size || 'default',
+        selectedInventoryItem.sku || 'default',
+      ].join('-'),
 
-    console.log('ADD TO CART', {
       productId: product.product_id,
       sku: selectedInventoryItem.sku,
-      color: selectedInventoryItem.color,
-      size: selectedInventoryItem.size,
-      quantity,
-      price: selectedInventoryItem.sale_price,
-    });
+      name: product.name,
+      slug: product.slug || product.product_id,
 
-    // todlo: integrate with cart state
-    // dispatch(addItem({...}))
+      color: selectedInventoryItem.color || '',
+      size: selectedInventoryItem.size || '',
+
+      quantity,
+
+      price: Number(selectedInventoryItem.sale_price ?? selectedInventoryItem.list_price ?? 0),
+      originalPrice:
+        selectedInventoryItem.list_price &&
+        selectedInventoryItem.sale_price &&
+        Number(selectedInventoryItem.list_price) > Number(selectedInventoryItem.sale_price)
+          ? Number(selectedInventoryItem.list_price)
+          : null,
+
+      image:
+        selectedInventoryItem.image_url ||
+        product.hero_image_url ||
+        product.images?.[0]?.image_url ||
+        '',
+
+      description: product.description || '',
+      maxQuantity: selectedInventoryItem.stock ?? null,
+    };
+
+    console.log('ADD TO CART', cartItem);
+
+    addToCart(cartItem);
   };
 
   const handleGoToReviews = () => {
