@@ -22,6 +22,7 @@ const ProductListing = () => {
   });
 
   const collectionFromUrl = searchParams.get('collection');
+  const colorFromUrl = searchParams.get('color');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,19 +31,14 @@ const ProductListing = () => {
   const { products, loading, error, pagination } = useFetchProducts({ page, perPage });
 
   useEffect(() => {
-    if (!collectionFromUrl) return;
+    if (!collectionFromUrl && !colorFromUrl) return;
 
-    setFilters((prev) => {
-      if (prev.collection.includes(collectionFromUrl)) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        collection: [collectionFromUrl],
-      };
-    });
-  }, [collectionFromUrl]);
+    setFilters((prev) => ({
+      ...prev,
+      collection: collectionFromUrl ? [collectionFromUrl] : prev.collection,
+      colors: colorFromUrl ? [colorFromUrl] : prev.colors,
+    }));
+  }, [collectionFromUrl, colorFromUrl]);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1025px)');

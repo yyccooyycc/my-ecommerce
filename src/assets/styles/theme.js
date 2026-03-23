@@ -302,7 +302,7 @@ const theme = {
       'group relative min-h-[360px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-neutral-900 md:min-h-[520px] lg:min-h-[420px]',
     secondaryColumn: 'grid grid-cols-1 gap-4 md:gap-5',
     secondaryCard:
-      'group relative min-h-[220px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-neutral-900 md:min-h-[247px] lg:min-h-[200px]',
+      'group relative min-h-[300px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-neutral-900 md:min-h-[360px] lg:min-h-[320px]',
     cardButton:
       'relative flex h-full w-full cursor-pointer items-end overflow-hidden rounded-2xl text-left outline-none',
     image:
@@ -316,6 +316,23 @@ const theme = {
     skeleton: 'animate-pulse rounded-2xl bg-neutral-200',
     skeletonPrimary: 'min-h-[360px] md:min-h-[520px] lg:min-h-[420px]',
     skeletonSecondary: 'min-h-[220px] md:min-h-[247px] lg:min-h-[200px]',
+    sectionStack: 'mt-12 space-y-12 md:mt-14 md:space-y-16 lg:mt-16 lg:space-y-20',
+
+    gridPrimary:
+      'grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]',
+    gridOrange: 'grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6',
+    gridDark: 'grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5',
+    darkLeftColumn: 'grid grid-cols-1 gap-4 md:gap-5',
+
+    halfCard:
+      'group relative min-h-[420px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-neutral-900 md:min-h-[620px] lg:min-h-[520px] xl:min-h-[620px] 2xl:min-h-[720px]',
+    darkLargeCard:
+      'group relative min-h-[420px] overflow-hidden rounded-2xl focus-within:ring-2 focus-within:ring-white md:min-h-[760px]',
+
+    imageOnlyButton:
+      'relative flex h-full w-full cursor-pointer overflow-hidden rounded-2xl outline-none',
+    imageOnlyImage:
+      'absolute inset-0 h-full w-full object-cover transition duration-500 ease-out hover:scale-[1.03]',
   },
 };
 
