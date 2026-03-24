@@ -12,12 +12,15 @@ function ProductCard({ product, priority = false }) {
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
   const [isHovered, setIsHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [renderedImage, setRenderedImage] = useState('');
+  const [hasError, setHasError] = useState(false);
 
-  const loadStartRef = useRef(Date.now());
+  const requestIdRef = useRef(0);
+  const loadStartRef = useRef(0);
 
   useEffect(() => {
     setSelectedColor(product.colors?.[0] || '');
-  }, [product.product_id]);
+  }, [product.product_id, product.colors]);
 
   const handleColorSelect = (event, color) => {
     event.stopPropagation();
@@ -29,9 +32,10 @@ function ProductCard({ product, priority = false }) {
     return product.images?.filter((img) => img.color === selectedColor) || [];
   }, [product.images, selectedColor]);
 
-  const displayImage = filteredImages[0]?.image_url
-    ? getOptimizedImageUrl(filteredImages[0].image_url, 'medium')
+  const targetImage = filteredImages[0]?.image_url
+    ? getOptimizedImageUrl(filteredImages[0].image_url, 600)
     : '';
+
   const selectedInventory = product.inventory?.find((inv) => inv.color === selectedColor) || {};
 
   const getCurrentPrice = () => {
@@ -45,14 +49,28 @@ function ProductCard({ product, priority = false }) {
   };
 
   useEffect(() => {
-    if (!displayImage) {
+    const requestId = ++requestIdRef.current;
+    setHasError(false);
+
+    if (!targetImage) {
+      setRenderedImage('');
+      setIsLoading(false);
+      setHasError(true);
+      return;
+    }
+
+    // 非首屏卡片：不要手動 preload，直接交給瀏覽器 lazy load
+    if (!priority) {
+      setRenderedImage(targetImage);
       setIsLoading(false);
       return;
     }
 
+    // 首屏 priority 卡片才做 preload + decode
     loadStartRef.current = Date.now();
 
-    if (imageCache.has(displayImage)) {
+    if (imageCache.has(targetImage)) {
+      setRenderedImage(targetImage);
       setIsLoading(false);
       return;
     }
@@ -60,23 +78,47 @@ function ProductCard({ product, priority = false }) {
     setIsLoading(true);
 
     const img = new Image();
-    img.src = displayImage;
+    img.src = targetImage;
 
-    img.onload = () => {
-      imageCache.add(displayImage);
+    const finishLoading = async () => {
+      try {
+        if (img.decode) {
+          await img.decode();
+        }
+      } catch (e) {
+        // ignore decode failure
+      }
+
+      if (requestId !== requestIdRef.current) return;
+
+      imageCache.add(targetImage);
 
       const elapsed = Date.now() - loadStartRef.current;
       const remaining = Math.max(0, MIN_SKELETON_MS - elapsed);
 
       setTimeout(() => {
+        if (requestId !== requestIdRef.current) return;
+        setRenderedImage(targetImage);
         setIsLoading(false);
       }, remaining);
     };
 
-    img.onerror = () => {
-      setIsLoading(false);
+    if (img.complete) {
+      finishLoading();
+    } else {
+      img.onload = finishLoading;
+      img.onerror = () => {
+        if (requestId !== requestIdRef.current) return;
+        setHasError(true);
+        setIsLoading(false);
+      };
+    }
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
     };
-  }, [displayImage]);
+  }, [targetImage, priority]);
 
   return (
     <div
@@ -87,10 +129,10 @@ function ProductCard({ product, priority = false }) {
       <div className={`${theme.productGrid.imageWrapper} relative`}>
         {isLoading && <div className={`${theme.productCard.skeleton} absolute inset-0 z-10`} />}
 
-        {displayImage ? (
+        {renderedImage && (
           <img
-            key={`${product.product_id}-${selectedColor}-${displayImage}`}
-            src={displayImage}
+            key={`${product.product_id}-${selectedColor}-${renderedImage}`}
+            src={renderedImage}
             alt={`${product.name} - ${selectedColor}`}
             className={`${theme.productGrid.image} transition-opacity duration-300 ${
               isLoading ? 'opacity-0' : 'opacity-100'
@@ -99,11 +141,18 @@ function ProductCard({ product, priority = false }) {
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
             onLoad={() => {
-              imageCache.add(displayImage);
+              if (!priority) {
+                imageCache.add(renderedImage);
+              }
             }}
-            onError={() => setIsLoading(false)}
+            onError={() => {
+              setHasError(true);
+              setIsLoading(false);
+            }}
           />
-        ) : (
+        )}
+
+        {!renderedImage && hasError && (
           <div className={theme.productCard.noImage}>No Image Available</div>
         )}
 

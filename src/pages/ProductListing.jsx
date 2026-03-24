@@ -17,7 +17,7 @@ const ProductListing = () => {
     sizes: [],
     colors: [],
     ratings: [],
-    sort: '',
+    sort: 'created',
     direction: 'desc',
   });
 
@@ -28,7 +28,6 @@ const ProductListing = () => {
   const [page, setPage] = useState(1);
 
   const { collections } = useFetchCollectionOptions();
-  const { products, loading, error, pagination } = useFetchProducts({ page, perPage });
 
   useEffect(() => {
     if (!collectionFromUrl && !colorFromUrl) return;
@@ -53,7 +52,27 @@ const ProductListing = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [filters]);
+  }, [
+    filters.collection,
+    filters.category,
+    filters.sizes,
+    filters.colors,
+    filters.ratings,
+    filters.sort,
+    filters.direction,
+  ]);
+
+  const { products, loading, error, pagination } = useFetchProducts({
+    page,
+    perPage,
+    collection: filters.collection,
+    category: filters.category,
+    color: filters.colors,
+    rating: filters.ratings,
+    sort: filters.sort,
+    direction: filters.direction,
+    minLoadingMs: 350,
+  });
 
   const categoryOptions = useMemo(() => {
     const map = new Map();
@@ -71,6 +90,7 @@ const ProductListing = () => {
 
   const sizeOptions = useMemo(() => {
     const set = new Set();
+
     products.forEach((p) => {
       (p.sizes || []).forEach((s) => set.add(String(s).toLowerCase()));
       (p.inventory || [])
@@ -93,71 +113,21 @@ const ProductListing = () => {
     return Array.from(set);
   }, [products]);
 
-  const filteredProducts = useMemo(() => {
-    if (!products || products.length === 0) return [];
+  const visibleProducts = useMemo(() => {
+    if (!filters.sizes.length) return products;
 
-    const selectedCollections = filters.collection || [];
+    return products.filter((p) => {
+      const allSizes = [
+        ...(p.sizes?.map((s) => String(s).toLowerCase()) ?? []),
+        ...(p.inventory
+          ?.map((inv) => inv.size)
+          .filter(Boolean)
+          .map((s) => String(s).toLowerCase()) ?? []),
+      ];
 
-    return [...products]
-      .filter((p) => {
-        const pid = p.collection?.collection_id ?? null;
-
-        const matchCollection =
-          selectedCollections.length === 0 || selectedCollections.includes(pid);
-
-        const allSizes = [
-          ...(p.sizes?.map((s) => String(s).toLowerCase()) ?? []),
-          ...(p.inventory
-            ?.map((inv) => inv.size)
-            .filter(Boolean)
-            .map((s) => String(s).toLowerCase()) ?? []),
-        ];
-        const matchSizes =
-          filters.sizes.length === 0 || allSizes.some((s) => filters.sizes.includes(s));
-
-        const allColors = p.colors ?? [];
-        const matchColors =
-          filters.colors.length === 0 || allColors.some((c) => filters.colors.includes(c));
-
-        const matchRatings =
-          filters.ratings.length === 0 ||
-          filters.ratings.some((r) => p.rating >= r && p.rating < r + 1);
-
-        const matchCategory =
-          filters.category.length === 0 || filters.category.includes(p.category?.category_id);
-
-        return matchCollection && matchSizes && matchColors && matchRatings && matchCategory;
-      })
-      .sort((a, b) => {
-        const sortKey = filters.sort || 'created';
-        const dir = filters.direction || 'desc';
-
-        let aValue;
-        let bValue;
-
-        switch (sortKey) {
-          case 'popular':
-            aValue = a.sold ?? 0;
-            bValue = b.sold ?? 0;
-            break;
-          case 'rating':
-            aValue = a.rating ?? 0;
-            bValue = b.rating ?? 0;
-            break;
-          case 'price':
-            aValue = dir === 'asc' ? (a.priceRange?.lowest ?? 0) : (a.priceRange?.highest ?? 0);
-            bValue = dir === 'asc' ? (b.priceRange?.lowest ?? 0) : (b.priceRange?.highest ?? 0);
-            break;
-          case 'created':
-          default:
-            aValue = new Date(a.created_at).getTime();
-            bValue = new Date(b.created_at).getTime();
-            break;
-        }
-
-        return dir === 'asc' ? aValue - bValue : bValue - aValue;
-      });
-  }, [products, filters]);
+      return allSizes.some((s) => filters.sizes.includes(s));
+    });
+  }, [products, filters.sizes]);
 
   const handleSortChange = (e) => {
     const value = e.target.value;
@@ -256,10 +226,11 @@ const ProductListing = () => {
             {error && <p className="text-red-500 mt-4">{error}</p>}
 
             <ProductGrid
-              products={filteredProducts}
+              products={visibleProducts}
               className={theme.productGrid.productListingCols}
               isLoading={loading}
               currentPage={page}
+              priorityCount={4}
             />
 
             {(page > 1 || hasMore) && (
