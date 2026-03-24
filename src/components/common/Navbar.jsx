@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import theme from '../../assets/styles/theme';
 import logo from '../../assets/images/navbar/stylenest.svg';
 import { Link, NavLink } from 'react-router-dom';
+import { getCartCount } from './utils/cartUtils';
 
 const MenuIcon = ({ className = 'h-6 w-6' }) => (
   <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -32,18 +33,37 @@ const BagIconFallback = ({ className = 'h-5 w-5' }) => (
   </svg>
 );
 
-export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
+export default function Navbar({ links = [] }) {
   const [open, setOpen] = useState(false);
   const [hasRemix, setHasRemix] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
   useEffect(() => {
     const el = document.createElement('i');
     el.className = 'ri-shopping-bag-line';
     el.style.position = 'absolute';
     el.style.left = '-9999px';
     document.body.appendChild(el);
+
     const font = window.getComputedStyle(el).fontFamily || '';
     document.body.removeChild(el);
+
     setHasRemix(font.toLowerCase().includes('remixicon'));
+  }, []);
+
+  useEffect(() => {
+    const syncCartCount = () => {
+      setCartCount(getCartCount());
+    };
+
+    syncCartCount();
+    window.addEventListener('cartUpdated', syncCartCount);
+    window.addEventListener('storage', syncCartCount);
+
+    return () => {
+      window.removeEventListener('cartUpdated', syncCartCount);
+      window.removeEventListener('storage', syncCartCount);
+    };
   }, []);
 
   const CartIcon = useMemo(() => {
@@ -87,17 +107,13 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
           </div>
 
           <div className={theme.navbar.rightGroup}>
-            <button
-              type="button"
-              onClick={onCartClick}
-              className={theme.navbar.cartButton}
-              aria-label="Open cart"
-            >
+            <Link to="/cart" className={theme.navbar.cartButton} aria-label="Shopping cart">
               {CartIcon}
-              {cartCount > 0 && (
+              {cartCount > 0 ? (
                 <span className={theme.navbar.cartBadge}>{cartCount > 99 ? '99+' : cartCount}</span>
-              )}
-            </button>
+              ) : null}
+            </Link>
+
             <button
               type="button"
               className={theme.navbar.mobileMenuButton}
@@ -110,7 +126,6 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
         </div>
       </div>
 
-      {/* Mobile drawer */}
       {open && (
         <div className={theme.navbar.drawerOverlay}>
           <div className={theme.navbar.drawerPanelSimple}>
@@ -147,7 +162,6 @@ export default function Navbar({ links = [], cartCount = 0, onCartClick }) {
             </div>
           </div>
 
-          {/* clickOutsideToClose */}
           <button
             className={theme.navbar.drawerBackdropBtn}
             onClick={() => setOpen(false)}
