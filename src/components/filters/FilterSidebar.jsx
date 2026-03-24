@@ -219,7 +219,7 @@ const FilterSidebar = ({
                 sizes: [],
                 colors: [],
                 ratings: [],
-                sort: '',
+                sort: 'created',
                 direction: 'desc',
               })
             }
