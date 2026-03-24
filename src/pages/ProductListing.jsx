@@ -8,6 +8,7 @@ import ProductGrid from '../components/product/ProductGrid';
 import { FiFilter } from 'react-icons/fi';
 
 const perPage = 9;
+const toSlug = (value = '') => String(value).trim().toLowerCase().replace(/\s+/g, '-');
 
 const ProductListing = () => {
   const [searchParams] = useSearchParams();
@@ -23,6 +24,7 @@ const ProductListing = () => {
 
   const collectionFromUrl = searchParams.get('collection');
   const colorFromUrl = searchParams.get('color');
+  const categoryFromUrl = searchParams.get('category');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,14 +32,28 @@ const ProductListing = () => {
   const { collections } = useFetchCollectionOptions();
 
   useEffect(() => {
-    if (!collectionFromUrl && !colorFromUrl) return;
+    const mappedCollection = collectionFromUrl
+      ? collections.find((item) => {
+          const rawValue = item.value ?? item.label ?? item.name ?? '';
+          return toSlug(rawValue) === collectionFromUrl;
+        })
+      : null;
+
+    const mappedCategory = categoryFromUrl
+      ? ['Unisex', 'Women', 'Men'].find((item) => toSlug(item) === categoryFromUrl)
+      : null;
 
     setFilters((prev) => ({
       ...prev,
-      collection: collectionFromUrl ? [collectionFromUrl] : prev.collection,
+      collection: collectionFromUrl
+        ? mappedCollection
+          ? [mappedCollection.value ?? mappedCollection.label ?? mappedCollection.name]
+          : []
+        : prev.collection,
+      category: categoryFromUrl ? (mappedCategory ? [mappedCategory] : []) : prev.category,
       colors: colorFromUrl ? [colorFromUrl] : prev.colors,
     }));
-  }, [collectionFromUrl, colorFromUrl]);
+  }, [collectionFromUrl, categoryFromUrl, colorFromUrl, collections]);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1025px)');

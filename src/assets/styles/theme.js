@@ -395,6 +395,45 @@ const theme = {
   cartButton: {
     base: 'inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50',
   },
+
+  /* -------------------------------------------------------------
+   * Footer Section
+   * ------------------------------------------------------------- */
+
+  footer: {
+    wrapper: 'bg-[#f8f8f8] border-t border-neutral-200 mt-16',
+    container: 'mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-10 md:py-12',
+
+    topSection:
+      'grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.3fr_0.8fr_0.8fr] lg:gap-16',
+
+    newsletterBlock: 'max-w-[520px]',
+    newsletterTitle: 'text-[18px] md:text-[20px] font-semibold text-neutral-900',
+    newsletterText: 'mt-2 text-[14px] leading-6 text-neutral-500',
+
+    subscribeRow: 'mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:max-w-[420px]',
+    emailInput:
+      'h-11 w-full rounded-md border border-neutral-300 bg-white px-4 text-[14px] text-neutral-800 outline-none placeholder:text-neutral-400 focus:border-neutral-500',
+    subscribeButton:
+      'h-11 shrink-0 rounded-md bg-indigo-600 px-5 text-[14px] font-medium text-white transition hover:bg-indigo-500',
+
+    brandBlock: 'mt-8 md:mt-10',
+    brandRow: 'flex items-center gap-2',
+    brandText: 'text-[16px] font-semibold text-neutral-900',
+    brandDescription: 'mt-3 max-w-[260px] text-[14px] leading-6 text-neutral-500',
+
+    column: '',
+    columnTitle: 'text-[11px] font-semibold uppercase tracking-[0.08em] text-neutral-400',
+    linkList: 'mt-4 space-y-3',
+    linkItem: 'block text-[14px] text-neutral-700 transition hover:text-neutral-900',
+
+    bottomSection:
+      'mt-10 border-t border-neutral-200 pt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between',
+    copyright: 'text-[13px] text-neutral-400',
+
+    socialList: 'flex items-center gap-4',
+    socialLink: 'text-neutral-400 transition hover:text-neutral-700 text-[18px] leading-none',
+  },
 };
 
 const COLOR_CLASS_MAP = {

@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import Navbar from './components/common/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
+import Footer from './components/common/Footer';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ProductListing = lazy(() => import('./pages/ProductListing'));
@@ -32,6 +33,7 @@ function App() {
           </Routes>
         </Suspense>
       </div>
+      <Footer />
     </Router>
   );
 }
