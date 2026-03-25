@@ -204,16 +204,19 @@ const FilterSidebar = ({
 
       {/* Clear Filters */}
       {(() => {
-        const activeCount = Object.entries(filters).reduce((acc, [k, v]) => {
-          if (Array.isArray(v)) return acc + v.length;
-          if (k === 'sort' && typeof v === 'string' && v) return acc + 1;
-          return acc;
-        }, 0);
+        const activeCount = [
+          ...(filters.collection || []),
+          ...(filters.category || []),
+          ...(filters.sizes || []),
+          ...(filters.colors || []),
+          ...(filters.ratings || []),
+        ].length;
 
         return activeCount > 0 ? (
           <button
-            onClick={() =>
+            onClick={(prev) =>
               setFilters({
+                ...prev,
                 collection: [],
                 category: [],
                 sizes: [],

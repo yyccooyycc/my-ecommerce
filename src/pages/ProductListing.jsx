@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import theme from '../assets/styles/theme';
 import useFetchCollectionOptions from '../components/hooks/useFetchCollectionOptions';
 import useFetchProducts from '../components/hooks/useFetchProducts';
@@ -8,10 +8,18 @@ import ProductGrid from '../components/product/ProductGrid';
 import { FiFilter } from 'react-icons/fi';
 
 const perPage = 9;
-const toSlug = (value = '') => String(value).trim().toLowerCase().replace(/\s+/g, '-');
+
+const VALID_CATEGORY_IDS = ['unisex', 'women', 'men'];
+const VALID_COLLECTION_IDS = ['cozy', 'urban', 'fresh'];
+
+const areArraysEqual = (a = [], b = []) =>
+  a.length === b.length && a.every((item, index) => item === b[index]);
 
 const ProductListing = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [filters, setFilters] = useState({
     collection: [],
     category: [],
@@ -22,38 +30,93 @@ const ProductListing = () => {
     direction: 'desc',
   });
 
-  const collectionFromUrl = searchParams.get('collection');
-  const colorFromUrl = searchParams.get('color');
-  const categoryFromUrl = searchParams.get('category');
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
 
   const { collections } = useFetchCollectionOptions();
 
+  const buildSearchFromFilters = (nextFilters) => {
+    const params = new URLSearchParams();
+
+    (nextFilters.collection || []).forEach((value) => {
+      if (value) params.append('collection', value);
+    });
+
+    (nextFilters.category || []).forEach((value) => {
+      if (value) params.append('category', value);
+    });
+
+    (nextFilters.colors || []).forEach((value) => {
+      if (value) params.append('color', value);
+    });
+
+    (nextFilters.sizes || []).forEach((value) => {
+      if (value) params.append('size', value);
+    });
+
+    (nextFilters.ratings || []).forEach((value) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params.append('rating', String(value));
+      }
+    });
+
+    return params.toString();
+  };
+
+  const updateFiltersAndUrl = (updater) => {
+    setFilters((prev) => {
+      const nextFilters = typeof updater === 'function' ? updater(prev) : updater;
+
+      const query = buildSearchFromFilters(nextFilters);
+      const nextUrl = query ? `${location.pathname}?${query}` : location.pathname;
+      const currentUrl = `${location.pathname}${location.search}`;
+
+      if (nextUrl !== currentUrl) {
+        navigate(nextUrl, { replace: true });
+      }
+
+      return nextFilters;
+    });
+  };
+
   useEffect(() => {
-    const mappedCollection = collectionFromUrl
-      ? collections.find((item) => {
-          const rawValue = item.value ?? item.label ?? item.name ?? '';
-          return toSlug(rawValue) === collectionFromUrl;
-        })
-      : null;
+    const nextCollection = searchParams
+      .getAll('collection')
+      .filter((value) => VALID_COLLECTION_IDS.includes(value));
 
-    const mappedCategory = categoryFromUrl
-      ? ['Unisex', 'Women', 'Men'].find((item) => toSlug(item) === categoryFromUrl)
-      : null;
+    const nextCategory = searchParams
+      .getAll('category')
+      .filter((value) => VALID_CATEGORY_IDS.includes(value));
 
-    setFilters((prev) => ({
-      ...prev,
-      collection: collectionFromUrl
-        ? mappedCollection
-          ? [mappedCollection.value ?? mappedCollection.label ?? mappedCollection.name]
-          : []
-        : prev.collection,
-      category: categoryFromUrl ? (mappedCategory ? [mappedCategory] : []) : prev.category,
-      colors: colorFromUrl ? [colorFromUrl] : prev.colors,
-    }));
-  }, [collectionFromUrl, categoryFromUrl, colorFromUrl, collections]);
+    const nextColors = searchParams.getAll('color').map((value) => value.toLowerCase());
+
+    const nextSizes = searchParams.getAll('size').map((value) => value.toLowerCase());
+
+    const nextRatings = searchParams.getAll('rating');
+
+    setFilters((prev) => {
+      const sameCollection = areArraysEqual(prev.collection, nextCollection);
+      const sameCategory = areArraysEqual(prev.category, nextCategory);
+      const sameColors = areArraysEqual(prev.colors, nextColors);
+      const sameSizes = areArraysEqual(prev.sizes, nextSizes);
+      const sameRatings = areArraysEqual(prev.ratings.map(String), nextRatings.map(String));
+
+      if (sameCollection && sameCategory && sameColors && sameSizes && sameRatings) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        collection: nextCollection,
+        category: nextCategory,
+        colors: nextColors,
+        sizes: nextSizes,
+        ratings: nextRatings,
+      };
+    });
+
+    setPage(1);
+  }, [searchParams]);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1025px)');
@@ -92,6 +155,7 @@ const ProductListing = () => {
 
   const categoryOptions = useMemo(() => {
     const map = new Map();
+
     products.forEach((p) => {
       const cat = p.category;
       if (cat?.category_id && !map.has(cat.category_id)) {
@@ -101,6 +165,7 @@ const ProductListing = () => {
         });
       }
     });
+
     return Array.from(map.values());
   }, [products]);
 
@@ -123,9 +188,13 @@ const ProductListing = () => {
 
   const colorOptions = useMemo(() => {
     const set = new Set();
+
     products.forEach((p) => {
-      (p.colors || []).forEach((c) => set.add(c));
+      (p.colors || []).forEach((c) => {
+        set.add(String(c).toLowerCase());
+      });
     });
+
     return Array.from(set);
   }, [products]);
 
@@ -148,36 +217,21 @@ const ProductListing = () => {
   const handleSortChange = (e) => {
     const value = e.target.value;
 
-    switch (value) {
-      case 'price-asc':
-        setFilters((prev) => ({ ...prev, sort: 'price', direction: 'asc' }));
-        break;
-      case 'price-desc':
-        setFilters((prev) => ({ ...prev, sort: 'price', direction: 'desc' }));
-        break;
-      case 'popular':
-        setFilters((prev) => ({
-          ...prev,
-          sort: 'popular',
-          direction: 'desc',
-        }));
-        break;
-      case 'rating':
-        setFilters((prev) => ({
-          ...prev,
-          sort: 'rating',
-          direction: 'desc',
-        }));
-        break;
-      case 'created':
-      default:
-        setFilters((prev) => ({
-          ...prev,
-          sort: 'created',
-          direction: 'desc',
-        }));
-        break;
-    }
+    setFilters((prev) => {
+      switch (value) {
+        case 'price-asc':
+          return { ...prev, sort: 'price', direction: 'asc' };
+        case 'price-desc':
+          return { ...prev, sort: 'price', direction: 'desc' };
+        case 'popular':
+          return { ...prev, sort: 'popular', direction: 'desc' };
+        case 'rating':
+          return { ...prev, sort: 'rating', direction: 'desc' };
+        case 'created':
+        default:
+          return { ...prev, sort: 'created', direction: 'desc' };
+      }
+    });
   };
 
   const hasMore = pagination?.has_more ?? false;
@@ -196,7 +250,7 @@ const ProductListing = () => {
 
           <FilterSidebar
             filters={filters}
-            setFilters={setFilters}
+            setFilters={updateFiltersAndUrl}
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
             collections={collections}

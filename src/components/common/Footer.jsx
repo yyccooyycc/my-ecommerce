@@ -12,16 +12,18 @@ function Footer() {
 
   const shopCollections = [
     { label: 'Latest arrivals', path: '/latest-arrivals' },
-    { label: 'Urban Oasis', path: '/product-listing?collection=urban-oasis' },
-    { label: 'Cozy Comfort', path: '/product-listing?collection=cozy-comfort' },
-    { label: 'Fresh Fusion', path: '/product-listing?collection=fresh-fusion' },
+    { label: 'Cozy Comfort', path: '/product-listing?collection=cozy' },
+    { label: 'Urban Oasis', path: '/product-listing?collection=urban' },
+    { label: 'Fresh Fusion', path: '/product-listing?collection=fresh' },
   ];
+
   const socialLinks = [
     { icon: <FiYoutube />, to: '/about-me', label: 'YouTube' },
     { icon: <FiInstagram />, to: '/about-me', label: 'Instagram' },
     { icon: <FiFacebook />, to: '/about-me', label: 'Facebook' },
     { icon: <FiTwitter />, to: '/about-me', label: 'X' },
   ];
+
   return (
     <footer className={theme.footer.wrapper}>
       <div className={theme.footer.container}>
@@ -83,11 +85,11 @@ function Footer() {
           <p className={theme.footer.copyright}>© 2024 StyleNest, Inc. All rights reserved.</p>
 
           <div className={theme.footer.socialList}>
-            {socialLinks.map((item, index) => (
+            {socialLinks.map((item) => (
               <Link
-                key={index}
+                key={item.label}
                 to={item.to}
-                aria-label={`social-${index}`}
+                aria-label={item.label}
                 className={theme.footer.socialLink}
               >
                 {item.icon}
