@@ -356,10 +356,12 @@ const theme = {
 
   cartItem: {
     row: 'grid grid-cols-[112px_minmax(0,1fr)_auto] gap-4 border-b border-neutral-200 py-6 sm:grid-cols-[140px_minmax(0,1fr)_auto] sm:gap-6',
+    imageLink: 'block',
     imageWrap: 'overflow-hidden rounded-xl bg-neutral-100',
     image: 'h-[112px] w-full object-cover sm:h-[140px]',
     infoWrap: 'min-w-0',
     productName: 'text-xl font-medium text-neutral-900',
+    productNameLink: 'text-xl font-medium text-neutral-900 transition hover:text-neutral-600',
     meta: 'mt-2 text-sm text-neutral-500',
     description: 'mt-3 max-w-[520px] text-sm leading-6 text-neutral-500',
     actionsRow: 'mt-4 flex flex-wrap items-center gap-3',

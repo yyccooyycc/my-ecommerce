@@ -8,6 +8,7 @@ import {
   removeCartItem,
   updateCartItemQuantity,
 } from '../components/common/utils/cartUtils';
+import { Link } from 'react-router-dom';
 
 function CartPage() {
   const navigate = useNavigate();
@@ -79,12 +80,21 @@ function CartPage() {
           <div className={theme.cartPage.itemsColumn}>
             {cartItems.map((item) => (
               <article key={item.cartKey} className={theme.cartItem.row}>
-                <div className={theme.cartItem.imageWrap}>
-                  <img src={item.image} alt={item.name} className={theme.cartItem.image} />
-                </div>
+                <Link to={`/product/${item.productId}`} className={theme.cartItem.imageLink}>
+                  <div className={theme.cartItem.imageWrap}>
+                    <img src={item.image} alt={item.name} className={theme.cartItem.image} />
+                  </div>
+                </Link>
 
                 <div className={theme.cartItem.infoWrap}>
-                  <h2 className={theme.cartItem.productName}>{item.name}</h2>
+                  <h2>
+                    <Link
+                      to={`/product/${item.productId}`}
+                      className={theme.cartItem.productNameLink}
+                    >
+                      {item.name}
+                    </Link>
+                  </h2>
 
                   <p className={theme.cartItem.meta}>
                     {[item.color, item.size].filter(Boolean).join(' • ')}
