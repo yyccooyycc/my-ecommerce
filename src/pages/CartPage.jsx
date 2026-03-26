@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import theme from '../assets/styles/theme';
 import {
@@ -28,24 +28,21 @@ function CartPage() {
     };
   }, []);
 
-  const subtotal = useMemo(() => getCartSubtotal(), [cartItems]);
+  const subtotal = useMemo(() => getCartSubtotal(cartItems), [cartItems]);
   const shipping = 0;
   const total = subtotal + shipping;
 
   const handleDecrease = (item) => {
     if (item.quantity <= 1) return;
     updateCartItemQuantity(item.cartKey, item.quantity - 1);
-    setCartItems(getCartItems());
   };
 
   const handleIncrease = (item) => {
     updateCartItemQuantity(item.cartKey, item.quantity + 1);
-    setCartItems(getCartItems());
   };
 
   const handleRemove = (cartKey) => {
     removeCartItem(cartKey);
-    setCartItems(getCartItems());
   };
 
   if (!cartItems.length) {

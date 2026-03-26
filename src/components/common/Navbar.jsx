@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import theme from '../../assets/styles/theme';
 import logo from '../../assets/images/navbar/stylenest.svg';
 import { Link, NavLink } from 'react-router-dom';
-import { getCartCount } from './utils/cartUtils';
+import { getCartCount, getCartItems } from './utils/cartUtils';
 
 const MenuIcon = ({ className = 'h-6 w-6' }) => (
   <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -53,7 +53,8 @@ export default function Navbar({ links = [] }) {
 
   useEffect(() => {
     const syncCartCount = () => {
-      setCartCount(getCartCount());
+      const latestItems = getCartItems();
+      setCartCount(getCartCount(latestItems));
     };
 
     syncCartCount();

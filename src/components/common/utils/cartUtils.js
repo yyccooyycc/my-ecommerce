@@ -15,12 +15,12 @@ export function saveCartItems(items) {
   window.dispatchEvent(new Event('cartUpdated'));
 }
 
-export function getCartCount() {
-  return getCartItems().reduce((sum, item) => sum + item.quantity, 0);
+export function getCartCount(items = []) {
+  return items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
 }
 
-export function getCartSubtotal() {
-  return getCartItems().reduce((sum, item) => {
+export function getCartSubtotal(items = []) {
+  return items.reduce((sum, item) => {
     return sum + Number(item.price || 0) * Number(item.quantity || 0);
   }, 0);
 }
