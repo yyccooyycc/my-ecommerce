@@ -269,7 +269,7 @@ export default function ProductDetailsPage() {
   return (
     <main className={theme.productDetails.page}>
       <section className={theme.productDetails.card}>
-        {/* 左： gallery */}
+        {/* left： gallery */}
         <section aria-label="Product images" className="flex flex-col">
           <div className={theme.productDetails.galleryMain}>
             {displayImages[activeImageIndex] ? (

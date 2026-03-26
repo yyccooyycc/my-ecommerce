@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-
-const API_URL = 'https://www.greatfrontend.com/api/projects/challenges/e-commerce/products';
+import { API_ENDPOINTS } from '../../constants/api';
 
 const toArray = (value) => {
   if (!value) return [];
@@ -32,7 +31,7 @@ const useFetchProducts = ({
   const normalizedRating = useMemo(() => toArray(rating), [rating]);
 
   const requestUrl = useMemo(() => {
-    const url = new URL(API_URL);
+    const url = new URL(API_ENDPOINTS.products);
 
     url.searchParams.set('page', String(page));
     url.searchParams.set('per_page', String(perPage));

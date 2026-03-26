@@ -399,6 +399,66 @@ const theme = {
   },
 
   /* -------------------------------------------------------------
+   * Prodcut Reviews
+   * ------------------------------------------------------------- */
+
+  productReviews: {
+    section: 'mt-12 border-t border-neutral-200 pt-8 md:mt-16 md:pt-10',
+    container: 'flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12',
+    summaryPanel:
+      'w-full rounded-2xl border border-neutral-200 bg-white p-5 md:p-6 lg:sticky lg:top-24 lg:max-w-[340px]',
+    listPanel: 'flex-1',
+
+    heading: 'text-lg font-semibold text-neutral-900 md:text-xl',
+    overallRow: 'mt-3 flex flex-wrap items-center gap-2 md:gap-3',
+    overallScore: 'text-xl font-semibold text-neutral-900 md:text-2xl',
+    totalReviews: 'text-sm text-neutral-500',
+
+    starRow: 'flex items-center gap-1',
+    starFilled: 'text-sm text-yellow-400 md:text-base',
+    starEmpty: 'text-sm text-neutral-300 md:text-base',
+
+    bandList: 'mt-6 space-y-3',
+    bandRow:
+      'flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left transition hover:bg-neutral-50',
+    bandRowActive: 'bg-neutral-100 ring-1 ring-neutral-300',
+    bandLabel: 'w-[110px] shrink-0 text-sm text-neutral-700 md:w-[120px]',
+    bandTrack: 'relative h-2 flex-1 overflow-hidden rounded-full bg-neutral-200',
+    bandFill: 'absolute left-0 top-0 h-full rounded-full bg-yellow-400',
+    bandPercent: 'w-10 shrink-0 text-right text-sm text-neutral-500',
+
+    clearFilterButton:
+      'mt-5 inline-flex items-center justify-center rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50',
+
+    reviewList: 'space-y-6',
+    reviewCard: 'border-b border-neutral-200 pb-6 last:border-b-0',
+    reviewHeader: 'flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between',
+    reviewUserBlock: 'flex items-start gap-3',
+    reviewMeta: 'flex flex-col gap-1',
+    reviewUserName: 'text-sm font-semibold text-neutral-900 md:text-base',
+    reviewDate: 'text-sm text-neutral-500',
+    reviewText: 'mt-3 text-sm leading-6 text-neutral-700 md:text-base',
+
+    avatarImage: 'h-10 w-10 rounded-full object-cover',
+    avatarFallback:
+      'flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 text-sm font-semibold text-neutral-700',
+
+    emptyState:
+      'rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 px-6 py-12 text-center',
+    emptyTitle: 'text-base font-semibold text-neutral-900',
+    emptyText: 'mt-2 text-sm text-neutral-500',
+
+    loadingWrap: 'rounded-2xl border border-neutral-200 bg-white px-6 py-10 text-center',
+    loadingText: 'text-sm text-neutral-500',
+    errorWrap: 'rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center',
+    errorText: 'text-sm text-red-600',
+
+    loadMoreWrap: 'mt-8 flex justify-center',
+    loadMoreButton:
+      'inline-flex items-center justify-center rounded-lg border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-700 transition hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-50',
+  },
+
+  /* -------------------------------------------------------------
    * Footer Section
    * ------------------------------------------------------------- */
 
