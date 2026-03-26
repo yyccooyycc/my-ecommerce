@@ -137,10 +137,8 @@ export default function ProductReviews({ productId }) {
   };
 
   const handleBandClick = (rating) => {
-    console.log('clicked rating:', rating);
     setActiveRating((prev) => {
       const nextRating = prev === rating ? null : rating;
-      console.log('next activeRating:', nextRating);
       return nextRating;
     });
   };

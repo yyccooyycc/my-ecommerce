@@ -238,8 +238,6 @@ export default function ProductDetailsPage() {
       maxQuantity: selectedInventoryItem.stock ?? null,
     };
 
-    console.log('ADD TO CART', cartItem);
-
     addToCart(cartItem);
   };
 
