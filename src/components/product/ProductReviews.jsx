@@ -102,6 +102,10 @@ export default function ProductReviews({ productId }) {
       rating: activeRating,
     });
 
+  const sortedReviews = [...reviews].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+
   const bandMap = useMemo(() => {
     const counts = Array.isArray(aggregate?.counts) ? aggregate.counts : [];
     const total = aggregate?.total || 0;
@@ -226,7 +230,7 @@ export default function ProductReviews({ productId }) {
           ) : (
             <>
               <div className={theme.productReviews.reviewList}>
-                {reviews.map((review, index) => (
+                {sortedReviews.map((review, index) => (
                   <ReviewItem
                     key={`${review.user?.user_id || 'user'}-${review.created_at}-${index}`}
                     review={review}
