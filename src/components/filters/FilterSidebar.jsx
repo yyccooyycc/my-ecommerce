@@ -28,6 +28,14 @@ const FilterSidebar = ({
     ratings: false,
   });
 
+  const hasSelectedOptions = (filterKey) => {
+    return Array.isArray(filters[filterKey]) && filters[filterKey].length > 0;
+  };
+
+  const isSectionOpen = (sectionKey, filterKey) => {
+    return openSection[sectionKey] || hasSelectedOptions(filterKey);
+  };
+
   const categoryOptions = categories && categories.length ? categories : fallbackCategories;
   const sizeOptions = sizes && sizes.length ? sizes : fallbackSizes;
   const colorOptions = colors && colors.length ? colors : fallbackColors;
@@ -70,9 +78,9 @@ const FilterSidebar = ({
           className={theme.filterSidebar.sectionButton}
         >
           <span>Collections</span>
-          <span>{openSection.collection ? '−' : '+'}</span>
+          <span>{isSectionOpen('collection', FILTER_KEYS.COLLECTIONS) ? '−' : '+'}</span>
         </button>
-        {openSection.collection && (
+        {isSectionOpen('collection', FILTER_KEYS.COLLECTIONS) && (
           <div className={theme.filterSidebar.sectionContent}>
             {collections?.map(({ name, collection_id }, index) => (
               <label
@@ -98,16 +106,16 @@ const FilterSidebar = ({
           className={theme.filterSidebar.sectionButton}
         >
           <span>Sizes</span>
-          <span>{openSection.sizes ? '−' : '+'}</span>
+          <span>{isSectionOpen('sizes', FILTER_KEYS.SIZES) ? '−' : '+'}</span>
         </button>
-        {openSection.sizes && (
+        {isSectionOpen('sizes', FILTER_KEYS.SIZES) && (
           <div className={theme.filterSidebar.sectionContent}>
             {sizeOptions.map(({ code, label }) => (
               <label key={code} className="flex items-center space-x-2 py-1">
                 <input
                   type="checkbox"
                   checked={filters[FILTER_KEYS.SIZES].includes(code) ?? false}
-                  onChange={() => handleCheckboxChange('sizes', code)}
+                  onChange={() => handleCheckboxChange(FILTER_KEYS.SIZES, code)}
                 />
                 <span>{label}</span>
               </label>
@@ -123,16 +131,16 @@ const FilterSidebar = ({
           className={theme.filterSidebar.sectionButton}
         >
           <span>Category</span>
-          <span>{openSection.category ? '−' : '+'}</span>
+          <span>{isSectionOpen('category ', FILTER_KEYS.CATEGORY) ? '−' : '+'}</span>
         </button>
-        {openSection.category && (
+        {isSectionOpen('category ', FILTER_KEYS.CATEGORY) && (
           <div className={theme.filterSidebar.sectionContent}>
             {categoryOptions.map(({ id, label }) => (
               <label key={id} className="flex items-center space-x-2 py-1">
                 <input
                   type="checkbox"
                   checked={filters[FILTER_KEYS.CATEGORY].includes(id)}
-                  onChange={() => handleCheckboxChange('category', id)}
+                  onChange={() => handleCheckboxChange(FILTER_KEYS.CATEGORY, id)}
                 />
                 <span>{label}</span>
               </label>
@@ -144,18 +152,18 @@ const FilterSidebar = ({
       {/* Colors */}
       <div className={theme.filterSidebar.sectionWrap}>
         <button
-          onClick={() => toggleSection('colors')}
+          onClick={() => toggleSection(FILTER_KEYS.COLORS)}
           className={theme.filterSidebar.sectionButton}
         >
           <span>Colors</span>
-          <span>{openSection.colors ? '−' : '+'}</span>
+          <span>{isSectionOpen('colors ', FILTER_KEYS.COLORS) ? '−' : '+'}</span>
         </button>
-        {openSection.colors && (
+        {isSectionOpen('colors ', FILTER_KEYS.COLORS) && (
           <div className="flex flex-wrap gap-3 mt-2">
             {colorOptions.map((color) => (
               <button
                 key={color}
-                onClick={() => handleCheckboxChange('colors', color)}
+                onClick={() => handleCheckboxChange(FILTER_KEYS.COLORS, color)}
                 className={`w-6 h-6 rounded-full border ${
                   filters[FILTER_KEYS.COLORS].includes(color)
                     ? 'border-black scale-110'
@@ -176,17 +184,17 @@ const FilterSidebar = ({
           className={theme.filterSidebar.sectionButton}
         >
           <span>Ratings</span>
-          <span>{openSection.ratings ? '−' : '+'}</span>
+          <span>{isSectionOpen('ratings ', FILTER_KEYS.RATINGS) ? '−' : '+'}</span>
         </button>
 
-        {openSection.ratings && (
+        {isSectionOpen('ratings ', FILTER_KEYS.RATINGS) && (
           <div className={theme.filterSidebar.sectionContent}>
             {ratings.map((r) => (
               <label key={r} className="flex items-center gap-2 py-1 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={filters.ratings.includes(r)}
-                  onChange={() => handleCheckboxChange('ratings', r)}
+                  onChange={() => handleCheckboxChange(FILTER_KEYS.RATINGS, r)}
                 />
                 <span className="flex items-center">
                   {Array.from({ length: r }).map((_, i) => (
@@ -214,17 +222,17 @@ const FilterSidebar = ({
 
         return activeCount > 0 ? (
           <button
-            onClick={(prev) =>
-              setFilters({
+            onClick={() =>
+              setFilters((prev) => ({
                 ...prev,
                 collection: [],
                 category: [],
                 sizes: [],
                 colors: [],
                 ratings: [],
-                sort: 'created',
-                direction: 'desc',
-              })
+                sort: '',
+                direction: '',
+              }))
             }
             className={theme.filterSidebar.clearButton}
           >

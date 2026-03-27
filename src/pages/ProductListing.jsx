@@ -26,8 +26,8 @@ const ProductListing = () => {
     sizes: [],
     colors: [],
     ratings: [],
-    sort: 'created',
-    direction: 'desc',
+    sort: '',
+    direction: '',
   });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -59,6 +59,15 @@ const ProductListing = () => {
         params.append('rating', String(value));
       }
     });
+
+    // Only persist sort params when a sort option is selected.
+    if (nextFilters.sort) {
+      params.set('sort', nextFilters.sort);
+    }
+
+    if (nextFilters.direction) {
+      params.set('direction', nextFilters.direction);
+    }
 
     return params.toString();
   };
@@ -94,14 +103,43 @@ const ProductListing = () => {
 
     const nextRatings = searchParams.getAll('rating');
 
+    const rawSort = searchParams.get('sort') || '';
+    const rawDirection = searchParams.get('direction') || '';
+
+    // Validate sort params from the URL before syncing them into state.
+    const validSortPairs = [
+      { sort: 'created', direction: 'desc' },
+      { sort: 'popular', direction: 'desc' },
+      { sort: 'rating', direction: 'desc' },
+      { sort: 'price', direction: 'asc' },
+      { sort: 'price', direction: 'desc' },
+    ];
+
+    const matchedSortPair = validSortPairs.find(
+      (item) => item.sort === rawSort && item.direction === rawDirection
+    );
+
+    const nextSort = matchedSortPair?.sort || '';
+    const nextDirection = matchedSortPair?.direction || '';
+
     setFilters((prev) => {
       const sameCollection = areArraysEqual(prev.collection, nextCollection);
       const sameCategory = areArraysEqual(prev.category, nextCategory);
       const sameColors = areArraysEqual(prev.colors, nextColors);
       const sameSizes = areArraysEqual(prev.sizes, nextSizes);
       const sameRatings = areArraysEqual(prev.ratings.map(String), nextRatings.map(String));
+      const sameSort = prev.sort === nextSort;
+      const sameDirection = prev.direction === nextDirection;
 
-      if (sameCollection && sameCategory && sameColors && sameSizes && sameRatings) {
+      if (
+        sameCollection &&
+        sameCategory &&
+        sameColors &&
+        sameSizes &&
+        sameRatings &&
+        sameSort &&
+        sameDirection
+      ) {
         return prev;
       }
 
@@ -112,6 +150,8 @@ const ProductListing = () => {
         colors: nextColors,
         sizes: nextSizes,
         ratings: nextRatings,
+        sort: nextSort,
+        direction: nextDirection,
       };
     });
 
@@ -148,8 +188,8 @@ const ProductListing = () => {
     category: filters.category,
     color: filters.colors,
     rating: filters.ratings,
-    sort: filters.sort,
-    direction: filters.direction,
+    sort: filters.sort || undefined,
+    direction: filters.direction || undefined,
     minLoadingMs: 350,
   });
 
@@ -217,7 +257,7 @@ const ProductListing = () => {
   const handleSortChange = (e) => {
     const value = e.target.value;
 
-    setFilters((prev) => {
+    updateFiltersAndUrl((prev) => {
       switch (value) {
         case 'price-asc':
           return { ...prev, sort: 'price', direction: 'asc' };
@@ -228,8 +268,10 @@ const ProductListing = () => {
         case 'rating':
           return { ...prev, sort: 'rating', direction: 'desc' };
         case 'created':
-        default:
           return { ...prev, sort: 'created', direction: 'desc' };
+        case '':
+        default:
+          return { ...prev, sort: '', direction: '' };
       }
     });
   };
@@ -276,7 +318,7 @@ const ProductListing = () => {
                     ? filters.direction === 'asc'
                       ? 'price-asc'
                       : 'price-desc'
-                    : filters.sort
+                    : filters.sort || ''
                 }
                 onChange={handleSortChange}
                 className={theme.productListing.sortSelect}
