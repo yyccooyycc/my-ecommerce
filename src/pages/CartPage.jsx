@@ -176,7 +176,11 @@ function CartPage() {
                 <span className={theme.orderSummary.totalValue}>{formatPrice(total)}</span>
               </div>
 
-              <button type="button" className={theme.orderSummary.checkoutButton}>
+              <button
+                onClick={() => navigate('/checkout')}
+                type="button"
+                className={theme.orderSummary.checkoutButton}
+              >
                 Checkout
               </button>
 

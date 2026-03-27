@@ -64,7 +64,7 @@ const theme = {
   },
 
   /* -------------------------------------------------------------
-   * Home page (Profile Card)
+   * Home page (Profile Card switch to featureCollections)
    * ------------------------------------------------------------- */
   homePage: {
     root: 'min-h-screen w-full bg-profile-page-bg text-profile-text-main px-4 md:px-8',
