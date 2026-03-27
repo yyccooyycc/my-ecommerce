@@ -1,7 +1,9 @@
-import checkout from './checkout';
+import checkoutTheme from './checkout';
+import orderSuccessTheme from './orderSuccess';
 
 const theme = {
-  checkout,
+  checkoutTheme,
+  orderSuccessTheme,
   // navbar,
   // footer,
 };

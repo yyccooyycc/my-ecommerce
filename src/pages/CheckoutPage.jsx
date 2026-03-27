@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import checkoutTheme from '../assets/styles/theme/checkout';
-import { getCartItems, getCartSubtotal } from '../components/common/utils/cartUtils';
+import { getCartItems, saveCartItems } from '../components/common/utils/cartUtils';
 
 function CheckoutPage() {
   const navigate = useNavigate();
@@ -58,7 +58,31 @@ function CheckoutPage() {
   };
 
   const handleConfirmOrder = () => {
-    window.print();
+    const sanitizedCardNumber = formData.cardNumber.replace(/\s+/g, '');
+    const last4 = sanitizedCardNumber.slice(-4) || '1234';
+
+    const orderPayload = {
+      orderNumber: `19${Date.now()}`,
+      items: cartItems,
+      subtotal,
+      shipping: shippingFee,
+      total,
+      shippingAddress: formData,
+      payment: {
+        brand: 'VISA',
+        last4,
+        expiry: formData.expiry || '--/--',
+      },
+    };
+
+    saveCartItems([]);
+    window.dispatchEvent(new Event('cartUpdated'));
+
+    navigate('/order-success', {
+      state: {
+        order: orderPayload,
+      },
+    });
   };
 
   if (!cartItems.length) {
