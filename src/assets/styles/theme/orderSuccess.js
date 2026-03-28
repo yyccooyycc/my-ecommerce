@@ -1,5 +1,5 @@
 const orderSuccessTheme = {
-  page: 'bg-neutral-950 px-4 py-8 sm:px-6 lg:px-8',
+  page: 'bg-white px-4 py-8 sm:px-6 lg:px-8',
   container: 'mx-auto max-w-6xl',
   shell: 'rounded-[24px] bg-neutral-100 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:p-5 lg:p-8',
   card: 'overflow-hidden rounded-[20px] border border-neutral-200 bg-white',
