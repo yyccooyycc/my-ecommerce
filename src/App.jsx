@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import Navbar from './components/common/Navbar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import Footer from './components/common/Footer';
 
@@ -16,7 +16,7 @@ const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 
 function App() {
   return (
-    <Router basename="/my-ecommerce">
+    <Router>
       <Navbar
         links={[
           { label: 'Shop all', href: '/product-listing' },
