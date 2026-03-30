@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import theme from '../../assets/styles/theme';
 import { useNavigate } from 'react-router-dom';
 import { getOptimizedImageUrl } from '../../components/common/utils/imageUtils';
@@ -6,7 +6,7 @@ import { getOptimizedImageUrl } from '../../components/common/utils/imageUtils';
 const imageCache = new Set();
 const MIN_SKELETON_MS = 150;
 
-function ProductCard({ product, priority = false }) {
+function ProductCard({ product, priority = false, shouldReveal = true }) {
   const navigate = useNavigate();
 
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
@@ -36,7 +36,9 @@ function ProductCard({ product, priority = false }) {
     ? getOptimizedImageUrl(filteredImages[0].image_url, 600)
     : '';
 
-  const selectedInventory = product.inventory?.find((inv) => inv.color === selectedColor) || {};
+  const selectedInventory = useMemo(() => {
+    return product.inventory?.find((inv) => inv.color === selectedColor) || {};
+  }, [product.inventory, selectedColor]);
 
   const getCurrentPrice = () => {
     return selectedInventory.discount_percentage
@@ -59,22 +61,19 @@ function ProductCard({ product, priority = false }) {
       return;
     }
 
-    // 非首屏卡片：不要手動 preload，直接交給瀏覽器 lazy load
-    if (!priority) {
-      setRenderedImage(targetImage);
-      setIsLoading(false);
+    setRenderedImage(targetImage);
+
+    if (!shouldReveal) {
+      setIsLoading(true);
       return;
     }
-
-    // 首屏 priority 卡片才做 preload + decode
-    loadStartRef.current = Date.now();
 
     if (imageCache.has(targetImage)) {
-      setRenderedImage(targetImage);
       setIsLoading(false);
       return;
     }
 
+    loadStartRef.current = Date.now();
     setIsLoading(true);
 
     const img = new Image();
@@ -85,7 +84,7 @@ function ProductCard({ product, priority = false }) {
         if (img.decode) {
           await img.decode();
         }
-      } catch (e) {
+      } catch (error) {
         // ignore decode failure
       }
 
@@ -98,7 +97,6 @@ function ProductCard({ product, priority = false }) {
 
       setTimeout(() => {
         if (requestId !== requestIdRef.current) return;
-        setRenderedImage(targetImage);
         setIsLoading(false);
       }, remaining);
     };
@@ -118,7 +116,7 @@ function ProductCard({ product, priority = false }) {
       img.onload = null;
       img.onerror = null;
     };
-  }, [targetImage, priority]);
+  }, [targetImage, shouldReveal]);
 
   return (
     <div
@@ -126,10 +124,12 @@ function ProductCard({ product, priority = false }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className={`${theme.productGrid.imageWrapper} relative`}>
-        {isLoading && <div className={`${theme.productCard.skeleton} absolute inset-0 z-10`} />}
+      <div className={`${theme.productGrid.imageWrapper} relative overflow-hidden`}>
+        {(!shouldReveal || isLoading) && (
+          <div className={`${theme.productCard.skeleton} absolute inset-0 z-10`} />
+        )}
 
-        {renderedImage && (
+        {shouldReveal && renderedImage && (
           <img
             key={`${product.product_id}-${selectedColor}-${renderedImage}`}
             src={renderedImage}
@@ -141,9 +141,8 @@ function ProductCard({ product, priority = false }) {
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
             onLoad={() => {
-              if (!priority) {
-                imageCache.add(renderedImage);
-              }
+              imageCache.add(renderedImage);
+              setIsLoading(false);
             }}
             onError={() => {
               setHasError(true);
@@ -152,7 +151,7 @@ function ProductCard({ product, priority = false }) {
           />
         )}
 
-        {!renderedImage && hasError && (
+        {shouldReveal && !renderedImage && hasError && (
           <div className={theme.productCard.noImage}>No Image Available</div>
         )}
 
@@ -166,7 +165,14 @@ function ProductCard({ product, priority = false }) {
       <div
         className={theme.productGrid.details}
         onClick={() => navigate(`/product/${product.product_id}`)}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            navigate(`/product/${product.product_id}`);
+          }
+        }}
         tabIndex={0}
+        role="button"
         aria-label={`View details for ${product.name}`}
       >
         <div className={theme.productCard.color}>{selectedColor}</div>
@@ -190,14 +196,13 @@ function ProductCard({ product, priority = false }) {
         </div>
 
         <div className={theme.productCard.colorOptions}>
-          {product.colors.map((color, index) => (
+          {product.colors?.map((color, index) => (
             <button
               key={color || index}
               type="button"
               style={{ backgroundColor: color }}
               onClick={(event) => handleColorSelect(event, color)}
-              role="checkbox"
-              aria-checked={color === selectedColor}
+              aria-label={`Select ${color} color`}
               className={`${theme.productCard.colorButton} ${
                 isOutOfStock(color) ? theme.productCard.colorButtonOutOfStock : ''
               } ${color === selectedColor ? theme.productCard.colorButtonSelected : ''}`}
