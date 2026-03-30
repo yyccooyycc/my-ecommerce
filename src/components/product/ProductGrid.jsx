@@ -68,7 +68,7 @@ const ProductGrid = ({
     setIsFirstScreenReady(false);
 
     const preload = async () => {
-      const timeout = new Promise((resolve) => setTimeout(resolve, 700));
+      const timeout = new Promise((resolve) => setTimeout(resolve, 325));
 
       const preloadTask = Promise.all(firstScreenImages.map((src) => loadImage(src)));
 
