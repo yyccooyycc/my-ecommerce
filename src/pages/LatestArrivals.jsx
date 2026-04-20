@@ -1,55 +1,21 @@
-import { useEffect, useMemo, useState } from 'react';
 import ProductGrid from '../components/product/ProductGrid';
 import theme from '../assets/styles/theme';
 import { useNavigate } from 'react-router-dom';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 
-const FIRST_BATCH = 4;
-const SECOND_BATCH = 4;
+const LATEST_ARRIVALS_COUNT = 8;
 
 const LatestArrivals = () => {
   const navigate = useNavigate();
-  const [showMore, setShowMore] = useState(false);
 
-  const {
-    products: firstProducts,
-    loading: firstLoading,
-    error: firstError,
-  } = useFetchProducts({
+  const { products, loading, error } = useFetchProducts({
     page: 1,
-    perPage: FIRST_BATCH,
+    perPage: LATEST_ARRIVALS_COUNT,
     collection: 'latest',
-    minLoadingMs: 350,
+    minLoadingMs: 250,
   });
 
-  const {
-    products: secondProducts,
-    loading: secondLoading,
-    error: secondError,
-  } = useFetchProducts({
-    page: 2,
-    perPage: SECOND_BATCH,
-    collection: 'latest',
-    minLoadingMs: 0,
-    enabled: showMore,
-  });
-
-  useEffect(() => {
-    if (!firstLoading && firstProducts.length > 0) {
-      const id = window.setTimeout(() => {
-        setShowMore(true);
-      }, 200);
-
-      return () => window.clearTimeout(id);
-    }
-  }, [firstLoading, firstProducts]);
-
-  const mergedProducts = useMemo(() => {
-    return [...firstProducts, ...secondProducts];
-  }, [firstProducts, secondProducts]);
-
-  if (firstError) return <p>Error: {firstError}</p>;
-  if (secondError) return <p>Error: {secondError}</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className={theme.latestArrivals.container}>
@@ -65,18 +31,13 @@ const LatestArrivals = () => {
 
       <div className="mt-4">
         <ProductGrid
-          products={mergedProducts}
-          isLoading={firstLoading}
+          products={products}
+          isLoading={loading}
           className={theme.productGrid.latestArrivalsCols}
           emptyMessage="No products available."
           currentPage={1}
-          priorityCount={4}
         />
       </div>
-
-      {showMore && secondLoading && (
-        <div className="mt-4 text-sm text-neutral-500">Loading more...</div>
-      )}
     </div>
   );
 };

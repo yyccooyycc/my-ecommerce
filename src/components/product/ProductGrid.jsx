@@ -1,40 +1,27 @@
 import ProductCard from './ProductCard';
 import { Skeleton } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import theme from '../../assets/styles/theme';
 import { getOptimizedImageUrl } from '../common/utils/imageUtils';
 
 const IMAGE_SIZE = 600;
-const FIRST_SCREEN_COUNT = 6;
+const FIRST_SCREEN_COUNT = 4;
 
-const preloadedImages = new Set();
+const requestedImages = new Set();
 
-const loadImage = (src) =>
-  new Promise((resolve) => {
-    if (!src) return resolve(false);
+const preloadImage = (src) => {
+  if (!src || requestedImages.has(src)) return;
 
-    if (preloadedImages.has(src)) {
-      return resolve(true);
-    }
+  requestedImages.add(src);
 
-    const img = new Image();
-    img.src = src;
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = src;
 
-    const done = () => {
-      preloadedImages.add(src);
-      resolve(true);
-    };
-
-    img.onload = done;
-    img.onerror = () => resolve(false);
-
-    if (img.decode) {
-      img
-        .decode()
-        .then(done)
-        .catch(() => {});
-    }
-  });
+  img.onerror = () => {
+    requestedImages.delete(src);
+  };
+};
 
 const ProductGrid = ({
   products = [],
@@ -43,50 +30,34 @@ const ProductGrid = ({
   emptyMessage = 'No products available.',
   currentPage = 1,
 }) => {
-  const isFirstBatch = currentPage === 1;
+  const isFirstPage = currentPage === 1;
 
-  const [isFirstScreenReady, setIsFirstScreenReady] = useState(!isFirstBatch);
-
-  const firstScreenImages = useMemo(() => {
-    if (!isFirstBatch || !products.length) return [];
+  const priorityImageUrls = useMemo(() => {
+    if (!isFirstPage || !products.length) return [];
 
     return products
       .slice(0, FIRST_SCREEN_COUNT)
       .map((product) => product.images?.[0]?.image_url)
       .filter(Boolean)
       .map((url) => getOptimizedImageUrl(url, IMAGE_SIZE));
-  }, [products, isFirstBatch]);
+  }, [products, isFirstPage]);
 
   useEffect(() => {
-    let cancelled = false;
+    if (!priorityImageUrls.length) return;
 
-    if (!isFirstBatch || !firstScreenImages.length) {
-      setIsFirstScreenReady(true);
-      return;
+    const runPreload = () => {
+      priorityImageUrls.forEach(preloadImage);
+    };
+
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(runPreload, { timeout: 500 });
+      return () => window.cancelIdleCallback(id);
     }
 
-    setIsFirstScreenReady(false);
+    const timeoutId = window.setTimeout(runPreload, 100);
+    return () => window.clearTimeout(timeoutId);
+  }, [priorityImageUrls]);
 
-    const preload = async () => {
-      const timeout = new Promise((resolve) => setTimeout(resolve, 325));
-
-      const preloadTask = Promise.all(firstScreenImages.map((src) => loadImage(src)));
-
-      await Promise.race([preloadTask, timeout]);
-
-      if (!cancelled) {
-        setIsFirstScreenReady(true);
-      }
-    };
-
-    preload();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [firstScreenImages, isFirstBatch]);
-
-  // 🔹 loading skeleton
   if (isLoading) {
     return (
       <div className={`${theme.productGrid.base} ${className}`}>
@@ -117,18 +88,14 @@ const ProductGrid = ({
 
   return (
     <div className={`${theme.productGrid.base} ${className}`}>
-      {products.map((product, index) => {
-        const isFirstScreen = index < FIRST_SCREEN_COUNT;
-
-        return (
-          <ProductCard
-            key={product.product_id}
-            product={product}
-            priority={isFirstScreen}
-            shouldReveal={!isFirstScreen || isFirstScreenReady}
-          />
-        );
-      })}
+      {products.map((product, index) => (
+        <ProductCard
+          key={product.product_id}
+          product={product}
+          imageUrl={getOptimizedImageUrl(product.images?.[0]?.image_url, IMAGE_SIZE)}
+          priority={isFirstPage && index < FIRST_SCREEN_COUNT}
+        />
+      ))}
     </div>
   );
 };

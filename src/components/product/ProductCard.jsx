@@ -134,7 +134,7 @@ function ProductCard({ product, priority = false, shouldReveal = true }) {
             key={`${product.product_id}-${selectedColor}-${renderedImage}`}
             src={renderedImage}
             alt={`${product.name} - ${selectedColor}`}
-            className={`${theme.productGrid.image} transition-opacity duration-300 ${
+            className={`${theme.productGrid.image} transition-opacity duration-150 ${
               isLoading ? 'opacity-0' : 'opacity-100'
             }`}
             loading={priority ? 'eager' : 'lazy'}
