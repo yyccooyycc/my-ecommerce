@@ -7,7 +7,7 @@ import FilterSidebar from '../components/filters/FilterSidebar';
 import ProductGrid from '../components/product/ProductGrid';
 import { FiFilter } from 'react-icons/fi';
 
-const perPage = 9;
+const perPage = 6;
 
 const VALID_CATEGORY_IDS = ['unisex', 'women', 'men'];
 const VALID_COLLECTION_IDS = ['cozy', 'urban', 'fresh'];
@@ -190,7 +190,6 @@ const ProductListing = () => {
     rating: filters.ratings,
     sort: filters.sort || undefined,
     direction: filters.direction || undefined,
-    minLoadingMs: 350,
   });
 
   const categoryOptions = useMemo(() => {
@@ -343,6 +342,7 @@ const ProductListing = () => {
               isLoading={loading}
               currentPage={page}
               priorityCount={4}
+              skeletonCount={perPage}
             />
 
             {(page > 1 || hasMore) && (

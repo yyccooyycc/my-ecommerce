@@ -313,9 +313,11 @@ const theme = {
     name: 'text-[14px] font-medium leading-[20px] text-white sm:text-[15px] sm:leading-[22px]',
     description:
       'text-[18px] font-medium leading-[24px] tracking-[-0.01em] text-white sm:text-[20px] sm:leading-[28px] lg:text-[24px] lg:leading-[32px]',
-    skeleton: 'animate-pulse rounded-2xl bg-neutral-200',
+    skeleton:
+      'animate-pulse rounded-2xl bg-gradient-to-br from-neutral-100 via-neutral-50 to-neutral-100 ring-1 ring-neutral-200/60',
     skeletonPrimary: 'min-h-[360px] md:min-h-[520px] lg:min-h-[420px]',
     skeletonSecondary: 'min-h-[220px] md:min-h-[247px] lg:min-h-[200px]',
+    skeletonSpacer: 'min-h-[220px] md:min-h-[247px] lg:min-h-[200px]',
     sectionStack: 'mt-12 space-y-12 md:mt-14 md:space-y-16 lg:mt-16 lg:space-y-20',
 
     gridPrimary:

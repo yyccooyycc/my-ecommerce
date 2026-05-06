@@ -1,21 +1,56 @@
+import { useEffect, useMemo, useState } from 'react';
 import ProductGrid from '../components/product/ProductGrid';
 import theme from '../assets/styles/theme';
 import { useNavigate } from 'react-router-dom';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 
-const LATEST_ARRIVALS_COUNT = 8;
+const FIRST_BATCH = 4;
+const SECOND_BATCH = 4;
 
 const LatestArrivals = () => {
   const navigate = useNavigate();
+  const [showMore, setShowMore] = useState(false);
 
-  const { products, loading, error } = useFetchProducts({
+  const {
+    products: firstProducts,
+    loading: firstLoading,
+    error: firstError,
+  } = useFetchProducts({
     page: 1,
-    perPage: LATEST_ARRIVALS_COUNT,
+    perPage: FIRST_BATCH,
     collection: 'latest',
-    minLoadingMs: 250,
   });
 
-  if (error) return <p>Error: {error}</p>;
+  const {
+    products: secondProducts,
+    error: secondError,
+  } = useFetchProducts({
+    page: 2,
+    perPage: SECOND_BATCH,
+    collection: 'latest',
+    enabled: showMore,
+  });
+
+  useEffect(() => {
+    if (firstLoading || !firstProducts.length || showMore) return undefined;
+
+    const revealMore = () => setShowMore(true);
+
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(revealMore, { timeout: 1600 });
+      return () => window.cancelIdleCallback(id);
+    }
+
+    const id = window.setTimeout(revealMore, 1200);
+    return () => window.clearTimeout(id);
+  }, [firstLoading, firstProducts.length, showMore]);
+
+  const mergedProducts = useMemo(() => {
+    return [...firstProducts, ...secondProducts];
+  }, [firstProducts, secondProducts]);
+
+  if (firstError) return <p>Error: {firstError}</p>;
+  if (secondError) return <p>Error: {secondError}</p>;
 
   return (
     <div className={theme.latestArrivals.container}>
@@ -31,11 +66,12 @@ const LatestArrivals = () => {
 
       <div className="mt-4">
         <ProductGrid
-          products={products}
-          isLoading={loading}
+          products={mergedProducts}
+          isLoading={firstLoading}
           className={theme.productGrid.latestArrivalsCols}
           emptyMessage="No products available."
           currentPage={1}
+          priorityCount={4}
         />
       </div>
     </div>

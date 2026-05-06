@@ -5,8 +5,6 @@ import theme from '../../assets/styles/theme';
 import { getOptimizedImageUrl } from '../common/utils/imageUtils';
 
 const IMAGE_SIZE = 600;
-const FIRST_SCREEN_COUNT = 4;
-
 const requestedImages = new Set();
 
 const preloadImage = (src) => {
@@ -29,6 +27,8 @@ const ProductGrid = ({
   isLoading = false,
   emptyMessage = 'No products available.',
   currentPage = 1,
+  priorityCount = 4,
+  skeletonCount = 6,
 }) => {
   const isFirstPage = currentPage === 1;
 
@@ -36,14 +36,14 @@ const ProductGrid = ({
     if (!isFirstPage || !products.length) return [];
 
     return products
-      .slice(0, FIRST_SCREEN_COUNT)
+      .slice(0, priorityCount)
       .map((product) => product.images?.[0]?.image_url)
       .filter(Boolean)
       .map((url) => getOptimizedImageUrl(url, IMAGE_SIZE));
-  }, [products, isFirstPage]);
+  }, [products, isFirstPage, priorityCount]);
 
   useEffect(() => {
-    if (!priorityImageUrls.length) return;
+    if (!priorityImageUrls.length) return undefined;
 
     const runPreload = () => {
       priorityImageUrls.forEach(preloadImage);
@@ -61,7 +61,7 @@ const ProductGrid = ({
   if (isLoading) {
     return (
       <div className={`${theme.productGrid.base} ${className}`}>
-        {Array.from({ length: 9 }).map((_, index) => (
+        {Array.from({ length: skeletonCount }).map((_, index) => (
           <div key={index} className={theme.productGrid.card}>
             <div className={theme.productGrid.imageWrapper}>
               <Skeleton
@@ -88,14 +88,17 @@ const ProductGrid = ({
 
   return (
     <div className={`${theme.productGrid.base} ${className}`}>
-      {products.map((product, index) => (
-        <ProductCard
-          key={product.product_id}
-          product={product}
-          imageUrl={getOptimizedImageUrl(product.images?.[0]?.image_url, IMAGE_SIZE)}
-          priority={isFirstPage && index < FIRST_SCREEN_COUNT}
-        />
-      ))}
+      {products.map((product, index) => {
+        const isPriorityImage = isFirstPage && index < priorityCount;
+
+        return (
+          <ProductCard
+            key={product.product_id}
+            product={product}
+            priority={isPriorityImage}
+          />
+        );
+      })}
     </div>
   );
 };

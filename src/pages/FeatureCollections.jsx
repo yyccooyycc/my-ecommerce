@@ -1,13 +1,49 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import theme from '../assets/styles/theme';
 import CollectionCard from '../components/product/CollectionCard';
 import ImageOnlyCard from '../components/product/ImageOnlyCard';
 import useFetchFeaturedCollections from '../components/hooks/useFetchFeaturedCollections';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 
+function useNearViewport(rootMargin = '500px') {
+  const ref = useRef(null);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+
+  useEffect(() => {
+    if (isNearViewport) return undefined;
+
+    const node = ref.current;
+    if (!node) return undefined;
+
+    if (!('IntersectionObserver' in window)) {
+      setIsNearViewport(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsNearViewport(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [isNearViewport, rootMargin]);
+
+  return [ref, isNearViewport];
+}
+
 function FeatureCollections() {
   const styles = theme.featuredCollections;
   const navigate = useNavigate();
+  const [orangeSectionRef, shouldLoadOrangeSection] = useNearViewport();
+  const [blackSectionRef, shouldLoadBlackSection] = useNearViewport();
 
   const {
     collections,
@@ -23,6 +59,7 @@ function FeatureCollections() {
     color: ['orange'],
     page: 1,
     perPage: 2,
+    enabled: shouldLoadOrangeSection,
   });
 
   const {
@@ -33,6 +70,7 @@ function FeatureCollections() {
     color: ['black'],
     page: 1,
     perPage: 3,
+    enabled: shouldLoadBlackSection,
   });
 
   const handleCollectionClick = (collection) => {
@@ -43,27 +81,13 @@ function FeatureCollections() {
     navigate(`/product-listing?color=${color}`);
   };
 
-  const error = collectionsError || orangeError || blackError;
-  const isLoading = collectionsLoading || orangeLoading || blackLoading;
-
-  if (error) {
-    return (
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <h2 className={styles.heading}>Our Collections</h2>
-          <p className="mt-4 text-sm text-red-600">{error}</p>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.heading}>Our Collections</h2>
 
-        {isLoading ? (
-          <div className={styles.sectionStack}>
+        <div className={styles.sectionStack}>
+          {collectionsLoading ? (
             <div className={styles.gridPrimary}>
               <div className={`${styles.skeleton} ${styles.skeletonPrimary}`} />
               <div className={styles.secondaryColumn}>
@@ -71,28 +95,16 @@ function FeatureCollections() {
                 <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
               </div>
             </div>
-
-            <div className={styles.gridOrange}>
-              <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
-              <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
-            </div>
-
-            <div className={styles.gridDark}>
-              <div className={styles.darkLeftColumn}>
-                <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
-                <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
-              </div>
-              <div className={`${styles.skeleton} ${styles.skeletonPrimary}`} />
-            </div>
-          </div>
-        ) : (
-          <div className={styles.sectionStack}>
+          ) : collectionsError ? (
+            <p className="text-sm text-red-600">{collectionsError}</p>
+          ) : (
             <div className={styles.gridPrimary}>
               {collections[0] && (
                 <CollectionCard
                   collection={collections[0]}
                   variant="primary"
                   onClick={handleCollectionClick}
+                  priority
                 />
               )}
 
@@ -113,7 +125,18 @@ function FeatureCollections() {
                 )}
               </div>
             </div>
+          )}
 
+          {!shouldLoadOrangeSection ? (
+            <div ref={orangeSectionRef} className={styles.skeletonSpacer} aria-hidden="true" />
+          ) : orangeLoading ? (
+            <div className={styles.gridOrange}>
+              <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
+              <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
+            </div>
+          ) : orangeError ? (
+            <p className="text-sm text-red-600">{orangeError}</p>
+          ) : (
             <div className={styles.gridOrange}>
               {orangeProducts[0] && (
                 <ImageOnlyCard
@@ -136,7 +159,21 @@ function FeatureCollections() {
                 />
               )}
             </div>
+          )}
 
+          {!shouldLoadBlackSection ? (
+            <div ref={blackSectionRef} className={styles.skeletonSpacer} aria-hidden="true" />
+          ) : blackLoading ? (
+            <div className={styles.gridDark}>
+              <div className={styles.darkLeftColumn}>
+                <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
+                <div className={`${styles.skeleton} ${styles.skeletonSecondary}`} />
+              </div>
+              <div className={`${styles.skeleton} ${styles.skeletonPrimary}`} />
+            </div>
+          ) : blackError ? (
+            <p className="text-sm text-red-600">{blackError}</p>
+          ) : (
             <div className={styles.gridDark}>
               <div className={styles.darkLeftColumn}>
                 {blackProducts[0] && (
@@ -172,8 +209,8 @@ function FeatureCollections() {
                 />
               )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </section>
   );

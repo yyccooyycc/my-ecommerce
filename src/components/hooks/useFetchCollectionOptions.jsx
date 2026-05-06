@@ -8,53 +8,45 @@ const useFetchCollectionOptions = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+    const controller = new AbortController();
 
-    fetch(API_ENDPOINTS.products)
+    fetch(API_ENDPOINTS.collections, { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch collection options');
         return res.json();
       })
       .then((data) => {
-        if (!isMounted || !data?.data) return;
-
-        const apiCollections = Array.from(
-          new Map(
-            data.data
-              .filter((product) => product.collection)
-              .map((product) => [
-                product.collection.collection_id,
-                {
-                  collection_id: product.collection.collection_id,
-                  name: product.collection.name,
-                },
-              ])
-          ).values()
-        );
-
-        const mergedCollections = [...DEFAULT_COLLECTIONS, ...apiCollections];
+        const apiCollections = (data?.data || [])
+          .filter((collection) => collection?.collection_id)
+          .map((collection) => ({
+            collection_id: collection.collection_id,
+            name: collection.name,
+          }));
 
         const dedupedCollections = Array.from(
           new Map(
-            mergedCollections.map((collection) => [collection.collection_id, collection])
+            [...DEFAULT_COLLECTIONS, ...apiCollections].map((collection) => [
+              collection.collection_id,
+              collection,
+            ])
           ).values()
         );
 
         setCollections(dedupedCollections);
       })
       .catch((err) => {
-        if (isMounted) {
+        if (err.name !== 'AbortError') {
           setError(err.message);
         }
       })
       .finally(() => {
-        if (isMounted) {
+        if (!controller.signal.aborted) {
           setLoading(false);
         }
       });
 
     return () => {
-      isMounted = false;
+      controller.abort();
     };
   }, []);
 

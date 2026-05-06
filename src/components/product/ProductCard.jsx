@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import theme from '../../assets/styles/theme';
 import { useNavigate } from 'react-router-dom';
 import { getOptimizedImageUrl } from '../../components/common/utils/imageUtils';
 
 const imageCache = new Set();
-const MIN_SKELETON_MS = 150;
 
-function ProductCard({ product, priority = false, shouldReveal = true }) {
+function ProductCard({ product, priority = false }) {
   const navigate = useNavigate();
 
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
@@ -14,9 +13,6 @@ function ProductCard({ product, priority = false, shouldReveal = true }) {
   const [isLoading, setIsLoading] = useState(true);
   const [renderedImage, setRenderedImage] = useState('');
   const [hasError, setHasError] = useState(false);
-
-  const requestIdRef = useRef(0);
-  const loadStartRef = useRef(0);
 
   useEffect(() => {
     setSelectedColor(product.colors?.[0] || '');
@@ -51,7 +47,6 @@ function ProductCard({ product, priority = false, shouldReveal = true }) {
   };
 
   useEffect(() => {
-    const requestId = ++requestIdRef.current;
     setHasError(false);
 
     if (!targetImage) {
@@ -63,60 +58,13 @@ function ProductCard({ product, priority = false, shouldReveal = true }) {
 
     setRenderedImage(targetImage);
 
-    if (!shouldReveal) {
-      setIsLoading(true);
-      return;
-    }
-
     if (imageCache.has(targetImage)) {
       setIsLoading(false);
       return;
     }
 
-    loadStartRef.current = Date.now();
     setIsLoading(true);
-
-    const img = new Image();
-    img.src = targetImage;
-
-    const finishLoading = async () => {
-      try {
-        if (img.decode) {
-          await img.decode();
-        }
-      } catch (error) {
-        // ignore decode failure
-      }
-
-      if (requestId !== requestIdRef.current) return;
-
-      imageCache.add(targetImage);
-
-      const elapsed = Date.now() - loadStartRef.current;
-      const remaining = Math.max(0, MIN_SKELETON_MS - elapsed);
-
-      setTimeout(() => {
-        if (requestId !== requestIdRef.current) return;
-        setIsLoading(false);
-      }, remaining);
-    };
-
-    if (img.complete) {
-      finishLoading();
-    } else {
-      img.onload = finishLoading;
-      img.onerror = () => {
-        if (requestId !== requestIdRef.current) return;
-        setHasError(true);
-        setIsLoading(false);
-      };
-    }
-
-    return () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-  }, [targetImage, shouldReveal]);
+  }, [targetImage]);
 
   return (
     <div
@@ -125,18 +73,14 @@ function ProductCard({ product, priority = false, shouldReveal = true }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`${theme.productGrid.imageWrapper} relative overflow-hidden`}>
-        {(!shouldReveal || isLoading) && (
-          <div className={`${theme.productCard.skeleton} absolute inset-0 z-10`} />
-        )}
+        {isLoading && <div className={`${theme.productCard.skeleton} absolute inset-0`} />}
 
-        {shouldReveal && renderedImage && (
+        {renderedImage && (
           <img
             key={`${product.product_id}-${selectedColor}-${renderedImage}`}
             src={renderedImage}
             alt={`${product.name} - ${selectedColor}`}
-            className={`${theme.productGrid.image} transition-opacity duration-150 ${
-              isLoading ? 'opacity-0' : 'opacity-100'
-            }`}
+            className={`${theme.productGrid.image} relative z-10`}
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
@@ -151,7 +95,7 @@ function ProductCard({ product, priority = false, shouldReveal = true }) {
           />
         )}
 
-        {shouldReveal && !renderedImage && hasError && (
+        {!renderedImage && hasError && (
           <div className={theme.productCard.noImage}>No Image Available</div>
         )}
 

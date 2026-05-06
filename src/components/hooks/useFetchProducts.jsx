@@ -7,6 +7,7 @@ const toArray = (value) => {
 };
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const productsCache = new Map();
 
 const useFetchProducts = ({
   page = 1,
@@ -70,6 +71,16 @@ const useFetchProducts = ({
       const start = Date.now();
 
       try {
+        const cachedResponse = productsCache.get(requestUrl);
+
+        if (cachedResponse) {
+          setProducts(cachedResponse.products);
+          setPagination(cachedResponse.pagination);
+          setError(null);
+          setLoading(false);
+          return;
+        }
+
         setLoading(true);
         setError(null);
 
@@ -85,6 +96,10 @@ const useFetchProducts = ({
 
         setProducts(Array.isArray(json?.data) ? json.data : []);
         setPagination(json?.pagination || null);
+        productsCache.set(requestUrl, {
+          products: Array.isArray(json?.data) ? json.data : [],
+          pagination: json?.pagination || null,
+        });
       } catch (e) {
         if (e.name !== 'AbortError') {
           setError(e.message || String(e));

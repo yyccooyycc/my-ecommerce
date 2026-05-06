@@ -1,30 +1,11 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import theme from '../../assets/styles/theme';
 import { getOptimizedImageUrl } from '../common/utils/imageUtils';
-
-const loadedCollectionImages = new Set();
 
 function CollectionCard({ collection, variant = 'secondary', onClick, priority = false }) {
   const styles = theme.featuredCollections;
   const cardClass = variant === 'primary' ? styles.primaryCard : styles.secondaryCard;
-
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const optimizedImageUrl = getOptimizedImageUrl(collection.image_url, 900);
-
-  useEffect(() => {
-    if (!optimizedImageUrl) {
-      setIsLoaded(false);
-      return;
-    }
-
-    if (loadedCollectionImages.has(optimizedImageUrl)) {
-      setIsLoaded(true);
-      return;
-    }
-
-    setIsLoaded(false);
-  }, [optimizedImageUrl]);
+  const imageUrl = getOptimizedImageUrl(collection.image_url, 900);
 
   const handleClick = () => {
     onClick?.(collection);
@@ -40,36 +21,23 @@ function CollectionCard({ collection, variant = 'secondary', onClick, priority =
   return (
     <article className={cardClass}>
       <div
-        className={`${styles.cardButton} relative overflow-hidden bg-neutral-200`}
+        className={styles.cardButton}
         role="button"
         tabIndex={0}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         aria-label={`${collection.name} collection`}
       >
-        {!isLoaded && <div className="absolute inset-0 z-20 animate-pulse bg-neutral-200" />}
-
         <img
-          src={optimizedImageUrl}
+          src={imageUrl}
           alt={collection.name}
-          className={`${styles.image} ${isLoaded ? 'opacity-100' : 'opacity-0'} ${
-            priority ? '' : 'transition-opacity duration-150'
-          }`}
+          className={styles.image}
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
           decoding="async"
-          onLoad={() => {
-            loadedCollectionImages.add(optimizedImageUrl);
-            setIsLoaded(true);
-          }}
-          onError={() => {
-            setIsLoaded(true);
-          }}
         />
-
-        <div className={`${styles.overlay} absolute inset-0 z-10`} />
-
-        <div className={`${styles.content} relative z-30`}>
+        <div className={styles.overlay} />
+        <div className={styles.content}>
           <p className={styles.name}>{collection.name}</p>
           <h3 className={styles.description}>{collection.description}</h3>
         </div>
