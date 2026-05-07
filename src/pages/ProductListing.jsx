@@ -5,6 +5,7 @@ import useFetchCollectionOptions from '../components/hooks/useFetchCollectionOpt
 import useFetchProducts from '../components/hooks/useFetchProducts';
 import FilterSidebar from '../components/filters/FilterSidebar';
 import ProductGrid from '../components/product/ProductGrid';
+import { fallbackColors } from '../components/filters/filterOptions';
 import { FiFilter } from 'react-icons/fi';
 
 const perPage = 6;
@@ -225,18 +226,6 @@ const ProductListing = () => {
     }));
   }, [products]);
 
-  const colorOptions = useMemo(() => {
-    const set = new Set();
-
-    products.forEach((p) => {
-      (p.colors || []).forEach((c) => {
-        set.add(String(c).toLowerCase());
-      });
-    });
-
-    return Array.from(set);
-  }, [products]);
-
   const visibleProducts = useMemo(() => {
     if (!filters.sizes.length) return products;
 
@@ -297,7 +286,7 @@ const ProductListing = () => {
             collections={collections}
             categories={categoryOptions}
             sizes={sizeOptions}
-            colors={colorOptions}
+            colors={fallbackColors}
           />
 
           {isSidebarOpen && (

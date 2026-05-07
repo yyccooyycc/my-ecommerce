@@ -35,6 +35,7 @@ const FilterSidebar = ({
   const isSectionOpen = (sectionKey, filterKey) => {
     return openSection[sectionKey] || hasSelectedOptions(filterKey);
   };
+  const isFilterOpen = (filterKey) => isSectionOpen(filterKey, filterKey);
 
   const categoryOptions = categories && categories.length ? categories : fallbackCategories;
   const sizeOptions = sizes && sizes.length ? sizes : fallbackSizes;
@@ -74,13 +75,13 @@ const FilterSidebar = ({
       {/* Collections */}
       <div className={theme.filterSidebar.sectionWrap}>
         <button
-          onClick={() => toggleSection('collection')}
+          onClick={() => toggleSection(FILTER_KEYS.COLLECTIONS)}
           className={theme.filterSidebar.sectionButton}
         >
           <span>Collections</span>
-          <span>{isSectionOpen('collection', FILTER_KEYS.COLLECTIONS) ? '−' : '+'}</span>
+          <span>{isFilterOpen(FILTER_KEYS.COLLECTIONS) ? '−' : '+'}</span>
         </button>
-        {isSectionOpen('collection', FILTER_KEYS.COLLECTIONS) && (
+        {isFilterOpen(FILTER_KEYS.COLLECTIONS) && (
           <div className={theme.filterSidebar.sectionContent}>
             {collections?.map(({ name, collection_id }, index) => (
               <label
@@ -102,13 +103,13 @@ const FilterSidebar = ({
       {/* Sizes */}
       <div className={theme.filterSidebar.sectionWrap}>
         <button
-          onClick={() => toggleSection('sizes')}
+          onClick={() => toggleSection(FILTER_KEYS.SIZES)}
           className={theme.filterSidebar.sectionButton}
         >
           <span>Sizes</span>
-          <span>{isSectionOpen('sizes', FILTER_KEYS.SIZES) ? '−' : '+'}</span>
+          <span>{isFilterOpen(FILTER_KEYS.SIZES) ? '−' : '+'}</span>
         </button>
-        {isSectionOpen('sizes', FILTER_KEYS.SIZES) && (
+        {isFilterOpen(FILTER_KEYS.SIZES) && (
           <div className={theme.filterSidebar.sectionContent}>
             {sizeOptions.map(({ code, label }) => (
               <label key={code} className="flex items-center space-x-2 py-1">
@@ -127,13 +128,13 @@ const FilterSidebar = ({
       {/* Category */}
       <div className={theme.filterSidebar.sectionWrap}>
         <button
-          onClick={() => toggleSection('category')}
+          onClick={() => toggleSection(FILTER_KEYS.CATEGORY)}
           className={theme.filterSidebar.sectionButton}
         >
           <span>Category</span>
-          <span>{isSectionOpen('category ', FILTER_KEYS.CATEGORY) ? '−' : '+'}</span>
+          <span>{isFilterOpen(FILTER_KEYS.CATEGORY) ? '−' : '+'}</span>
         </button>
-        {isSectionOpen('category ', FILTER_KEYS.CATEGORY) && (
+        {isFilterOpen(FILTER_KEYS.CATEGORY) && (
           <div className={theme.filterSidebar.sectionContent}>
             {categoryOptions.map(({ id, label }) => (
               <label key={id} className="flex items-center space-x-2 py-1">
@@ -156,9 +157,9 @@ const FilterSidebar = ({
           className={theme.filterSidebar.sectionButton}
         >
           <span>Colors</span>
-          <span>{isSectionOpen('colors ', FILTER_KEYS.COLORS) ? '−' : '+'}</span>
+          <span>{isFilterOpen(FILTER_KEYS.COLORS) ? '−' : '+'}</span>
         </button>
-        {isSectionOpen('colors ', FILTER_KEYS.COLORS) && (
+        {isFilterOpen(FILTER_KEYS.COLORS) && (
           <div className="flex flex-wrap gap-3 mt-2">
             {colorOptions.map((color) => (
               <button
@@ -180,14 +181,14 @@ const FilterSidebar = ({
       {/* Ratings */}
       <div className={theme.filterSidebar.sectionWrap}>
         <button
-          onClick={() => toggleSection('ratings')}
+          onClick={() => toggleSection(FILTER_KEYS.RATINGS)}
           className={theme.filterSidebar.sectionButton}
         >
           <span>Ratings</span>
-          <span>{isSectionOpen('ratings ', FILTER_KEYS.RATINGS) ? '−' : '+'}</span>
+          <span>{isFilterOpen(FILTER_KEYS.RATINGS) ? '−' : '+'}</span>
         </button>
 
-        {isSectionOpen('ratings ', FILTER_KEYS.RATINGS) && (
+        {isFilterOpen(FILTER_KEYS.RATINGS) && (
           <div className={theme.filterSidebar.sectionContent}>
             {ratings.map((r) => (
               <label key={r} className="flex items-center gap-2 py-1 cursor-pointer">
