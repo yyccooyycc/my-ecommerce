@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FiInstagram, FiFacebook, FiYoutube, FiTwitter } from 'react-icons/fi';
 import theme from '../../assets/styles/theme';
 import logo from '../../assets/images/navbar/stylenest.svg';
 
 function Footer() {
+  const logoSrc = logo.src || logo;
   const shopCategories = [
     { label: 'Unisex', path: '/product-listing?category=unisex' },
     { label: 'Women', path: '/product-listing?category=women' },
@@ -49,7 +50,7 @@ function Footer() {
 
             <div className={theme.footer.brandBlock}>
               <div className={theme.footer.brandRow}>
-                <img src={logo} alt="StyleNest" className={theme.navbar.brandLogo} />
+                <img src={logoSrc} alt="StyleNest" className={theme.navbar.brandLogo} />
               </div>
 
               <p className={theme.footer.brandDescription}>
@@ -62,7 +63,7 @@ function Footer() {
             <h4 className={theme.footer.columnTitle}>Shop Categories</h4>
             <div className={theme.footer.linkList}>
               {shopCategories.map((item) => (
-                <Link key={item.label} to={item.path} className={theme.footer.linkItem}>
+                <Link key={item.label} href={item.path} className={theme.footer.linkItem}>
                   {item.label}
                 </Link>
               ))}
@@ -73,7 +74,7 @@ function Footer() {
             <h4 className={theme.footer.columnTitle}>Shop Collections</h4>
             <div className={theme.footer.linkList}>
               {shopCollections.map((item) => (
-                <Link key={item.label} to={item.path} className={theme.footer.linkItem}>
+                <Link key={item.label} href={item.path} className={theme.footer.linkItem}>
                   {item.label}
                 </Link>
               ))}
@@ -88,7 +89,7 @@ function Footer() {
             {socialLinks.map((item) => (
               <Link
                 key={item.label}
-                to={item.to}
+                href={item.to}
                 aria-label={item.label}
                 className={theme.footer.socialLink}
               >

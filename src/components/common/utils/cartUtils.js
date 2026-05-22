@@ -1,6 +1,8 @@
 const CART_KEY = 'my_ecommerce_cart';
 
 export function getCartItems() {
+  if (typeof window === 'undefined') return [];
+
   try {
     const raw = localStorage.getItem(CART_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -11,6 +13,8 @@ export function getCartItems() {
 }
 
 export function saveCartItems(items) {
+  if (typeof window === 'undefined') return;
+
   localStorage.setItem(CART_KEY, JSON.stringify(items));
   window.dispatchEvent(new Event('cartUpdated'));
 }

@@ -1,7 +1,10 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 import theme from '../../assets/styles/theme';
 import logo from '../../assets/images/navbar/stylenest.svg';
-import { Link, NavLink } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { getCartCount, getCartItems } from './utils/cartUtils';
 
 const MenuIcon = ({ className = 'h-6 w-6' }) => (
@@ -34,6 +37,8 @@ const BagIconFallback = ({ className = 'h-5 w-5' }) => (
 );
 
 export default function Navbar({ links = [] }) {
+  const pathname = usePathname();
+  const logoSrc = logo.src || logo;
   const [open, setOpen] = useState(false);
   const [hasRemix, setHasRemix] = useState(false);
   const [cartCount, setCartCount] = useState(0);
@@ -80,9 +85,9 @@ export default function Navbar({ links = [] }) {
       <div className={theme.navbar.container}>
         <div className={theme.navbar.row}>
           <div className={theme.navbar.leftCluster}>
-            <Link to="/" className={theme.navbar.brandWrap} aria-label="StyleNest home">
+            <Link href="/" className={theme.navbar.brandWrap} aria-label="StyleNest home">
               <img
-                src={logo}
+                src={logoSrc}
                 alt="StyleNest"
                 className={theme.navbar.brandLogo}
                 draggable="false"
@@ -93,14 +98,14 @@ export default function Navbar({ links = [] }) {
               <ul className={theme.navbar.desktopNavList}>
                 {links.map((l) => (
                   <li key={l.href}>
-                    <NavLink
-                      to={l.href}
-                      className={({ isActive }) =>
-                        `${theme.navbar.desktopLink} ${isActive ? 'text-neutral-900' : ''}`
-                      }
+                    <Link
+                      href={l.href}
+                      className={`${theme.navbar.desktopLink} ${
+                        pathname === l.href ? 'text-neutral-900' : ''
+                      }`}
                     >
                       {l.label}
-                    </NavLink>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -108,7 +113,7 @@ export default function Navbar({ links = [] }) {
           </div>
 
           <div className={theme.navbar.rightGroup}>
-            <Link to="/cart" className={theme.navbar.cartButton} aria-label="Shopping cart">
+            <Link href="/cart" className={theme.navbar.cartButton} aria-label="Shopping cart">
               {CartIcon}
               {cartCount > 0 ? (
                 <span className={theme.navbar.cartBadge}>{cartCount > 99 ? '99+' : cartCount}</span>
@@ -131,9 +136,9 @@ export default function Navbar({ links = [] }) {
         <div className={theme.navbar.drawerOverlay}>
           <div className={theme.navbar.drawerPanelSimple}>
             <div className={theme.navbar.drawerTop}>
-              <Link to="/" className={theme.navbar.brandWrap} onClick={() => setOpen(false)}>
+              <Link href="/" className={theme.navbar.brandWrap} onClick={() => setOpen(false)}>
                 <img
-                  src={logo}
+                  src={logoSrc}
                   alt="StyleNest"
                   className={theme.navbar.brandLogo}
                   draggable="false"
@@ -154,7 +159,7 @@ export default function Navbar({ links = [] }) {
               <ul className={theme.navbar.drawerLinks}>
                 {links.map((l) => (
                   <li key={l.href}>
-                    <Link to={l.href} className="block" onClick={() => setOpen(false)}>
+                    <Link href={l.href} className="block" onClick={() => setOpen(false)}>
                       {l.label}
                     </Link>
                   </li>

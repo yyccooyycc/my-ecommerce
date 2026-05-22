@@ -1,13 +1,35 @@
+'use client';
+
 import orderSuccessImageFromDenis from '../assets/images/orderSuccess/orderSuccessImageFromDenis.jpg';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import orderSuccessTheme from '../assets/styles/theme/orderSuccess';
 
-const ORDER_SUCCESS_IMAGE = orderSuccessImageFromDenis;
+const ORDER_SUCCESS_IMAGE = orderSuccessImageFromDenis.src || orderSuccessImageFromDenis;
 function OrderSuccess() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const [order, setOrder] = useState(null);
+  const [hasHydrated, setHasHydrated] = useState(false);
 
-  const order = location.state?.order;
+  useEffect(() => {
+    const rawOrder = sessionStorage.getItem('stylenest:lastOrder');
+    if (!rawOrder) {
+      setHasHydrated(true);
+      return;
+    }
+
+    try {
+      setOrder(JSON.parse(rawOrder));
+    } catch {
+      setOrder(null);
+    } finally {
+      setHasHydrated(true);
+    }
+  }, []);
+
+  if (!hasHydrated) {
+    return null;
+  }
 
   if (!order) {
     return (
@@ -21,7 +43,7 @@ function OrderSuccess() {
             <button
               type="button"
               className={orderSuccessTheme.emptyButton}
-              onClick={() => navigate('/product-listing')}
+              onClick={() => router.push('/product-listing')}
             >
               Continue shopping
             </button>
@@ -202,7 +224,7 @@ function OrderSuccess() {
                   <button
                     type="button"
                     className={orderSuccessTheme.actionButton}
-                    onClick={() => navigate('/product-listing')}
+                    onClick={() => router.push('/product-listing')}
                   >
                     Continue Shopping →
                   </button>

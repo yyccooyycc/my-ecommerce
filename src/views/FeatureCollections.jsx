@@ -1,5 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import theme from '../assets/styles/theme';
 import CollectionCard from '../components/product/CollectionCard';
 import ImageOnlyCard from '../components/product/ImageOnlyCard';
@@ -41,7 +43,7 @@ function useNearViewport(rootMargin = '500px') {
 
 function FeatureCollections() {
   const styles = theme.featuredCollections;
-  const navigate = useNavigate();
+  const router = useRouter();
   const [orangeSectionRef, shouldLoadOrangeSection] = useNearViewport();
   const [blackSectionRef, shouldLoadBlackSection] = useNearViewport();
 
@@ -74,11 +76,11 @@ function FeatureCollections() {
   });
 
   const handleCollectionClick = (collection) => {
-    navigate(`/product-listing?collection=${collection.collection_id}`);
+    router.push(`/product-listing?collection=${collection.collection_id}`);
   };
 
   const handleColorCollectionClick = (color) => {
-    navigate(`/product-listing?color=${color}`);
+    router.push(`/product-listing?color=${color}`);
   };
 
   return (

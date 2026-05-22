@@ -1,0 +1,5 @@
+import CheckoutPage from '../../src/views/CheckoutPage';
+
+export default function Page() {
+  return <CheckoutPage />;
+}

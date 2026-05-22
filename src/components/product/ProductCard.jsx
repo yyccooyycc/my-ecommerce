@@ -1,12 +1,15 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 import theme from '../../assets/styles/theme';
-import { useNavigate } from 'react-router-dom';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { getOptimizedImageUrl } from '../../components/common/utils/imageUtils';
 
 const imageCache = new Set();
 
 function ProductCard({ product, priority = false }) {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
   const [isHovered, setIsHovered] = useState(false);
@@ -46,6 +49,23 @@ function ProductCard({ product, priority = false }) {
     return !product.inventory?.find((inv) => inv.color === color && inv.stock - inv.sold > 0);
   };
 
+  const productUrl = `/product/${product.product_id}`;
+
+  const primeProductDetails = () => {
+    try {
+      sessionStorage.setItem(`stylenest:product:${product.product_id}`, JSON.stringify(product));
+    } catch {
+      // Browsers can deny storage; navigation should still work.
+    }
+
+    router.prefetch(productUrl);
+  };
+
+  const goToProductDetails = () => {
+    primeProductDetails();
+    router.push(productUrl);
+  };
+
   useEffect(() => {
     setHasError(false);
 
@@ -69,21 +89,25 @@ function ProductCard({ product, priority = false }) {
   return (
     <div
       className={`${theme.productGrid.card} ${isHovered ? theme.productCard.hoverShadow : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        primeProductDetails();
+      }}
+      onFocus={primeProductDetails}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`${theme.productGrid.imageWrapper} relative overflow-hidden`}>
         {isLoading && <div className={`${theme.productCard.skeleton} absolute inset-0`} />}
 
         {renderedImage && (
-          <img
+          <Image
             key={`${product.product_id}-${selectedColor}-${renderedImage}`}
             src={renderedImage}
             alt={`${product.name} - ${selectedColor}`}
             className={`${theme.productGrid.image} relative z-10`}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={priority ? 'high' : 'auto'}
-            decoding="async"
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            priority={priority}
             onLoad={() => {
               imageCache.add(renderedImage);
               setIsLoading(false);
@@ -108,11 +132,11 @@ function ProductCard({ product, priority = false }) {
 
       <div
         className={theme.productGrid.details}
-        onClick={() => navigate(`/product/${product.product_id}`)}
+        onClick={goToProductDetails}
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            navigate(`/product/${product.product_id}`);
+            goToProductDetails();
           }
         }}
         tabIndex={0}

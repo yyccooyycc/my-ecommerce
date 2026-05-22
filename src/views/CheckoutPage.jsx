@@ -1,12 +1,18 @@
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import checkoutTheme from '../assets/styles/theme/checkout';
 import { getCartItems, saveCartItems } from '../components/common/utils/cartUtils';
 
 function CheckoutPage() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  const cartItems = useMemo(() => getCartItems(), []);
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    setCartItems(getCartItems());
+  }, []);
 
   const subtotal = useMemo(() => {
     return cartItems.reduce((sum, item) => {
@@ -76,13 +82,10 @@ function CheckoutPage() {
     };
 
     saveCartItems([]);
+    sessionStorage.setItem('stylenest:lastOrder', JSON.stringify(orderPayload));
     window.dispatchEvent(new Event('cartUpdated'));
 
-    navigate('/order-success', {
-      state: {
-        order: orderPayload,
-      },
-    });
+    router.push('/order-success');
   };
 
   if (!cartItems.length) {
@@ -95,7 +98,7 @@ function CheckoutPage() {
             <button
               type="button"
               className={checkoutTheme.confirmButton}
-              onClick={() => navigate('/product-listing')}
+              onClick={() => router.push('/product-listing')}
             >
               Continue shopping
             </button>
@@ -114,7 +117,7 @@ function CheckoutPage() {
               <button
                 type="button"
                 className={checkoutTheme.backLink}
-                onClick={() => navigate('/cart')}
+                onClick={() => router.push('/cart')}
               >
                 <span aria-hidden="true">‹</span>
                 Back to Shopping Cart
@@ -512,7 +515,7 @@ function CheckoutPage() {
                 <button
                   type="button"
                   className={checkoutTheme.ghostButton}
-                  onClick={() => navigate('/cart')}
+                  onClick={() => router.push('/cart')}
                 >
                   Back to cart
                 </button>

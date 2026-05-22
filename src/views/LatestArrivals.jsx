@@ -1,14 +1,16 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 import ProductGrid from '../components/product/ProductGrid';
 import theme from '../assets/styles/theme';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import useFetchProducts from '../components/hooks/useFetchProducts';
 
 const FIRST_BATCH = 4;
 const SECOND_BATCH = 4;
 
 const LatestArrivals = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [showMore, setShowMore] = useState(false);
 
   const {
@@ -58,7 +60,7 @@ const LatestArrivals = () => {
         <span className={theme.latestArrivals.title}>Latest Arrivals</span>
         <button
           className={theme.latestArrivals.viewAllButton}
-          onClick={() => navigate('/product-listing')}
+          onClick={() => router.push('/product-listing')}
         >
           <span className={theme.latestArrivals.viewAllText}>View all</span>
         </button>

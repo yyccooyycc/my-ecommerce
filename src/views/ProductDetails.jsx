@@ -1,8 +1,11 @@
-import { useParams, useNavigate } from 'react-router-dom';
+'use client';
+
 import theme, { COLOR_CLASS_MAP } from '../assets/styles/theme';
 import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { fallbackSizes } from '../components/filters/filterOptions';
 import { addToCart } from '../components/common/utils/cartUtils';
+import { getOptimizedImageUrl } from '../components/common/utils/imageUtils';
 
 function getSizeLabel(size) {
   if (!size) return '';
@@ -17,6 +20,17 @@ function getSizeLabel(size) {
   return /^[a-zA-Z]+$/.test(s) ? s.toUpperCase() : s;
 }
 
+function getStoredProduct(productId) {
+  if (typeof window === 'undefined' || !productId) return null;
+
+  try {
+    const rawProduct = sessionStorage.getItem(`stylenest:product:${productId}`);
+    return rawProduct ? JSON.parse(rawProduct) : null;
+  } catch {
+    return null;
+  }
+}
+
 function useProduct(productId) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,10 +41,17 @@ function useProduct(productId) {
 
     let cancelled = false;
     const controller = new AbortController();
+    const cachedProduct = getStoredProduct(productId);
+
+    if (cachedProduct) {
+      setProduct(cachedProduct);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
 
     async function fetchProduct() {
       try {
-        setLoading(true);
         setError(null);
 
         const res = await fetch(
@@ -45,6 +66,11 @@ function useProduct(productId) {
         const data = await res.json();
         if (!cancelled) {
           setProduct(data);
+          try {
+            sessionStorage.setItem(`stylenest:product:${productId}`, JSON.stringify(data));
+          } catch {
+            // Product rendering should not depend on storage availability.
+          }
           setLoading(false);
         }
       } catch (err) {
@@ -66,9 +92,9 @@ function useProduct(productId) {
   return { product, loading, error };
 }
 
-export default function ProductDetailsPage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+export default function ProductDetailsPage({ productId }) {
+  const router = useRouter();
+  const id = productId;
 
   const { product, loading, error } = useProduct(id);
 
@@ -138,7 +164,9 @@ export default function ProductDetailsPage() {
 
   const displayImages = useMemo(() => {
     if (!product || !selectedColor) return [];
-    return product.images.filter((img) => img.color === selectedColor).map((img) => img.image_url);
+    return product.images
+      .filter((img) => img.color === selectedColor)
+      .map((img) => getOptimizedImageUrl(img.image_url, 900));
   }, [product, selectedColor]);
 
   const listPrice =
@@ -243,7 +271,7 @@ export default function ProductDetailsPage() {
 
   const handleGoToReviews = () => {
     if (!id) return;
-    navigate(`/product/${id}/reviews`);
+    router.push(`/product/${id}/reviews`);
   };
 
   if (loading) {

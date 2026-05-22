@@ -1,3 +1,5 @@
+'use client';
+
 import ProductCard from './ProductCard';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo } from 'react';

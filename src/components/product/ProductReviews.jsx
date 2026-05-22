@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 import theme from '../../assets/styles/theme';
 import useFetchReviews from '../../components/hooks/useFetchReviews';

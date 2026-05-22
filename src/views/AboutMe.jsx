@@ -2,6 +2,7 @@ import theme from '../assets/styles/theme';
 import avatar from '../assets/images/profile/Oimage.png';
 
 const t = theme.homePage;
+const avatarSrc = avatar.src || avatar;
 
 function AboutMe() {
   const socialLinks = [
@@ -16,7 +17,7 @@ function AboutMe() {
       <section className={theme.homePage.card}>
         {/* Avatar */}
         <div className={t.avatarWrapper}>
-          <img src={avatar} alt="Profile of Olivia Huang" className={t.avatar} />
+          <img src={avatarSrc} alt="Profile of Olivia Huang" className={t.avatar} />
         </div>
 
         {/* Name + role */}

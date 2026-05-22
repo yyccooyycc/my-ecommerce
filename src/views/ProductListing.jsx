@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import theme from '../assets/styles/theme';
 import useFetchCollectionOptions from '../components/hooks/useFetchCollectionOptions';
 import useFetchProducts from '../components/hooks/useFetchProducts';
@@ -17,9 +19,9 @@ const areArraysEqual = (a = [], b = []) =>
   a.length === b.length && a.every((item, index) => item === b[index]);
 
 const ProductListing = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const [filters, setFilters] = useState({
     collection: [],
@@ -78,11 +80,12 @@ const ProductListing = () => {
       const nextFilters = typeof updater === 'function' ? updater(prev) : updater;
 
       const query = buildSearchFromFilters(nextFilters);
-      const nextUrl = query ? `${location.pathname}?${query}` : location.pathname;
-      const currentUrl = `${location.pathname}${location.search}`;
+      const nextUrl = query ? `${pathname}?${query}` : pathname;
+      const currentQuery = searchParams.toString();
+      const currentUrl = currentQuery ? `${pathname}?${currentQuery}` : pathname;
 
       if (nextUrl !== currentUrl) {
-        navigate(nextUrl, { replace: true });
+        router.replace(nextUrl);
       }
 
       return nextFilters;

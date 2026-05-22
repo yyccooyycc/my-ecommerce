@@ -1,5 +1,8 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import theme from '../assets/styles/theme';
 import {
   formatPrice,
@@ -8,10 +11,9 @@ import {
   removeCartItem,
   updateCartItemQuantity,
 } from '../components/common/utils/cartUtils';
-import { Link } from 'react-router-dom';
 
 function CartPage() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ function CartPage() {
             <button
               type="button"
               className={theme.cartPage.emptyButton}
-              onClick={() => navigate('/')}
+              onClick={() => router.push('/')}
             >
               Continue shopping
             </button>
@@ -80,7 +82,7 @@ function CartPage() {
           <div className={theme.cartPage.itemsColumn}>
             {cartItems.map((item) => (
               <article key={item.cartKey} className={theme.cartItem.row}>
-                <Link to={`/product/${item.productId}`} className={theme.cartItem.imageLink}>
+                <Link href={`/product/${item.productId}`} className={theme.cartItem.imageLink}>
                   <div className={theme.cartItem.imageWrap}>
                     <img src={item.image} alt={item.name} className={theme.cartItem.image} />
                   </div>
@@ -89,7 +91,7 @@ function CartPage() {
                 <div className={theme.cartItem.infoWrap}>
                   <h2>
                     <Link
-                      to={`/product/${item.productId}`}
+                      href={`/product/${item.productId}`}
                       className={theme.cartItem.productNameLink}
                     >
                       {item.name}
@@ -177,7 +179,7 @@ function CartPage() {
               </div>
 
               <button
-                onClick={() => navigate('/checkout')}
+                onClick={() => router.push('/checkout')}
                 type="button"
                 className={theme.orderSummary.checkoutButton}
               >
